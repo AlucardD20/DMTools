@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Wilderness Terrain Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .clipboard {
+            background: url('clipboard-light-dark.jpg') no-repeat center center;
+            background-size: cover;
+            width: 600px;
+            height: 800px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .content {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            overflow-y: auto;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="clipboard">
+        <div class="content">
+            <h1 style="text-align: center;">Wilderness Terrain Generator</h1>
+            <button onclick="generateHex()">Generate Hex</button>
+            <div id="output" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Terrain Columns and Tables
+        const terrainColumns = {
+            Plain: ["Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
+            Scrub: ["Scrub", "Plain", "Forest", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
+            Forest: ["Forest", "Plain", "Scrub", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
+            Rough: ["Rough", "Plain", "Scrub", "Forest", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
+            Desert: ["Desert", "Plain", "Scrub", "Forest", "Rough", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
+            Hills: ["Hills", "Plain", "Scrub", "Forest", "Rough", "Desert", "Mountains", "Marsh", "Pond", "Depression"],
+            Mountains: ["Mountains", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Marsh", "Pond", "Depression"],
+            Marsh: ["Marsh", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Pond", "Depression"],
+        };
+
+        const settlementTypes = [
+            { range: [1, 3], type: "Single Dwelling", population: "1-12" },
+            { range: [4, 5], type: "Thorp", population: "20-80" },
+            { range: [6, 7], type: "Hamlet", population: "80-400" },
+            { range: [8, 9], type: "Village", population: "400-900" },
+            { range: [10], type: "Town", population: "900-5,000" },
+            { range: [11], type: "City", population: "5,000-6,500" },
+            { range: [12], type: "Castle", population: "Varies" },
+            { range: [13, 16], type: "Ruins", population: "None" },
+            { range: [17, 20], type: "Uninhabited", population: "None" }
+        ];
+
+        let currentColumn = "Plain";
+
+        function rollDice(sides) {
+            return Math.floor(Math.random() * sides) + 1;
+        }
+
+        function generateHex() {
+            // Determine next terrain type
+            const roll = rollDice(20);
+            const nextTerrain = terrainColumns[currentColumn][roll - 1] || "Unknown";
+
+            // Settlement Check
+            const settlementRoll = rollDice(20);
+            const settlement = settlementTypes.find(s => settlementRoll >= s.range[0] && settlementRoll <= s.range[s.range.length - 1]);
+
+            // Output Results
+            const log = `
+Current Terrain: ${currentColumn}
+Roll Result: ${roll} => New Terrain: ${nextTerrain}
+Settlement Check: ${settlementRoll} => ${settlement.type}
+Population: ${settlement.population}
+`;
+
+            currentColumn = nextTerrain; // Update column
+
+            document.getElementById("output").textContent += log;
+        }
+    </script>
+</body>
+</html>
