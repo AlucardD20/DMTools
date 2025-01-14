@@ -27,10 +27,21 @@ const opposingValueMapping = {
   "22-24": 10,
 };
 
-// Main form submission logic
-document.getElementById("calculatorForm").addEventListener("submit", function (e) {
-  e.preventDefault();
+// Roll 2d10 with exploding doubles
+function rollDice() {
+  let total = 0;
+  let roll;
+  let rolls = [];
+  do {
+    roll = Math.floor(Math.random() * 10 + 1) + Math.floor(Math.random() * 10 + 1);
+    total += roll;
+    rolls.push(roll);
+  } while (roll % 11 === 0); // Exploding doubles (11, 22, etc.)
+  return { total, rolls };
+}
 
+// Calculate the result and column shifts
+document.getElementById("rollDice").addEventListener("click", function () {
   const actingValue = document.getElementById("actingValue").value;
   const opposingValue = document.getElementById("opposingValue").value;
 
@@ -42,10 +53,24 @@ document.getElementById("calculatorForm").addEventListener("submit", function (e
   const row = actionTable[actingValue];
   const columnIndex = opposingValueMapping[opposingValue];
 
-  if (row && columnIndex !== undefined) {
-    const result = row[columnIndex];
-    document.getElementById("result").textContent = `Result: ${result}`;
-  } else {
+  if (!row || columnIndex === undefined) {
     document.getElementById("result").textContent = "Invalid combination!";
+    return;
   }
+
+  const chartValue = row[columnIndex];
+  const { total, rolls } = rollDice();
+  const columnShifts = Math.max(0, Math.floor((total - 11) / 2)); // 11+ counts as shifts
+  const finalColumn = columnIndex + columnShifts;
+
+  const success = finalColumn < row.length && total >= chartValue;
+  const finalValue = row[finalColumn] ?? "N/A";
+
+  document.getElementById("result").innerHTML = `
+    <p>Dice Rolls: ${rolls.join(", ")}</p>
+    <p>Total Roll: ${total}</p>
+    <p>Column Shifts: ${columnShifts}</p>
+    <p>Final Value: ${finalValue}</p>
+    <p>Result: ${success ? "Success" : "Failure"}</p>
+  `;
 });
