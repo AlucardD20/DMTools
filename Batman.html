@@ -88,6 +88,7 @@
         const log = [];
 
         function rollDice() {
+            const actionTableBase = 11; // Base value to calculate column shifts
             const actingValue = parseInt(document.getElementById("actingValue").value);
             const opposingValue = parseInt(document.getElementById("opposingValue").value);
 
@@ -109,9 +110,18 @@
             } while (isDoubles);
 
             const actionValue = rollTotal + actingValue - opposingValue;
+            let result;
+            let columnShifts = 0;
+
+            if (actionValue < actionTableBase) {
+                result = "Fail";
+            } else {
+                columnShifts = Math.max(0, actionValue - actionTableBase);
+                result = `Success with ${columnShifts} column shift${columnShifts > 1 ? 's' : ''}`;
+            }
             const columnShifts = Math.max(0, actionValue - 11);
 
-            addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Column Shifts: ${columnShifts}`);
+            addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Result: ${result}`);
         }
 
         function addToLog(entry) {
