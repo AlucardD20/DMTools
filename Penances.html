@@ -1,0 +1,208 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Penance Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #result {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 60%;
+            background-color: #2e2e2e;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Penance Generator</h1>
+    <p>Acts of Contrition for Clerics</p>
+    <p>This table provides possible acts of penance or contrition for clerics who have strayed from their deity's will, alignment, or teachings. These tasks range from minor acts of humility to grand, life-changing endeavors, reflecting the gravity of the cleric's transgression.</p>
+    <p>Dungeon Masters are encouraged to use this table as a source of inspiration, rolling randomly or selecting entries that best fit the context of the campaign. Feel free to modify the results, adjust time frames, or tailor the tasks to align with the cleric’s deity, faith, and the overall narrative of the game. Acts of Contrition can serve as a meaningful way to deepen roleplaying opportunities, create compelling side quests, or explore the faith and devotion of a character.</p>
+    <button onclick="generatePenance()">Generate Random Penance</button>
+    <div id="result">Click the button to reveal a random penance.</div>
+
+    <script>
+        const penances = [
+            "Fast for seven days and nights.",
+            "Donate all current wealth to a local temple.",
+            "Spend a month cleaning and maintaining the temple.",
+            "Embark on a pilgrimage to a sacred site.",
+            "Vow silence for a year.",
+            "Preach the deity’s teachings to a hostile audience.",
+            "Build a shrine in an area without one.",
+            "Defend an innocent in danger.",
+            "Heal ten strangers without accepting thanks or reward.",
+            "Offer a week of prayers at dawn and dusk.",
+            "Recover a stolen relic of the faith.",
+            "Banish an unholy presence from consecrated ground.",
+            "Plant a sacred grove or garden in the deity’s name.",
+            "Teach the deity’s doctrine to ten converts.",
+            "Undertake a dangerous quest for the faith.",
+            "Write and deliver a hymn praising the deity.",
+            "Abstain from physical comforts for 30 days.",
+            "Sacrifice a prized possession on the deity’s altar.",
+            "Provide sanctuary to a refugee or outcast.",
+            "Meditate in solitude for seven days.",
+            "Repay a significant debt in the deity’s name.",
+            "Purify a desecrated site.",
+            "Restore a broken holy symbol.",
+            "Hunt and defeat a creature of chaos or evil.",
+            "Pay for the release of prisoners in need.",
+            "Create a work of art glorifying the deity.",
+            "Serve as a guide for pilgrims.",
+            "Retrieve lost knowledge of the faith.",
+            "Spread the deity’s will through written scrolls.",
+            "Abstain from casting magic for a month.",
+            "Fast from all food and water for three days.",
+            "Rebuild a ruined temple.",
+            "Offer aid to the sick and dying.",
+            "Walk barefoot for a month as an act of humility.",
+            "Protect a sacred relic during a journey.",
+            "Recite the deity’s holy texts every sunrise for 30 days.",
+            "Offer forgiveness to an enemy.",
+            "Fund the construction of a new orphanage.",
+            "Perform a holy ritual under dangerous circumstances.",
+            "Destroy an idol of a rival or false deity.",
+            "Convert an influential figure to the faith.",
+            "Abstain from weaponry for a month.",
+            "Carry sacred incense on a dangerous mission.",
+            "Baptize ten new believers.",
+            "Serve the poor for a month without revealing your status.",
+            "Protect a sacred animal of the deity.",
+            "Exorcise a haunted location in the deity’s name.",
+            "Sew a holy symbol into your clothing and wear it always.",
+            "Fast only on bread and water for a month.",
+            "Lead a sermon that inspires repentance.",
+            "Escort a sacred artifact to a faraway temple.",
+            "Offer your strength to rebuild a destroyed village.",
+            "Atone publicly for your misdeeds in the temple square.",
+            "Abstain from consuming meat for a year.",
+            "Undertake a vow of poverty for a year.",
+            "Restore a holy book to its original state.",
+            "Serve as a scribe, copying holy texts.",
+            "Adopt a humble trade in the deity’s name.",
+            "Abstain from using your powers in battle for a month.",
+            "Perform acts of mercy for sworn enemies.",
+            "Sponsor the education of a child in the faith.",
+            "Sleep outdoors for a month as an act of humility.",
+            "Offer up ten percent of all future earnings to the temple.",
+            "Create and distribute food to the needy.",
+            "Teach the faith to a community of unbelievers.",
+            "Rescue someone in the deity’s name.",
+            "Abstain from wearing fine clothing for a year.",
+            "Guard a sacred site from harm.",
+            "Banish an undead creature in the deity’s name.",
+            "Cleanse a cursed artifact through prayer.",
+            "Offer a heartfelt confession in the temple.",
+            "Abstain from using divine magic for seven days.",
+            "Spend seven nights in a crypt, praying for the souls of the dead.",
+            "Write an epic poem praising the deity’s deeds.",
+            "Abstain from speaking except to pray for a month.",
+            "Perform a daily blessing over the crops of a farming village.",
+            "Abstain from eating luxurious foods for a year.",
+            "Swim across a dangerous river to deliver a blessing.",
+            "Walk a sacred path barefoot as a pilgrimage.",
+            "Translate holy texts into another language.",
+            "Restore the faith in a region where it has waned.",
+            "Deliver a sermon under great personal risk.",
+            "Abstain from laughter for a month.",
+            "Forge an alliance between rival factions in the deity’s name.",
+            "Provide a month of free healing to the needy.",
+            "Deliver supplies to a remote monastery.",
+            "Meditate on a mountaintop for a week.",
+            "Carry a sacred relic across a battlefield.",
+            "Banish a demon from the mortal realm.",
+            "Purify a poisoned water source.",
+            "Abstain from sleeping in a bed for a year.",
+            "Restore a desecrated graveyard.",
+            "Swim through dangerous waters to recover a holy artifact.",
+            "Abstain from speaking for 40 days and nights.",
+            "Carry a heavy burden as a symbolic act of penance.",
+            "Pray for the redemption of a villain’s soul.",
+            "Build a stone cairn in honor of a lost hero.",
+            "Serve as a bodyguard for a high-ranking priest.",
+            "Create a mural depicting the deity’s greatest deeds.",
+            "Vow to carry a holy relic on your person forever.",
+            "Protect a sacred spring from desecration.",
+            "Abstain from the company of others for a year.",
+            "Light a hundred candles in a holy vigil.",
+            "Abstain from shaving or grooming for a year.",
+            "Restore a broken relationship in the deity’s name.",
+            "Rescue captives of a monstrous foe.",
+            "Walk ten miles barefoot to a holy site.",
+            "Give up all possessions save your holy symbol.",
+            "Abstain from killing for a year.",
+            "Offer a public blessing to your greatest rival.",
+            "Spend a night praying in the wilderness.",
+            "Fast until the deity provides a sign of forgiveness.",
+            "Carve a holy symbol into a mountain or tree.",
+            "Leave offerings for the poor in secret for a month.",
+            "Study the deity’s teachings with a hermit.",
+            "Guard a sacred library from danger.",
+            "Write a letter of apology to someone you’ve wronged.",
+            "Abstain from any combat for 30 days.",
+            "Lead a prayer vigil for 24 hours.",
+            "Meditate underwater in a sacred pool for an hour.",
+            "Place protective wards over a village.",
+            "Rescue a child from danger in the deity’s name.",
+            "Seek out the advice of a higher-ranking cleric.",
+            "Bless a battlefield after a major conflict.",
+            "Abstain from consuming alcohol forever.",
+            "Offer daily prayers at a public shrine.",
+            "Vow to protect a sacred site for a decade.",
+            "Bless a town’s water supply.",
+            "Fast from all material comforts for a month.",
+            "Restore the faith of a lapsed believer.",
+            "Lead a congregation in a sacred song.",
+            "Abstain from sleep until the penance is completed.",
+            "Deliver a sacred message to a rival temple.",
+            "Offer your services to a monastery for a year.",
+            "Guard a holy relic through enemy territory.",
+            "Perform a purification ritual in a desecrated place.",
+            "Make peace with a rival faction.",
+            "Carve a new altar for a temple.",
+            "Spend a week praying without leaving a holy site.",
+            "Provide healing to an enemy’s wounded.",
+            "Rescue a sacred animal in peril.",
+            "Abstain from luxury for a decade.",
+            "Craft a holy symbol from your own blood and sweat.",
+            "Build a new temple to the deity.",
+            "Deliver a sacred prophecy to a distant land.",
+            "Walk 100 miles in prayerful silence.",
+            "Spend a month teaching sacred texts to children.",
+            "Defend the weak from harm in the deity’s name.",
+            "Offer all earned gold to the faith for a year.",
+            "Meditate on the deity’s will in a remote location."
+        ];
+
+        function generatePenance() {
+            const randomIndex = Math.floor(Math.random() * penances.length);
+            document.getElementById("result").textContent = penances[randomIndex];
+        }
+    </script>
+</body>
+</html>
