@@ -53,6 +53,7 @@
     <div class="generator-container">
         <h1 style="text-align: center;">Wilderness Terrain Generator</h1>
         <button onclick="generateHex()">Generate Hex</button>
+        <button onclick="downloadLog()">Download Log</button>
         <div id="output" class="output"></div>
     </div>
 
@@ -81,6 +82,7 @@
         ];
 
         let currentColumn = "Plain";
+        let logEntries = [];
 
         function rollDice(sides) {
             return Math.floor(Math.random() * sides) + 1;
@@ -112,14 +114,11 @@
                 const population = settlement.type !== "None" ? getPopulation(settlement.population) : "None";
 
                 // Log results
+                const entry = `Current Terrain: ${currentColumn}\nNew Terrain: ${newTerrain}\nSettlement: ${settlement.type}\nPopulation: ${population}\n---\n`;
+                logEntries.push(entry);
+
                 const output = document.getElementById("output");
-                output.textContent += `
-Current Terrain: ${currentColumn}
-New Terrain: ${newTerrain}
-Settlement: ${settlement.type}
-Population: ${population}
----
-`;
+                output.textContent += entry;
 
                 // Update current column
                 if (!newTerrain.includes("Invalid")) {
@@ -129,6 +128,14 @@ Population: ${population}
                 console.error("Error generating hex:", error);
                 alert("An error occurred. Please try again.");
             }
+        }
+
+        function downloadLog() {
+            const blob = new Blob(logEntries, { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "wilderness_log.txt";
+            link.click();
         }
     </script>
 </body>
