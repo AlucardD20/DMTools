@@ -40,7 +40,20 @@ function rollDice() {
   return { total, rolls };
 }
 
-// Calculate the result and column shifts
+// Calculate column shifts based on roll and thresholds
+function calculateColumnShifts(rollTotal, thresholds) {
+  let shifts = 0;
+  for (const threshold of thresholds) {
+    if (rollTotal >= threshold) {
+      shifts++;
+    } else {
+      break; // Stop counting once we don't meet a threshold
+    }
+  }
+  return shifts;
+}
+
+// Main event listener
 document.getElementById("rollDice").addEventListener("click", function () {
   const actingValue = document.getElementById("actingValue").value;
   const opposingValue = document.getElementById("opposingValue").value;
@@ -60,9 +73,10 @@ document.getElementById("rollDice").addEventListener("click", function () {
 
   const chartValue = row[columnIndex];
   const { total, rolls } = rollDice();
-  const columnShifts = Math.max(0, Math.floor((total - 11) / 2)); // 11+ counts as shifts
+  const thresholds = row.slice(columnIndex + 1); // Only consider values higher than the current column
+  const columnShifts = calculateColumnShifts(total, thresholds);
 
-  // Compare total roll with the chart value
+  // Determine success or failure
   const success = total >= chartValue;
 
   document.getElementById("result").innerHTML = `
