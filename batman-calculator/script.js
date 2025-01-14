@@ -40,14 +40,14 @@ function rollDice() {
   return { total, rolls };
 }
 
-// Calculate column shifts based on roll and thresholds
+// Calculate column shifts based on roll and thresholds (after 11 only)
 function calculateColumnShifts(rollTotal, thresholds) {
   let shifts = 0;
   for (const threshold of thresholds) {
-    if (rollTotal >= threshold) {
+    if (threshold > 11 && rollTotal >= threshold) {
       shifts++;
-    } else {
-      break; // Stop counting once the roll doesn't meet or exceed a threshold
+    } else if (threshold > 11) {
+      break; // Stop counting once we don't meet a threshold after 11
     }
   }
   return shifts;
@@ -82,7 +82,7 @@ document.getElementById("rollDice").addEventListener("click", function () {
   document.getElementById("result").innerHTML = `
     <p>Dice Rolls: ${rolls.join(", ")}</p>
     <p>Total Roll: ${total}</p>
-    <p>Column Shifts: ${columnShifts}</p>
+    <p>Column Shifts (After 11): ${columnShifts}</p>
     <p>Result: ${success ? "Success" : "Failure"}</p>
   `;
 });
