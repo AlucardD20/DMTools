@@ -86,13 +86,11 @@ document.getElementById("rollDice").addEventListener("click", function () {
   const chartValue = row[columnIndex];
   const { total, rolls } = rollDice();
   const columnShifts = getColumnShifts(total);
-
   const success = total >= chartValue;
 
-  document.getElementById("result").innerHTML = `
-    <p>Dice Rolls: ${rolls.join(", ")}</p>
-    <p>Total Roll: ${total}</p>
-    <p>Column Shifts: ${columnShifts}</p>
-    <p>Result: ${success ? "Success" : "Failure"}</p>
-  `;
+  // Update results dynamically
+  document.getElementById("diceRolls").textContent = `Dice Rolls: ${rolls.join(", ")}`;
+  document.getElementById("totalRoll").textContent = `Total Roll: ${total}`;
+  document.getElementById("columnShifts").textContent = `Column Shifts: ${columnShifts}`;
+  document.getElementById("resultOutcome").textContent = `Result: ${success ? "Success" : "Failure"}`;
 });
