@@ -40,14 +40,12 @@ function rollDice() {
   return { total, rolls };
 }
 
-// Calculate column shifts based on roll and thresholds (after 11 only)
+// Calculate column shifts based on exact matches (after 11 only)
 function calculateColumnShifts(rollTotal, thresholds) {
   let shifts = 0;
   for (const threshold of thresholds) {
-    if (threshold > 11 && rollTotal >= threshold) {
-      shifts++;
-    } else if (threshold > 11) {
-      break; // Stop counting once we don't meet a threshold after 11
+    if (threshold > 11 && rollTotal === threshold) {
+      shifts++; // Count only exact matches after 11
     }
   }
   return shifts;
@@ -82,7 +80,7 @@ document.getElementById("rollDice").addEventListener("click", function () {
   document.getElementById("result").innerHTML = `
     <p>Dice Rolls: ${rolls.join(", ")}</p>
     <p>Total Roll: ${total}</p>
-    <p>Column Shifts (After 11): ${columnShifts}</p>
+    <p>Column Shifts (Exact Matches Only): ${columnShifts}</p>
     <p>Result: ${success ? "Success" : "Failure"}</p>
   `;
 });
