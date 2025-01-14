@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One-Page Mythic Oracle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin: 20px 0;
+        }
+        .container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        #log {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #2e2e2e;
+            text-align: left;
+            overflow-y: auto;
+            height: 300px;
+        }
+        .log-entry {
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>One-Page Mythic Oracle</h1>
+    <div class="container">
+        <label for="odds">Select Odds:</label>
+        <select id="odds">
+            <option value="1-19">Impossible</option>
+            <option value="20-35">Very Unlikely</option>
+            <option value="36-55">Unlikely</option>
+            <option value="56-85">50/50</option>
+            <option value="86-94">Likely</option>
+            <option value="95-99">Very Likely</option>
+            <option value="100">Certain</option>
+        </select>
+        <br>
+        <button onclick="askOracle()">Ask the Oracle</button>
+        <button onclick="rollActionDescription()">Discover Meaning</button>
+        <button onclick="downloadLog()">Download Log</button>
+        <div id="log"></div>
+    </div>
+
+    <script>
+        const log = [];
+
+        const actionTable = ["Attack", "Defend", "Heal", "Steal", "Bargain", "Build", "Break", "Guide", "Search", "Rescue", "Transform", "Control", "Destroy", "Unite", "Move", "Create", "Discover", "Protect", "Explore", "Investigate"];
+        const descriptionTable = ["Beautiful", "Dangerous", "Hidden", "Powerful", "Mysterious", "Fragile", "Enigmatic", "Bright", "Dark", "Frightening", "Peaceful", "Chaotic", "Ancient", "Sacred", "Cursed", "Valuable", "Strange", "Massive", "Small", "Ethereal"];
+
+        function rollDice(sides) {
+            return Math.floor(Math.random() * sides) + 1;
+        }
+
+        function askOracle() {
+            const odds = document.getElementById("odds").value.split("-");
+            const roll = rollDice(100);
+            let result = "";
+            
+            if (roll <= odds[0]) {
+                result = "Exceptional Yes";
+            } else if (roll <= odds[1]) {
+                result = "Yes";
+            } else if (roll > 100 - odds[0]) {
+                result = "Exceptional No";
+            } else {
+                result = "No";
+            }
+
+            if (roll % 11 === 0) {
+                result += " | Doubles - Random Event!";
+                const action = randomElement(actionTable);
+                const description = randomElement(descriptionTable);
+                result += ` (Action: ${action}, Description: ${description})`;
+            }
+
+            addToLog(`Roll: ${roll} | Result: ${result}`);
+        }
+
+        function rollActionDescription() {
+            const action = randomElement(actionTable);
+            const description = randomElement(descriptionTable);
+            addToLog(`Discover Meaning: Action - ${action}, Description - ${description}`);
+        }
+
+        function addToLog(entry) {
+            log.push(entry);
+            const logDiv = document.getElementById("log");
+            logDiv.innerHTML += `<div class='log-entry'>${entry}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function downloadLog() {
+            const logContent = log.join("\n");
+            const blob = new Blob([logContent], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "oracle_log.txt";
+            link.click();
+        }
+
+        function randomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+    </script>
+</body>
+</html>
