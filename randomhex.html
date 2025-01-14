@@ -120,6 +120,7 @@
 
                 const output = document.getElementById("output");
                 output.textContent += entry;
+                output.scrollTop = output.scrollHeight; // Automatically scroll to the bottom
 
                 // Update current column
                 if (newTerrain !== "Invalid Terrain") {
