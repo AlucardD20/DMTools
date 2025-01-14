@@ -61,16 +61,14 @@ document.getElementById("rollDice").addEventListener("click", function () {
   const chartValue = row[columnIndex];
   const { total, rolls } = rollDice();
   const columnShifts = Math.max(0, Math.floor((total - 11) / 2)); // 11+ counts as shifts
-  const finalColumn = columnIndex + columnShifts;
 
-  const success = finalColumn < row.length && total >= chartValue;
-  const finalValue = row[finalColumn] ?? "N/A";
+  // Compare the original columnIndex with the chart value
+  const success = total >= chartValue;
 
   document.getElementById("result").innerHTML = `
     <p>Dice Rolls: ${rolls.join(", ")}</p>
     <p>Total Roll: ${total}</p>
     <p>Column Shifts: ${columnShifts}</p>
-    <p>Final Value: ${finalValue}</p>
     <p>Result: ${success ? "Success" : "Failure"}</p>
   `;
 });
