@@ -109,6 +109,20 @@
         <br>
         <button onclick="rollDice()">Roll Dice</button>
         <button onclick="downloadLog()">Download Log</button>
+        <table id="resultsTable" style="margin: 20px auto; width: 80%; max-width: 800px; border-collapse: collapse; text-align: center;">
+            <thead>
+                <tr>
+                    <th style='border: 1px solid #ccc; padding: 10px;'>Action</th>
+                    <th style='border: 1px solid #ccc; padding: 10px;'>Results</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style='border: 1px solid #ccc; padding: 10px;' id='actionResult'></td>
+                    <td style='border: 1px solid #ccc; padding: 10px;' id='finalResult'></td>
+                </tr>
+            </tbody>
+        </table>
         <div id="log"></div>
     </div>
 
@@ -144,6 +158,35 @@
         }
 
         function calculateResults(columnShifts) {
+            const actionTable = ["A", "N", "+1", "+2", "+3", "+4", "+5", "+6", "+7", "+8", "+9", "+10"];
+            const resultTable = ["Failure", "Marginal Success", "Moderate Success", "Major Success", "Complete Success"];
+
+            const effectValue = parseInt(document.getElementById("effectValue").value);
+            const resistanceValue = parseInt(document.getElementById("resistanceValue").value);
+
+            if (isNaN(effectValue) || isNaN(resistanceValue)) {
+                addToLog("Select Effect and Resistance values to calculate the final result.");
+                return;
+            }
+
+            const actionIndex = Math.min(Math.max(0, effectValue + columnShifts - resistanceValue), actionTable.length - 1);
+            const actionResult = actionTable[actionIndex];
+            
+            let finalResult;
+            if (actionResult === "A") {
+                finalResult = "Automatic Success";
+            } else if (actionResult === "N") {
+                finalResult = "No Effect";
+            } else {
+                const resultIndex = Math.min(actionIndex, resultTable.length - 1);
+                finalResult = resultTable[resultIndex];
+            }
+
+            document.getElementById("actionResult").textContent = actionResult;
+            document.getElementById("finalResult").textContent = finalResult;
+
+            addToLog(`Action Result: ${actionResult} | Final Result: ${finalResult}`);
+        }
             const effectValue = parseInt(document.getElementById("effectValue").value);
             const resistanceValue = parseInt(document.getElementById("resistanceValue").value);
 
