@@ -102,12 +102,17 @@
                 // Roll for terrain
                 const terrainRoll = rollDice(20);
                 const terrainOptions = terrainColumns[currentColumn];
-                let newTerrain = terrainOptions && terrainOptions[terrainRoll - 1] ? terrainOptions[terrainRoll - 1] : "Invalid Terrain";
+                let newTerrain = terrainOptions && terrainRoll <= terrainOptions.length ? terrainOptions[terrainRoll - 1] : "Invalid Terrain";
 
                 // Handle depressions on a roll of 20
                 if (terrainRoll === 20) {
                     const depressionTypes = ["Gorge", "Rift", "Valley", "Canyon"];
                     newTerrain = `Depression (${depressionTypes[Math.floor(Math.random() * depressionTypes.length)]})`;
+                }
+
+                // Default Pond to Plain
+                if (newTerrain === "Pond") {
+                    newTerrain = "Plain";
                 }
 
                 // Roll for settlement
