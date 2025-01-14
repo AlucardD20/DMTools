@@ -1,0 +1,153 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeon Room Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #result {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 60%;
+            background-color: #2e2e2e;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dungeon Room Generator</h1>
+    <p style="margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; width: 60%; background-color: #2e2e2e;">
+        <strong>Create Endless Dungeon Rooms</strong><br><br>
+        Use this tool to generate random dungeon rooms for your game. Each room may contain monsters, traps, special features, treasure, or be completely empty. Let this inspire your dungeon adventures!
+    </p>
+    <button onclick="generateRoom()">Generate Room</button>
+    <div id="result">Click the button to generate a random room.</div>
+    <button onclick="location.href='index.html'" style="margin-top: 20px;">Home</button>
+
+    <script>
+        const monsters = [
+            "3 Goblins",
+            "2 Skeletons",
+            "1 Giant Spider",
+            "4 Oozes",
+            "1 Mimic",
+            "5 Orcs",
+            "1 Elemental",
+            "2 Vampires",
+            "1 Troll",
+            "6 Zombies"
+        ];
+
+        const roomTraps = [
+            "Falling block: Inflicts 1d10 damage (save versus petrification to avoid).",
+            "Gas: Poisonous gas fills the room (save versus poison or die).",
+            "Mist: Harmless; looks like poison gas.",
+            "Pit: Opens up beneath characters’ feet, inflicting falling damage.",
+            "Scything blade: Swings from the ceiling, attacking for 1d8 damage.",
+            "Slide: Opens up beneath characters’ feet, sending them to a lower level."
+        ];
+
+        const treasureTraps = [
+            "Darts: 1d6 spring-loaded darts fire, doing 1d4 damage each.",
+            "Flash of light: Causes blindness for 1d8 turns (save versus spells).",
+            "Hidden monster: Released when treasure is disturbed.",
+            "Illusion: Fake monster vanishes if hit.",
+            "Spray: Mysterious liquid attracts monsters (doubles wandering monsters for 1d6 hours).",
+            "Sprung needle: Poisoned needle jabs out (save vs poison or die)."
+        ];
+
+        const specials = [
+            "Alarms: Attracts nearby guardians.",
+            "Animating objects: Inanimate objects attack if disturbed.",
+            "Falling blocks: Prevent passage.",
+            "Illusions: Illusionary passages, doors, or stairways.",
+            "Shifting architecture: Doors lock and the room rotates or falls.",
+            "Strange waters: Pool with weird, magical effects.",
+            "Teleports: Magical portal to another area.",
+            "Trapdoors: Leading to a hidden area.",
+            "Voices: Walls speak or moan (e.g., a talking statue)."
+        ];
+
+        const treasureFormula = () => {
+            let treasure = `${rollDice(6) * 100} silver pieces`;
+
+            if (Math.random() < 0.5) {
+                treasure += `, ${rollDice(6) * 10} gold pieces`;
+            }
+            if (Math.random() < 0.05) {
+                treasure += `, ${rollDice(6)} gems`;
+            }
+            if (Math.random() < 0.02) {
+                treasure += `, ${rollDice(6)} pieces of jewelry`;
+            }
+            if (Math.random() < 0.02) {
+                treasure += `, 1 magic item`;
+            }
+
+            return treasure;
+        };
+
+        function rollDice(sides) {
+            return Math.floor(Math.random() * sides) + 1;
+        }
+
+        function generateRoom() {
+            const hasMonsters = Math.random() < 0.25;
+            const hasTraps = Math.random() < 0.5;
+            const hasSpecials = Math.random() < 0.4;
+            const hasTreasure = Math.random() < 0.6;
+
+            let result = "<strong>Room Contents:</strong><br>";
+
+            if (hasMonsters) {
+                result += `- Monster: ${randomElement(monsters)}<br>`;
+            }
+
+            if (hasTraps) {
+                result += `- Trap: ${randomElement(roomTraps)}<br>`;
+            }
+
+            if (hasSpecials) {
+                result += `- Special: ${randomElement(specials)}<br>`;
+            }
+
+            if (hasTreasure) {
+                result += `- Treasure: ${treasureFormula()}<br>`;
+            }
+
+            if (!hasMonsters && !hasTraps && !hasSpecials && !hasTreasure) {
+                result += "The room is empty except for cobwebs and dust.";
+            }
+
+            document.getElementById("result").innerHTML = result;
+        }
+
+        function randomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+    </script>
+</body>
+</html>
