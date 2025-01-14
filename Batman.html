@@ -53,110 +53,36 @@
         <label for="actingValue">Acting Value:</label>
         <select id="actingValue">
             <option value="">Select...</option>
-            <option value="1">1-2</option>
-            <option value="3">3-4</option>
-            <option value="5">5-6</option>
-            <option value="7">7-8</option>
-            <option value="9">9-10</option>
-            <option value="11">11-12</option>
-            <option value="13">13-15</option>
-            <option value="16">16-18</option>
-            <option value="19">19-20</option>
-            <option value="21">21-24</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <!-- Add more values as needed -->
         </select>
         <label for="opposingValue">Opposing Value:</label>
         <select id="opposingValue">
             <option value="">Select...</option>
-            <option value="1">1-2</option>
-            <option value="3">3-4</option>
-            <option value="5">5-6</option>
-            <option value="7">7-8</option>
-            <option value="9">9-10</option>
-            <option value="11">11-12</option>
-            <option value="13">13-15</option>
-            <option value="16">16-18</option>
-            <option value="19">19-20</option>
-            <option value="21">21-24</option>
-        </select>
-        <label for="effectValue">Effect Value:</label>
-        <select id="effectValue">
-            <option value="">Select...</option>
-            <option value="1">1-2</option>
-            <option value="3">3-4</option>
-            <option value="5">5-6</option>
-            <option value="7">7-8</option>
-            <option value="9">9-10</option>
-            <option value="11">11-12</option>
-            <option value="13">13-15</option>
-            <option value="16">16-18</option>
-            <option value="19">19-20</option>
-            <option value="21">21-24</option>
-        </select>
-        <label for="resistanceValue">Resistance Value:</label>
-        <select id="resistanceValue">
-            <option value="">Select...</option>
-            <option value="1">1-2</option>
-            <option value="3">3-4</option>
-            <option value="5">5-6</option>
-            <option value="7">7-8</option>
-            <option value="9">9-10</option>
-            <option value="11">11-12</option>
-            <option value="13">13-15</option>
-            <option value="16">16-18</option>
-            <option value="19">19-20</option>
-            <option value="21">21-24</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <!-- Add more values as needed -->
         </select>
         <br>
         <button onclick="rollDice()">Roll Dice</button>
         <button onclick="downloadLog()">Download Log</button>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-            <div>
-                <label for="effectValue">Effect Value:</label>
-                <select id="effectValue">
-                    <option value="">Select...</option>
-                    <option value="1">1-2</option>
-                    <option value="3">3-4</option>
-                    <option value="5">5-6</option>
-                    <option value="7">7-8</option>
-                    <option value="9">9-10</option>
-                    <option value="11">11-12</option>
-                    <option value="13">13-15</option>
-                    <option value="16">16-18</option>
-                    <option value="19">19-20</option>
-                    <option value="21">21-24</option>
-                </select>
-            </div>
-            <div>
-                <label for="resistanceValue">Resistance Value:</label>
-                <select id="resistanceValue">
-                    <option value="">Select...</option>
-                    <option value="1">1-2</option>
-                    <option value="3">3-4</option>
-                    <option value="5">5-6</option>
-                    <option value="7">7-8</option>
-                    <option value="9">9-10</option>
-                    <option value="11">11-12</option>
-                    <option value="13">13-15</option>
-                    <option value="16">16-18</option>
-                    <option value="19">19-20</option>
-                    <option value="21">21-24</option>
-                </select>
-            </div>
-        </div>
-        <table id="resultsTable" style="margin: 20px auto; width: 80%; max-width: 800px; border-collapse: collapse; text-align: center;">
-            <thead>
-                <tr>
-                    <th style='border: 1px solid #ccc; padding: 10px;'>Action</th>
-                    <th style='border: 1px solid #ccc; padding: 10px;'>Results</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style='border: 1px solid #ccc; padding: 10px;' id='actionResult'></td>
-                    <td style='border: 1px solid #ccc; padding: 10px;' id='finalResult'></td>
-                </tr>
-            </tbody>
-        </table>
         <div id="log"></div>
     </div>
 
@@ -188,49 +114,6 @@
             const columnShifts = Math.max(0, actionValue - 11);
 
             addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Column Shifts: ${columnShifts}`);
-            calculateResults(columnShifts);
-        }
-
-        function calculateResults(columnShifts) {
-            const actionTable = ["A", "N", "+1", "+2", "+3", "+4", "+5", "+6", "+7", "+8", "+9", "+10"];
-            const resultTable = ["Failure", "Marginal Success", "Moderate Success", "Major Success", "Complete Success"];
-
-            const effectValue = parseInt(document.getElementById("effectValue").value);
-            const resistanceValue = parseInt(document.getElementById("resistanceValue").value);
-
-            if (isNaN(effectValue) || isNaN(resistanceValue)) {
-                addToLog("Select Effect and Resistance values to calculate the final result.");
-                return;
-            }
-
-            const actionIndex = Math.min(Math.max(0, effectValue + columnShifts - resistanceValue), actionTable.length - 1);
-            const actionResult = actionTable[actionIndex];
-            
-            let finalResult;
-            if (actionResult === "A") {
-                finalResult = "Automatic Success";
-            } else if (actionResult === "N") {
-                finalResult = "No Effect";
-            } else {
-                const resultIndex = Math.min(actionIndex, resultTable.length - 1);
-                finalResult = resultTable[resultIndex];
-            }
-
-            document.getElementById("actionResult").textContent = actionResult;
-            document.getElementById("finalResult").textContent = finalResult;
-
-            addToLog(`Action Result: ${actionResult} | Final Result: ${finalResult}`);
-        }
-            const effectValue = parseInt(document.getElementById("effectValue").value);
-            const resistanceValue = parseInt(document.getElementById("resistanceValue").value);
-
-            if (isNaN(effectValue) || isNaN(resistanceValue)) {
-                addToLog("Select Effect and Resistance values to calculate the final result.");
-                return;
-            }
-
-            const resultValue = Math.max(0, effectValue + columnShifts - resistanceValue);
-            addToLog(`Effect: ${effectValue} | Resistance: ${resistanceValue} | Final Result: ${resultValue}`);
         }
 
         function addToLog(entry) {
