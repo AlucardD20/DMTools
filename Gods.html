@@ -1,0 +1,184 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random God Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #result {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 60%;
+            background-color: #2e2e2e;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random God Generator</h1>
+    <p style="margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; width: 60%; background-color: #2e2e2e;">
+        <strong>Create Your Pantheon</strong><br><br>
+        Use this tool to generate random gods for your campaign. Each god is formed from multiple categories, including domain, alignment, symbolism, and more. Let this inspire new lore for your worlds!
+    </p>
+    <button onclick="generateGod()">Generate Random God</button>
+    <div id="result">Click the button to reveal a randomly generated god.</div>
+    <button onclick="location.href='index.html'" style="margin-top: 20px;">Home</button>
+
+    <script>
+        const domains = ["War", "Love", "Nature", "Knowledge", "Death", "Trickery", "Protection", "Healing", "Chaos", "Order", "Fire", "Water", "Earth", "Air", "Light", "Darkness", "Time", "Dreams", "Fortune", "Justice"];
+        const alignments = ["Chaotic Good", "Neutral Evil", "Lawful Neutral", "True Neutral", "Chaotic Evil", "Lawful Good", "Neutral Good", "Lawful Evil", "Chaotic Neutral"];
+        const appearances = [
+            "A radiant figure wielding a golden staff",
+            "A skeletal figure cloaked in shadow",
+            "A blazing sun with a face",
+            "A serpent encircling a full moon",
+            "A humanoid with glowing runes etched into their skin",
+            "A giant eye wreathed in flame",
+            "A crown of stars resting on a faceless entity",
+            "A swirling vortex of color",
+            "A being made entirely of stone and moss",
+            "A winged humanoid with flames for eyes",
+            "A shapeshifting entity that changes every time it's observed",
+            "A wolf-headed humanoid clad in silver armor",
+            "A weeping maiden whose tears turn to gold",
+            "A vast, cosmic whale swimming through the stars",
+            "A cloaked figure with a book chained to their hand",
+            "A dragon with crystalline scales",
+            "A three-headed lion with glowing eyes",
+            "A flickering shadow that never takes a solid form",
+            "A swarm of glowing fireflies forming a humanoid shape",
+            "A living tree with eyes on its bark"
+        ];
+        const followers = [
+            "Warriors and hunters",
+            "Monks in remote mountain temples",
+            "Seafaring adventurers",
+            "Underground cultists",
+            "Mystics who write sacred texts",
+            "Farmers who offer prayers at sunrise",
+            "Assassins who leave offerings after each kill",
+            "Healers who refuse to harm another being",
+            "Wandering storytellers who spread the god’s myths",
+            "Kings and nobles who offer tributes",
+            "Children who play and sing songs in the god’s honor",
+            "Craftsmen who dedicate their work to the deity",
+            "Scholars who seek enlightenment in libraries",
+            "Bards who immortalize the god in music",
+            "Mercenaries who fight for causes tied to the god’s teachings"
+        ];
+        const artifacts = [
+            "The Eternal Flame",
+            "The Singing Blade",
+            "The Tome of Infinite Wisdom",
+            "The Shroud of Shadows",
+            "The Chalice of Light",
+            "The Orb of Infinite Stars",
+            "The Mirror of Truth",
+            "The Staff of Eternal Growth",
+            "The Crown of Ages",
+            "The Bell of Souls",
+            "The Shield of Unyielding Light",
+            "The Pendant of Hidden Secrets",
+            "The Scepter of Command",
+            "The Mantle of Dreams",
+            "The Ring of the Everflame",
+            "The Helm of Justice",
+            "The Chain of Endless Binding",
+            "The Candle of Guiding Spirits",
+            "The Banner of Celestial Unity",
+            "The Key to the Forgotten Gate"
+        ];
+        const holyAnimals = ["Eagle", "Wolf", "Serpent", "Raven", "Dragon", "Lion", "Bear", "Owl", "Phoenix", "Spider", "Tiger", "Elk", "Turtle", "Shark", "Bat"];
+        const placesOfWorship = [
+            "Ancient forests",
+            "Towering cathedrals",
+            "Deep underground caverns",
+            "Hidden mountain shrines",
+            "Floating sky temples",
+            "Vast deserts beneath the open stars",
+            "Abandoned ruins",
+            "The heart of bustling cities",
+            "Remote islands",
+            "Volcanic craters",
+            "Frozen tundras",
+            "Sacred waterfalls",
+            "Coral reefs beneath the sea",
+            "Hidden valleys surrounded by cliffs",
+            "Eternal bonfires"
+        ];
+        const commandments = [
+            "Strength above all else",
+            "Knowledge is power",
+            "Protect the weak",
+            "Seek balance in all things",
+            "Chaos is the way forward",
+            "No lie shall pass your lips",
+            "The natural order must prevail",
+            "The stars hold the truth; consult them often",
+            "Create beauty in all things",
+            "Worship is best shown through action",
+            "Purity comes from pain",
+            "Defend your kin, even unto death",
+            "Offer kindness to the downtrodden",
+            "Greed is the root of all corruption",
+            "Do not let vengeance cloud your mind",
+            "The cycle of life and death must never be broken",
+            "Loyalty to your faith is above all else",
+            "Doubt is the path to ruin",
+            "Sacrifice is the highest form of worship",
+            "Shed blood only when necessary"
+        ];
+
+        function randomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function generateGod() {
+            const domain = randomElement(domains);
+            const alignment = randomElement(alignments);
+            const appearance = randomElement(appearances);
+            const follower = randomElement(followers);
+            const artifact = randomElement(artifacts);
+            const holyAnimal = randomElement(holyAnimals);
+            const place = randomElement(placesOfWorship);
+            const commandment = randomElement(commandments);
+
+            const resultHTML = `
+                <p><strong>Domain:</strong> ${domain}</p>
+                <p><strong>Alignment:</strong> ${alignment}</p>
+                <p><strong>Appearance:</strong> ${appearance}</p>
+                <p><strong>Followers:</strong> ${follower}</p>
+                <p><strong>Sacred Artifact:</strong> ${artifact}</p>
+                <p><strong>Holy Animal:</strong> ${holyAnimal}</p>
+                <p><strong>Place of Worship:</strong> ${place}</p>
+                <p><strong>Commandment:</strong> "${commandment}"</p>
+            `;
+
+            document.getElementById("result").innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>
