@@ -10,39 +10,52 @@
   <div class="calculator">
     <h1>Batman Calculator</h1>
     <p>Select values from the *Batman RPG* chart, roll dice, and see the results.</p>
-    <label for="actingValue">Acting Value:</label>
-    <select id="actingValue">
-      <option value="1-2">1-2</option>
-      <option value="3-4">3-4</option>
-      <option value="5-6">5-6</option>
-      <option value="7-8">7-8</option>
-      <option value="9-10">9-10</option>
-      <option value="11-12">11-12</option>
-      <option value="13-15">13-15</option>
-      <option value="16-18">16-18</option>
-      <option value="19-21">19-21</option>
-      <option value="22-24">22-24</option>
-    </select>
-    <br>
-    <label for="opposingValue">Opposing Value:</label>
-    <select id="opposingValue">
-      <option value="1-2">1-2</option>
-      <option value="3-4">3-4</option>
-      <option value="5-6">5-6</option>
-      <option value="7-8">7-8</option>
-      <option value="9-10">9-10</option>
-      <option value="11-12">11-12</option>
-      <option value="13-15">13-15</option>
-      <option value="16-18">16-18</option>
-      <option value="19-21">19-21</option>
-      <option value="22-24">22-24</option>
-    </select>
-    <br>
+    <div class="dropdown-container">
+      <div>
+        <label for="actingValue">Acting Value:</label>
+        <select id="actingValue">
+          <option value="1-2">1-2</option>
+          <option value="3-4">3-4</option>
+          <option value="5-6">5-6</option>
+          <option value="7-8">7-8</option>
+          <option value="9-10">9-10</option>
+          <option value="11-12">11-12</option>
+          <option value="13-15">13-15</option>
+          <option value="16-18">16-18</option>
+          <option value="19-21">19-21</option>
+          <option value="22-24">22-24</option>
+        </select>
+      </div>
+      <div>
+        <label for="opposingValue">Opposing Value:</label>
+        <select id="opposingValue">
+          <option value="1-2">1-2</option>
+          <option value="3-4">3-4</option>
+          <option value="5-6">5-6</option>
+          <option value="7-8">7-8</option>
+          <option value="9-10">9-10</option>
+          <option value="11-12">11-12</option>
+          <option value="13-15">13-15</option>
+          <option value="16-18">16-18</option>
+          <option value="19-21">19-21</option>
+          <option value="22-24">22-24</option>
+        </select>
+      </div>
+    </div>
     <button id="rollDice">Roll Dice</button>
-    <div id="result"></div>
+    <div id="result">
+      <div class="result-row">
+        <span id="diceRolls"></span>
+        <span id="totalRoll"></span>
+      </div>
+      <div class="result-row">
+        <span id="columnShifts"></span>
+        <span id="resultOutcome"></span>
+      </div>
+    </div>
   </div>
 
-  <!-- Add the reference image here -->
+  <!-- Reference Chart -->
   <div class="reference-chart">
     <h2>Reference Chart</h2>
     <img src="https://raw.githubusercontent.com/AlucardD20/DMTools/main/images/Resultstable.jpg" alt="Results Table" />
