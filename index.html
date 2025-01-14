@@ -20,8 +20,8 @@
             font-size: 18px;
         }
         a {
-            display: inline-block;
-            margin-top: 20px;
+            display: block;
+            margin: 10px 0;
             padding: 10px 20px;
             text-decoration: none;
             background-color: #007BFF;
@@ -34,9 +34,20 @@
         }
         img {
             width: 100%;
-            max-width: 600px; /* Reduced size */
+            max-width: 600px;
             height: auto;
             margin-top: 10px;
+        }
+        .links-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
     </style>
 </head>
@@ -45,16 +56,20 @@
     <h1>Welcome</h1>
     <p style="margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; width: 60%; background-color: #2e2e2e;">
     Here is a list of tools for you, if you are a DM who needs something quickly to inspire you or you are playing a solo game and need results fast to keep the flow going!</p>
-    <a href="Oracle.html">Solo Oracle</a><br>
-    <a href="Curses.html">Random Curse Picker</a><br>
-    <a href="Legendary.html">Legendary Weapon Name Picker</a><br>
-    <a href="Book.html">Random Book Generator</a><br>
-    <a href="Penances.html">Cleric Penances Generator</a><br>
-    <a href="Gods.html">Random God Generator</a><br>
-    <a href="Dungeon.html"> Dungeon Room Stocking Generator</a><br>
-    <a href="scrolls.html"> Random Scroll Generator</a><br>
-    <a href="ring.html"> Random Ring Generator</a><br>
-    <br>
-    
+    <div class="links-container">
+        <div class="column">
+            <a href="Oracle.html">Solo Oracle</a>
+            <a href="Curses.html">Random Curse Picker</a>
+            <a href="Legendary.html">Legendary Weapon Name Picker</a>
+            <a href="Book.html">Random Book Generator</a>
+            <a href="Penances.html">Cleric Penances Generator</a>
+        </div>
+        <div class="column">
+            <a href="Gods.html">Random God Generator</a>
+            <a href="Dungeon.html">Dungeon Room Stocking Generator</a>
+            <a href="scrolls.html">Random Scroll Generator</a>
+            <a href="ring.html">Random Ring Generator</a>
+        </div>
+    </div>
 </body>
 </html>
