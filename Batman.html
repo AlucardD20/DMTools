@@ -53,32 +53,58 @@
         <label for="actingValue">Acting Value:</label>
         <select id="actingValue">
             <option value="">Select...</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <!-- Add more values as needed -->
+            <option value="1">1-2</option>
+            <option value="3">3-4</option>
+            <option value="5">5-6</option>
+            <option value="7">7-8</option>
+            <option value="9">9-10</option>
+            <option value="11">11-12</option>
+            <option value="13">13-15</option>
+            <option value="16">16-18</option>
+            <option value="19">19-20</option>
+            <option value="21">21-24</option>
         </select>
         <label for="opposingValue">Opposing Value:</label>
         <select id="opposingValue">
             <option value="">Select...</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <!-- Add more values as needed -->
+            <option value="1">1-2</option>
+            <option value="3">3-4</option>
+            <option value="5">5-6</option>
+            <option value="7">7-8</option>
+            <option value="9">9-10</option>
+            <option value="11">11-12</option>
+            <option value="13">13-15</option>
+            <option value="16">16-18</option>
+            <option value="19">19-20</option>
+            <option value="21">21-24</option>
+        </select>
+        <label for="effectValue">Effect Value:</label>
+        <select id="effectValue">
+            <option value="">Select...</option>
+            <option value="1">1-2</option>
+            <option value="3">3-4</option>
+            <option value="5">5-6</option>
+            <option value="7">7-8</option>
+            <option value="9">9-10</option>
+            <option value="11">11-12</option>
+            <option value="13">13-15</option>
+            <option value="16">16-18</option>
+            <option value="19">19-20</option>
+            <option value="21">21-24</option>
+        </select>
+        <label for="resistanceValue">Resistance Value:</label>
+        <select id="resistanceValue">
+            <option value="">Select...</option>
+            <option value="1">1-2</option>
+            <option value="3">3-4</option>
+            <option value="5">5-6</option>
+            <option value="7">7-8</option>
+            <option value="9">9-10</option>
+            <option value="11">11-12</option>
+            <option value="13">13-15</option>
+            <option value="16">16-18</option>
+            <option value="19">19-20</option>
+            <option value="21">21-24</option>
         </select>
         <br>
         <button onclick="rollDice()">Roll Dice</button>
@@ -114,6 +140,20 @@
             const columnShifts = Math.max(0, actionValue - 11);
 
             addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Column Shifts: ${columnShifts}`);
+            calculateResults(columnShifts);
+        }
+
+        function calculateResults(columnShifts) {
+            const effectValue = parseInt(document.getElementById("effectValue").value);
+            const resistanceValue = parseInt(document.getElementById("resistanceValue").value);
+
+            if (isNaN(effectValue) || isNaN(resistanceValue)) {
+                addToLog("Select Effect and Resistance values to calculate the final result.");
+                return;
+            }
+
+            const resultValue = Math.max(0, effectValue + columnShifts - resistanceValue);
+            addToLog(`Effect: ${effectValue} | Resistance: ${resistanceValue} | Final Result: ${resultValue}`);
         }
 
         function addToLog(entry) {
