@@ -78,7 +78,7 @@
             { range: [11], type: "City", population: "5000-6500" },
             { range: [12], type: "Castle", population: "Varies" },
             { range: [13, 16], type: "Ruins", population: "None" },
-            { range: [17, 20], type: "Uninhabited", population: "None" }
+            { range: [17, 100], type: "Uninhabited", population: "None" }
         ];
 
         let currentColumn = "Plain";
@@ -110,7 +110,7 @@
                 }
 
                 // Roll for settlement
-                const settlementRoll = rollDice(20);
+                const settlementRoll = rollDice(100);
                 const settlement = settlementTypes.find(s => settlementRoll >= s.range[0] && settlementRoll <= s.range[s.range.length - 1]);
                 const population = settlement.type !== "None" ? getPopulation(settlement.population) : "None";
 
