@@ -40,20 +40,30 @@ function rollDice() {
   return { total, rolls };
 }
 
-// Determine column shifts based on predefined thresholds
+// Determine column shifts based on closest matching threshold
 function getColumnShifts(rollTotal) {
-  const thresholds = {
-    13: 1,
-    15: 2,
-    18: 3,
-    21: 4,
-    24: 5,
-    28: 6,
-    32: 7,
-    36: 8,
-    40: 9,
-  };
-  return thresholds[rollTotal] || 0; // Return the shift number or 0 if no match
+  const thresholds = [
+    { value: 13, shift: 1 },
+    { value: 15, shift: 2 },
+    { value: 18, shift: 3 },
+    { value: 21, shift: 4 },
+    { value: 24, shift: 5 },
+    { value: 28, shift: 6 },
+    { value: 32, shift: 7 },
+    { value: 36, shift: 8 },
+    { value: 40, shift: 9 },
+  ];
+
+  // Find the largest threshold less than or equal to the roll total
+  let columnShift = 0;
+  for (const threshold of thresholds) {
+    if (rollTotal >= threshold.value) {
+      columnShift = threshold.shift; // Update to the closest valid threshold
+    } else {
+      break; // Stop checking once we exceed the roll total
+    }
+  }
+  return columnShift;
 }
 
 // Main event listener
