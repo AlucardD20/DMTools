@@ -58,14 +58,14 @@
 
     <script>
         const terrainColumns = {
-            Plain: ["Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
-            Scrub: ["Scrub", "Plain", "Forest", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
-            Forest: ["Forest", "Plain", "Scrub", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
-            Rough: ["Rough", "Plain", "Scrub", "Forest", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
-            Desert: ["Desert", "Plain", "Scrub", "Forest", "Rough", "Hills", "Mountains", "Marsh", "Pond", "Depression"],
-            Hills: ["Hills", "Plain", "Scrub", "Forest", "Rough", "Desert", "Mountains", "Marsh", "Pond", "Depression"],
-            Mountains: ["Mountains", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Marsh", "Pond", "Depression"],
-            Marsh: ["Marsh", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Pond", "Depression"]
+            Plain: ["Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
+            Scrub: ["Scrub", "Plain", "Forest", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
+            Forest: ["Forest", "Plain", "Scrub", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
+            Rough: ["Rough", "Plain", "Scrub", "Forest", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
+            Desert: ["Desert", "Plain", "Scrub", "Forest", "Rough", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
+            Hills: ["Hills", "Plain", "Scrub", "Forest", "Rough", "Desert", "Mountains", "Marsh", "Pond", "Mountains"],
+            Mountains: ["Mountains", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Marsh", "Pond", "Mountains"],
+            Marsh: ["Marsh", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Pond", "Mountains"]
         };
 
         const settlementTypes = [
@@ -98,7 +98,13 @@
             try {
                 // Roll for terrain
                 const terrainRoll = rollDice(20);
-                const newTerrain = terrainColumns[currentColumn]?.[terrainRoll - 1] || "Invalid Terrain";
+                let newTerrain = terrainColumns[currentColumn]?.[terrainRoll - 1] || "Invalid Terrain";
+
+                // Handle depressions on a roll of 20
+                if (terrainRoll === 20) {
+                    const depressionTypes = ["Gorge", "Rift", "Valley", "Canyon"];
+                    newTerrain = `Depression (${depressionTypes[Math.floor(Math.random() * depressionTypes.length)]})`;
+                }
 
                 // Roll for settlement
                 const settlementRoll = rollDice(20);
@@ -107,11 +113,17 @@
 
                 // Log results
                 const output = document.getElementById("output");
-                output.textContent += `\nCurrent Terrain: ${currentColumn}\nNew Terrain: ${newTerrain}\nSettlement: ${settlement.type}\nPopulation: ${population}\n---\n`;
+                output.textContent += `
+Current Terrain: ${currentColumn}
+New Terrain: ${newTerrain}
+Settlement: ${settlement.type}
+Population: ${population}
+---
+`;
 
                 // Update current column
-                if (newTerrain !== "Invalid Terrain") {
-                    currentColumn = newTerrain;
+                if (!newTerrain.includes("Invalid")) {
+                    currentColumn = newTerrain.split(" (")[0]; // Exclude depression type for column update
                 }
             } catch (error) {
                 console.error("Error generating hex:", error);
