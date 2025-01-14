@@ -100,7 +100,8 @@
             try {
                 // Roll for terrain
                 const terrainRoll = rollDice(20);
-                let newTerrain = terrainColumns[currentColumn]?.[terrainRoll - 1] || "Invalid Terrain";
+                const terrainOptions = terrainColumns[currentColumn];
+                let newTerrain = terrainOptions && terrainOptions[terrainRoll - 1] ? terrainOptions[terrainRoll - 1] : "Invalid Terrain";
 
                 // Handle depressions on a roll of 20
                 if (terrainRoll === 20) {
@@ -121,7 +122,7 @@
                 output.textContent += entry;
 
                 // Update current column
-                if (!newTerrain.includes("Invalid")) {
+                if (newTerrain !== "Invalid Terrain") {
                     currentColumn = newTerrain.split(" (")[0]; // Exclude depression type for column update
                 }
             } catch (error) {
