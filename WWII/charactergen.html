@@ -83,10 +83,26 @@
 
             const level = rollDice(6); // Random level from 1 to 6
 
-            const stats = attributes.map(attr => `${attr}: ${rollDice(6, 3)}`).join("\n");
+            // Hit Points Calculation (1d6 per level)
+            const hitPoints = rollDice(6, level);
 
+            // Attributes
+            const stats = attributes.map(attr => `${attr}: ${rollDice(6, 3)}`).join("
+");
+
+            // Equipment Generation
+            const equipmentPool = [
+                "Rifle", "Pistol", "Med Kit", "Grenade", "Rations", "Compass", "Map", "Binoculars", 
+                "Flashlight", "Radio", "Knife", "Ammo Pouch", "Explosives", "Uniform", "Boots"
+            ];
+            const equipment = Array.from({ length: 5 }, () =>
+                equipmentPool[Math.floor(Math.random() * equipmentPool.length)]
+            ).join(", ");
+
+            // Bio
             const bio = `A ${rank} from ${nationality} serving as a ${profession}. Known for their courage and dedication.`;
 
+            // Output
             const output = `
 Character Details:
 ------------------
@@ -94,9 +110,13 @@ Nationality: ${nationality}
 Profession: ${profession}
 Rank: ${rank}
 Level: ${level}
+Hit Points: ${hitPoints}
 
 Attributes:
 ${stats}
+
+Equipment:
+${equipment}
 
 Bio:
 ${bio}
