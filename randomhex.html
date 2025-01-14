@@ -100,13 +100,20 @@
             // Settlement Check
             const settlementRoll = rollDice(20);
             const settlement = settlementTypes.find(s => settlementRoll >= s.range[0] && settlementRoll <= s.range[s.range.length - 1]);
+            let population;
+            if (settlement.population.includes('-')) {
+                const [min, max] = settlement.population.split('-').map(Number);
+                population = Math.floor(Math.random() * (max - min + 1)) + min;
+            } else {
+                population = settlement.population;
+            }
 
             // Output Results
             const log = `
 Current Terrain: ${currentColumn}
 Roll Result: ${roll} => New Terrain: ${nextTerrain}
 Settlement Check: ${settlementRoll} => ${settlement.type}
-Population: ${settlement.population}
+Population: ${population}
 `;
 
             currentColumn = nextTerrain; // Update column
