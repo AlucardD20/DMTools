@@ -8,46 +8,107 @@
 </head>
 <body>
   <div class="container">
-    <h1>Batman Calculator</h1>
-    <p>Select values from the *Batman RPG* chart, roll dice, and see the results.</p>
-    <form id="calculatorForm">
-      <div>
-        <label for="actingValue">Acting Value:</label>
-        <select id="actingValue" name="actingValue" required>
-          <option value="" disabled selected>Select Acting Value</option>
-          <option value="1-2">1-2</option>
-          <option value="3-4">3-4</option>
-          <option value="5-6">5-6</option>
-          <option value="7-8">7-8</option>
-          <option value="9-10">9-10</option>
-          <option value="11-12">11-12</option>
-          <option value="13-15">13-15</option>
-          <option value="16-18">16-18</option>
-          <option value="19-21">19-21</option>
-          <option value="22-24">22-24</option>
-        </select>
-      </div>
-      <div>
-        <label for="opposingValue">Opposing Value:</label>
-        <select id="opposingValue" name="opposingValue" required>
-          <option value="" disabled selected>Select Opposing Value</option>
-          <option value="0">0</option>
-          <option value="1-2">1-2</option>
-          <option value="3-4">3-4</option>
-          <option value="5-6">5-6</option>
-          <option value="7-8">7-8</option>
-          <option value="9-10">9-10</option>
-          <option value="11-12">11-12</option>
-          <option value="13-15">13-15</option>
-          <option value="16-18">16-18</option>
-          <option value="19-21">19-21</option>
-          <option value="22-24">22-24</option>
-        </select>
-      </div>
-      <button type="button" id="rollDice">Roll Dice</button>
-    </form>
-    <div id="result"></div>
+    <!-- Left Generator -->
+    <div class="calculator" id="generator1">
+      <h1>Batman Calculator - Left</h1>
+      <p>Select values from the *Batman RPG* chart, roll dice, and see the results.</p>
+      <label for="actingValue">Acting Value:</label>
+      <select id="actingValue">
+        <option value="1-2">1-2</option>
+        <option value="3-4">3-4</option>
+        <option value="5-6">5-6</option>
+        <option value="7-8">7-8</option>
+        <option value="9-10">9-10</option>
+        <option value="11-12">11-12</option>
+        <option value="13-15">13-15</option>
+        <option value="16-18">16-18</option>
+        <option value="19-21">19-21</option>
+        <option value="22-24">22-24</option>
+      </select>
+      <br>
+      <label for="opposingValue">Opposing Value:</label>
+      <select id="opposingValue">
+        <option value="1-2">1-2</option>
+        <option value="3-4">3-4</option>
+        <option value="5-6">5-6</option>
+        <option value="7-8">7-8</option>
+        <option value="9-10">9-10</option>
+        <option value="11-12">11-12</option>
+        <option value="13-15">13-15</option>
+        <option value="16-18">16-18</option>
+        <option value="19-21">19-21</option>
+        <option value="22-24">22-24</option>
+      </select>
+      <br>
+      <button id="rollDice">Roll Dice</button>
+      <div id="result"></div>
+    </div>
+
+    <!-- Right Generator -->
+    <div class="calculator" id="generator2">
+      <h1>Batman Calculator - Right</h1>
+      <p>Select values from the *Batman RPG* chart, roll dice, and see the results.</p>
+      <label for="actingValueRight">Acting Value:</label>
+      <select id="actingValueRight">
+        <option value="1-2">1-2</option>
+        <option value="3-4">3-4</option>
+        <option value="5-6">5-6</option>
+        <option value="7-8">7-8</option>
+        <option value="9-10">9-10</option>
+        <option value="11-12">11-12</option>
+        <option value="13-15">13-15</option>
+        <option value="16-18">16-18</option>
+        <option value="19-21">19-21</option>
+        <option value="22-24">22-24</option>
+      </select>
+      <br>
+      <label for="opposingValueRight">Opposing Value:</label>
+      <select id="opposingValueRight">
+        <option value="1-2">1-2</option>
+        <option value="3-4">3-4</option>
+        <option value="5-6">5-6</option>
+        <option value="7-8">7-8</option>
+        <option value="9-10">9-10</option>
+        <option value="11-12">11-12</option>
+        <option value="13-15">13-15</option>
+        <option value="16-18">16-18</option>
+        <option value="19-21">19-21</option>
+        <option value="22-24">22-24</option>
+      </select>
+      <br>
+      <button id="rollDiceRight">Roll Dice</button>
+      <div id="resultRight"></div>
+    </div>
   </div>
+
+  <!-- Results Table -->
+  <div class="results-table">
+    <h2>Results Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Acting Value</th>
+          <th>1-2</th>
+          <th>3-4</th>
+          <th>5-6</th>
+          <th>7-8</th>
+          <th>9-10</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1-2</td>
+          <td>6</td>
+          <td>11</td>
+          <td>13</td>
+          <td>15</td>
+          <td>18</td>
+        </tr>
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
