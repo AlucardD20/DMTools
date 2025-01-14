@@ -88,14 +88,40 @@
         const log = [];
 
         function rollDice() {
-            const actionTableBase = 11; // Base value to calculate column shifts
-            const actingValue = parseInt(document.getElementById("actingValue").value);
-            const opposingValue = parseInt(document.getElementById("opposingValue").value);
+    const actionTableBase = 11; // Base value to calculate column shifts
+    const actingValue = parseInt(document.getElementById("actingValue").value);
+    const opposingValue = parseInt(document.getElementById("opposingValue").value);
 
-            if (isNaN(actingValue) || isNaN(opposingValue)) {
-                alert("Please select both Acting and Opposing values.");
-                return;
-            }
+    if (isNaN(actingValue) || isNaN(opposingValue)) {
+        alert("Please select both Acting and Opposing values.");
+        return;
+    }
+
+    let rollTotal = 0;
+    let rolls = [];
+    let isDoubles = false;
+
+    do {
+        const die1 = Math.floor(Math.random() * 10) + 1;
+        const die2 = Math.floor(Math.random() * 10) + 1;
+        rolls.push(die1 + die2);
+        rollTotal += die1 + die2;
+        isDoubles = die1 === die2 && die1 !== 1;
+    } while (isDoubles);
+
+    const actionValue = rollTotal + actingValue - opposingValue;
+    let result;
+    let columnShifts = 0;
+
+    if (actionValue < actionTableBase) {
+        result = "Fail";
+    } else {
+        columnShifts = actionValue - actionTableBase;
+        result = `Success with ${columnShifts} column shift${columnShifts > 1 ? "s" : ""}`;
+    }
+
+    addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Result: ${result}`);
+}
 
             let rollTotal = 0;
             let rolls = [];
