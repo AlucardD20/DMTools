@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ring Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin: 20px 0;
+        }
+        .container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #result {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #2e2e2e;
+            text-align: left;
+            max-width: 600px;
+        }
+        button:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ring Generator</h1>
+    <p style="margin: 20px auto; padding: 10px; border: 1px solid #ccc; border-radius: 10px; background-color: #2e2e2e; text-align: center; width: 80%;">
+        Generate a random magical ring along with its experience point value and gold piece value.
+    </p>
+    <div class="container">
+        <button onclick="generateRing()">Generate Ring</button>
+        <button onclick="window.location.href='index.html'">Home</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const rings = [
+            { name: "Ring of Contrariness", xp: "---", gp: "1,000" },
+            { name: "Ring of Delusion", xp: "---", gp: "2,000" },
+            { name: "Ring of Djinni Summoning", xp: "3,000", gp: "20,000" },
+            { name: "Ring of Elemental Command", xp: "5,000", gp: "25,000" },
+            { name: "Ring of Feather Falling", xp: "1,000", gp: "5,000" },
+            { name: "Ring of Fire Resistance", xp: "1,000", gp: "5,000" },
+            { name: "Ring of Free Action", xp: "2,000", gp: "10,000" },
+            { name: "Ring of Human Influence", xp: "2,000", gp: "10,000" },
+            { name: "Ring of Invisibility", xp: "1,500", gp: "7,500" },
+            { name: "Ring of Mammal Control", xp: "1,000", gp: "5,000" },
+            { name: "Ring of Multiple Wishes", xp: "5,000", gp: "25,000" },
+            { name: "Ring of Protection", xp: "2,000-4,000", gp: "10,000-20,000" },
+            { name: "Ring of Regeneration", xp: "5,000", gp: "40,000" },
+            { name: "Ring of Shooting Stars", xp: "3,000", gp: "15,000" },
+            { name: "Ring of Spell Storing", xp: "2,500", gp: "22,500" },
+            { name: "Ring of Spell Turning", xp: "2,000", gp: "17,500" },
+            { name: "Ring of Swimming", xp: "1,000", gp: "5,000" },
+            { name: "Ring of Telekinesis", xp: "2,000", gp: "10,000" },
+            { name: "Ring of Three Wishes", xp: "3,000", gp: "15,000" },
+            { name: "Ring of Warmth", xp: "1,000", gp: "5,000" },
+            { name: "Ring of Water Walking", xp: "1,000", gp: "5,000" },
+            { name: "Ring of Weakness", xp: "---", gp: "1,000" },
+            { name: "Ring of Wizardry (M)", xp: "4,000", gp: "50,000" },
+            { name: "Ring of X-Ray Vision", xp: "4,000", gp: "35,000" }
+        ];
+
+        function generateRing() {
+            const ring = rings[Math.floor(Math.random() * rings.length)];
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `
+                <h2>${ring.name}</h2>
+                <p><strong>Experience Point Value:</strong> ${ring.xp}</p>
+                <p><strong>Gold Pieces Value:</strong> ${ring.gp}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
