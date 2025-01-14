@@ -95,22 +95,28 @@
         }
 
         function generateHex() {
-            // Roll for terrain
-            const terrainRoll = rollDice(20);
-            const newTerrain = terrainColumns[currentColumn][terrainRoll - 1] || "Unknown";
+            try {
+                // Roll for terrain
+                const terrainRoll = rollDice(20);
+                const newTerrain = terrainColumns[currentColumn]?.[terrainRoll - 1] || "Invalid Terrain";
 
-            // Roll for settlement
-            const settlementRoll = rollDice(20);
-            const settlement = settlementTypes.find(s => settlementRoll >= s.range[0] && settlementRoll <= s.range[s.range.length - 1]);
-            const population = settlement.type !== "None" ? getPopulation(settlement.population) : "None";
+                // Roll for settlement
+                const settlementRoll = rollDice(20);
+                const settlement = settlementTypes.find(s => settlementRoll >= s.range[0] && settlementRoll <= s.range[s.range.length - 1]);
+                const population = settlement.type !== "None" ? getPopulation(settlement.population) : "None";
 
-            // Update and log output
-            const output = document.getElementById("output");
-            output.textContent += `\nCurrent Terrain: ${currentColumn}\nNew Terrain: ${newTerrain}\nSettlement: ${settlement.type}\nPopulation: ${population}\n---\n`;
-            output.scrollTop = output.scrollHeight; // Auto-scroll
+                // Log results
+                const output = document.getElementById("output");
+                output.textContent += `\nCurrent Terrain: ${currentColumn}\nNew Terrain: ${newTerrain}\nSettlement: ${settlement.type}\nPopulation: ${population}\n---\n`;
 
-            // Update current column
-            currentColumn = newTerrain;
+                // Update current column
+                if (newTerrain !== "Invalid Terrain") {
+                    currentColumn = newTerrain;
+                }
+            } catch (error) {
+                console.error("Error generating hex:", error);
+                alert("An error occurred. Please try again.");
+            }
         }
     </script>
 </body>
