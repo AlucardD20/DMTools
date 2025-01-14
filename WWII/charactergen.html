@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operation White Box Character Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eaeaea;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .clipboard {
+            background: url('clipboard.jpg') no-repeat center center;
+            background-size: cover;
+            width: 600px;
+            height: 800px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            overflow-y: auto;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="clipboard">
+        <div class="content">
+            <h1 style="text-align: center;">Operation White Box<br>Character Generator</h1>
+            <button onclick="generateCharacter()">Generate Character</button>
+            <div id="output" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Example Data Pools
+        const nationalities = ["American", "British", "French", "German", "Russian", "Italian"];
+        const professions = ["Engineer", "Medic", "Sniper", "Pilot", "Infantry", "Mechanic"];
+        const ranks = ["Private", "Corporal", "Sergeant", "Lieutenant", "Captain", "Major", "Colonel", "General"];
+        const attributes = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+
+        function rollDice(sides, rolls = 1) {
+            let total = 0;
+            for (let i = 0; i < rolls; i++) {
+                total += Math.floor(Math.random() * sides) + 1;
+            }
+            return total;
+        }
+
+        function generateCharacter() {
+            const nationality = nationalities[Math.floor(Math.random() * nationalities.length)];
+            const profession = professions[Math.floor(Math.random() * professions.length)];
+            const rank = ranks[Math.floor(Math.random() * ranks.length)];
+
+            const level = rollDice(6); // Random level from 1 to 6
+
+            const stats = attributes.map(attr => `${attr}: ${rollDice(6, 3)}`).join("\n");
+
+            const bio = `A ${rank} from ${nationality} serving as a ${profession}. Known for their courage and dedication.`;
+
+            const output = `
+Character Details:
+------------------
+Nationality: ${nationality}
+Profession: ${profession}
+Rank: ${rank}
+Level: ${level}
+
+Attributes:
+${stats}
+
+Bio:
+${bio}
+            `;
+
+            document.getElementById("output").textContent = output;
+        }
+    </script>
+</body>
+</html>
