@@ -1,4 +1,4 @@
-// Batman Action Table data
+// Batman Action Table data, extended to match chart up to 24
 const actionTable = {
   "1-2": [6, 11, 13, 15, 18, 21, 24, 28, 32, 36, 40],
   "3-4": [5, 9, 11, 13, 15, 18, 21, 24, 28, 32, 36],
@@ -6,25 +6,26 @@ const actionTable = {
   "7-8": [4, 5, 7, 9, 11, 13, 15, 18, 21, 24, 28],
   "9-10": [3, 4, 5, 7, 9, 11, 13, 15, 18, 21, 24],
   "11-12": [3, 3, 4, 5, 7, 9, 11, 13, 15, 18, 21],
+  "13-15": [3, 3, 3, 4, 5, 7, 9, 11, 13, 15, 18],
+  "16-18": [3, 3, 3, 3, 4, 5, 7, 9, 11, 13, 15],
+  "19-21": [3, 3, 3, 3, 3, 4, 5, 7, 9, 11, 13],
+  "22-24": [3, 3, 3, 3, 3, 3, 4, 5, 7, 9, 11],
 };
 
-// Helper function to get column index for Opposing Value
-function getColumnIndex(value) {
-  const columnMapping = {
-    "0": 0,
-    "1": 1,
-    "3": 2,
-    "5": 3,
-    "7": 4,
-    "9": 5,
-    "11": 6,
-    "13": 7,
-    "16": 8,
-    "19": 9,
-    "22": 10,
-  };
-  return columnMapping[value];
-}
+// Map Opposing Value ranges to column indices
+const opposingValueMapping = {
+  "0": 0,
+  "1-2": 1,
+  "3-4": 2,
+  "5-6": 3,
+  "7-8": 4,
+  "9-10": 5,
+  "11-12": 6,
+  "13-15": 7,
+  "16-18": 8,
+  "19-21": 9,
+  "22-24": 10,
+};
 
 // Main form submission logic
 document.getElementById("calculatorForm").addEventListener("submit", function (e) {
@@ -39,7 +40,7 @@ document.getElementById("calculatorForm").addEventListener("submit", function (e
   }
 
   const row = actionTable[actingValue];
-  const columnIndex = getColumnIndex(opposingValue);
+  const columnIndex = opposingValueMapping[opposingValue];
 
   if (row && columnIndex !== undefined) {
     const result = row[columnIndex];
