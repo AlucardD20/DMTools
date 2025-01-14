@@ -40,7 +40,7 @@ function rollDice() {
   return { total, rolls };
 }
 
-// Determine column shifts based on exact matches to predefined thresholds
+// Determine column shifts based on predefined thresholds
 function getColumnShifts(rollTotal) {
   const thresholds = {
     13: 1,
