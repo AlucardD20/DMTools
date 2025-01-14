@@ -47,7 +47,7 @@ function calculateColumnShifts(rollTotal, thresholds) {
     if (rollTotal >= threshold) {
       shifts++;
     } else {
-      break; // Stop counting once we don't meet a threshold
+      break; // Stop counting once the roll doesn't meet or exceed a threshold
     }
   }
   return shifts;
