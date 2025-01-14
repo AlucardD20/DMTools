@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legendary Weapon Names</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #result {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 60%;
+            background-color: #2e2e2e;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Legendary Weapon Name Picker</h1>
+    <button onclick="pickRandomName()">Pick a Legendary Name</button>
+    <div id="result">Click the button to reveal a legendary weapon name.</div>
+
+    <script>
+        const weaponNames = [
+            "Shadowfang",
+            "Lightbringer",
+            "Doomspire",
+            "Wraithrend",
+            "Frostmourne",
+            "Emberheart",
+            "Soulpiercer",
+            "Voidcall",
+            "Stormbreaker",
+            "Nightbane",
+            "Dragon’s Breath",
+            "Celestial Edge",
+            "Duskshard",
+            "Ironcry",
+            "Bloodsong",
+            "Shatterfell",
+            "Silent Whisper",
+            "Starforge",
+            "Venomthorn",
+            "Blightspire",
+            "Darklight",
+            "Moonhowl",
+            "Ashenveil",
+            "Thundercry",
+            "Obsidian Fang",
+            "Pyrestar",
+            "Eclipsed Fang",
+            "Nethervein",
+            "Solstice",
+            "Specterbrand",
+            "Emberveil",
+            "Voidfang",
+            "Starbinder",
+            "Bloodveil",
+            "Ghostsong",
+            "Wrathcaller",
+            "Dawnfire",
+            "Lamentspire",
+            "Eternal Fang",
+            "Crimson Brand",
+            "Phantomheart",
+            "Nightshard",
+            "Blackstar",
+            "Stormveil",
+            "Twilight’s Embrace",
+            "Celestine",
+            "Frostveil",
+            "Soulforge",
+            "Dreadspire",
+            "Lifebinder",
+            "Abyssbrand",
+            "Flameheart",
+            "Skyshard",
+            "Runeveil",
+            "Echofang",
+            "Shadowspire",
+            "Venomwrath",
+            "Glimmerveil",
+            "Ghostfang",
+            "Darkveil",
+            "Thornspire",
+            "Soulveil",
+            "Embercall",
+            "Warpshard",
+            "Ironveil",
+            "Blazefang",
+            "Doomveil",
+            "Frostcry",
+            "Sunpiercer",
+            "Ethereal Star",
+            "Venomshadow",
+            "Voidspire",
+            "Soulshard",
+            "Eternal Flame",
+            "Spectral Cry",
+            "Moonveil",
+            "Bloodforge",
+            "Shadowrend",
+            "Dreampiercer",
+            "Obsidian Veil",
+            "Runeheart",
+            "Ashfang",
+            "Voidbane",
+            "Starlight",
+            "Withershard",
+            "Dreadsong",
+            "Firesoul",
+            "Shardveil",
+            "Ironbrand",
+            "Netherheart",
+            "Spiritveil",
+            "Wrathfang",
+            "Thunderbrand",
+            "Embercry",
+            "Shatterveil",
+            "Crimsonsong",
+            "Ghostveil",
+            "Abyssshard",
+            "Nightheart",
+            "Lumina"
+        ];
+
+        function pickRandomName() {
+            const randomIndex = Math.floor(Math.random() * weaponNames.length);
+            document.getElementById("result").textContent = weaponNames[randomIndex];
+        }
+    </script>
+</body>
+</html>

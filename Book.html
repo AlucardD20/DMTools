@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Book Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #result {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 60%;
+            background-color: #2e2e2e;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Book Generator</h1>
+    <button onclick="generateBook()">Generate Random Book</button>
+    <div id="result">Click the button to reveal a randomly generated book.</div>
+
+    <script>
+        const itemTypes = ["Doctrine", "Grimoire", "Manual", "Tome", "Codex", "Journal", "Ledger", "Compendium"];
+        const adjectives = ["Revered", "Forbidden", "Ancient", "Arcane", "Sacred", "Cursed", "Mysterious", "Divine"];
+        const nouns = ["Demands", "Teachings", "Chronicles", "Secrets", "Shadows", "Virtues", "Rituals", "Oaths"];
+        const themes = ["Elves", "Dwarves", "Dragons", "Pantheon", "Necromancy", "Light", "Abyss", "Wizards"];
+        const topics = ["(Elven religion and pantheon)", "(Necromantic rites)", "(Battle strategies of the Orcs)", "(Celestial magic)", "(Dwarven craftsmanship)", "(Forgotten lore of the Ancients)"];
+        const conditions = ["Pristine", "Slightly damaged", "Leafed through", "Heavily worn", "Enchanted"];
+        const languages = ["Common", "Draconic", "Elvish", "Abyssal", "Celestial", "Infernal"];
+        const specialNotes = [
+            "Contains a hidden map",
+            "Whispers faintly when opened",
+            "Glows under moonlight",
+            "Pages turn on their own",
+            "Bound with silver thread",
+            "Sealed with a magical lock"
+        ];
+
+        function randomElement(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function generateBook() {
+            const itemType = randomElement(itemTypes);
+            const title = `${randomElement(adjectives)} ${randomElement(nouns)} of the ${randomElement(themes)}`;
+            const topic = randomElement(topics);
+            const condition = randomElement(conditions);
+            const language = randomElement(languages);
+            const specialNote = randomElement(specialNotes);
+            const value = Math.floor(Math.random() * 96) + 5; // 5-100 gp
+            const pages = Math.floor(Math.random() * 901) + 100; // 100-1000 pages
+
+            const resultHTML = `
+                <p>You find a ${itemType.toLowerCase()} entitled <strong>${title}</strong> ${topic}.</p>
+                <p>This book is ${condition.toLowerCase()}. It is written in ${language}.</p>
+                <p>${specialNote}.</p>
+                <p>This book is worth <strong>${value} gp</strong> and has <strong>${pages} pages</strong>.</p>
+            `;
+
+            document.getElementById("result").innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>
