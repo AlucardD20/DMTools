@@ -66,7 +66,8 @@
             Desert: ["Desert", "Plain", "Scrub", "Forest", "Rough", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
             Hills: ["Hills", "Plain", "Scrub", "Forest", "Rough", "Desert", "Mountains", "Marsh", "Pond", "Mountains"],
             Mountains: ["Mountains", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Marsh", "Pond", "Mountains"],
-            Marsh: ["Marsh", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Pond", "Mountains"]
+            Marsh: ["Marsh", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Pond", "Mountains"],
+            Pond: ["Plain"] // Redirect Pond back to Plain
         };
 
         const settlementTypes = [
@@ -125,6 +126,8 @@
                 // Update current column
                 if (newTerrain !== "Invalid Terrain") {
                     currentColumn = newTerrain.split(" (")[0]; // Exclude depression type for column update
+                } else {
+                    currentColumn = "Plain"; // Default to Plain if terrain is invalid
                 }
             } catch (error) {
                 console.error("Error generating hex:", error);
