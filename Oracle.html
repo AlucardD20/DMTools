@@ -46,6 +46,9 @@
 </head>
 <body>
     <h1>One-Page Mythic Oracle</h1>
+    <p style="margin: 20px auto; padding: 10px; border: 1px solid #ccc; border-radius: 10px; background-color: #2e2e2e; text-align: center; width: 80%;">
+        This is a solo oracle page. Please enter your question, select your odds, and click 'Ask the Oracle.' Doubles will be auto-interpreted as events. You can download the logs when you are done. Once you leave the page or refresh it, the log is cleared.
+    </p>
     <div class="container">
         <label for="question">Question:</label>
         <input type="text" id="question" placeholder="Type your question here..."><br>
@@ -68,6 +71,9 @@
 
     <script>
         const log = [];
+        window.addEventListener('beforeunload', () => {
+            document.getElementById("question").value = "";
+        });
 
         const actionTable = ["Attack", "Defend", "Heal", "Steal", "Bargain", "Build", "Break", "Guide", "Search", "Rescue", "Transform", "Control", "Destroy", "Unite", "Move", "Create", "Discover", "Protect", "Explore", "Investigate"];
         const descriptionTable = ["Beautiful", "Dangerous", "Hidden", "Powerful", "Mysterious", "Fragile", "Enigmatic", "Bright", "Dark", "Frightening", "Peaceful", "Chaotic", "Ancient", "Sacred", "Cursed", "Valuable", "Strange", "Massive", "Small", "Ethereal"];
@@ -77,6 +83,7 @@
         }
 
         function askOracle() {
+            const questionInput = document.getElementById("question");
             const odds = document.getElementById("odds").value.split("-");
             const roll = rollDice(100);
             const question = document.getElementById("question").value;
@@ -100,6 +107,7 @@
             }
 
             addToLog(`Question: ${question} | Roll: ${roll} | Result: ${result}`);
+            questionInput.value = "";
         }
 
         function rollActionDescription() {
