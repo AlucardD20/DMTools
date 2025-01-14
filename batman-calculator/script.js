@@ -54,13 +54,12 @@ function getColumnShifts(rollTotal) {
     { value: 40, shift: 9 },
   ];
 
-  // Find the largest threshold less than or equal to the roll total
-  let columnShift = 0; // Default to 0 if no thresholds are exceeded
+  let columnShift = 0;
   for (const threshold of thresholds) {
     if (rollTotal >= threshold.value) {
-      columnShift = threshold.shift; // Update to the closest valid threshold
+      columnShift = threshold.shift;
     } else {
-      break; // Stop checking once the roll total doesn't meet a threshold
+      break;
     }
   }
   return columnShift;
@@ -88,7 +87,6 @@ document.getElementById("rollDice").addEventListener("click", function () {
   const { total, rolls } = rollDice();
   const columnShifts = getColumnShifts(total);
 
-  // Determine success or failure
   const success = total >= chartValue;
 
   document.getElementById("result").innerHTML = `
