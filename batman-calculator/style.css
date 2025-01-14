@@ -49,3 +49,17 @@ select {
   margin-top: 20px;
   font-size: 18px;
 }
+
+/* Add this part to the bottom */
+.reference-chart {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.reference-chart img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #ffd700;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
