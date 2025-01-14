@@ -47,6 +47,8 @@
 <body>
     <h1>One-Page Mythic Oracle</h1>
     <div class="container">
+        <label for="question">Question:</label>
+        <input type="text" id="question" placeholder="Type your question here..."><br>
         <label for="odds">Select Odds:</label>
         <select id="odds">
             <option value="1-19">Impossible</option>
@@ -77,6 +79,7 @@
         function askOracle() {
             const odds = document.getElementById("odds").value.split("-");
             const roll = rollDice(100);
+            const question = document.getElementById("question").value;
             let result = "";
             
             if (roll <= odds[0]) {
@@ -96,7 +99,7 @@
                 result += ` (Action: ${action}, Description: ${description})`;
             }
 
-            addToLog(`Roll: ${roll} | Result: ${result}`);
+            addToLog(`Question: ${question} | Roll: ${roll} | Result: ${result}`);
         }
 
         function rollActionDescription() {
