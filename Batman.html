@@ -109,6 +109,40 @@
         <br>
         <button onclick="rollDice()">Roll Dice</button>
         <button onclick="downloadLog()">Download Log</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <div>
+                <label for="effectValue">Effect Value:</label>
+                <select id="effectValue">
+                    <option value="">Select...</option>
+                    <option value="1">1-2</option>
+                    <option value="3">3-4</option>
+                    <option value="5">5-6</option>
+                    <option value="7">7-8</option>
+                    <option value="9">9-10</option>
+                    <option value="11">11-12</option>
+                    <option value="13">13-15</option>
+                    <option value="16">16-18</option>
+                    <option value="19">19-20</option>
+                    <option value="21">21-24</option>
+                </select>
+            </div>
+            <div>
+                <label for="resistanceValue">Resistance Value:</label>
+                <select id="resistanceValue">
+                    <option value="">Select...</option>
+                    <option value="1">1-2</option>
+                    <option value="3">3-4</option>
+                    <option value="5">5-6</option>
+                    <option value="7">7-8</option>
+                    <option value="9">9-10</option>
+                    <option value="11">11-12</option>
+                    <option value="13">13-15</option>
+                    <option value="16">16-18</option>
+                    <option value="19">19-20</option>
+                    <option value="21">21-24</option>
+                </select>
+            </div>
+        </div>
         <table id="resultsTable" style="margin: 20px auto; width: 80%; max-width: 800px; border-collapse: collapse; text-align: center;">
             <thead>
                 <tr>
