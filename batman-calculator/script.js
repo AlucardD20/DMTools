@@ -62,7 +62,7 @@ document.getElementById("rollDice").addEventListener("click", function () {
   const { total, rolls } = rollDice();
   const columnShifts = Math.max(0, Math.floor((total - 11) / 2)); // 11+ counts as shifts
 
-  // Compare the original columnIndex with the chart value
+  // Compare total roll with the chart value
   const success = total >= chartValue;
 
   document.getElementById("result").innerHTML = `
