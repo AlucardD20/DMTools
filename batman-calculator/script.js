@@ -80,7 +80,7 @@ document.getElementById("rollDice").addEventListener("click", function () {
   document.getElementById("result").innerHTML = `
     <p>Dice Rolls: ${rolls.join(", ")}</p>
     <p>Total Roll: ${total}</p>
-    <p>Column Shifts (Exact Matches Only): ${columnShifts}</p>
+    <p>Column Shifts (After 11, Exact Matches Only): ${columnShifts}</p>
     <p>Result: ${success ? "Success" : "Failure"}</p>
   `;
 });
