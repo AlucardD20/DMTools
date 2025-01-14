@@ -54,33 +54,29 @@
         <select id="actingValue">
             <option value="">Select...</option>
             <option value="1">1-2</option>
-            <option value="2">3-4</option>
-            <option value="3">4-5</option>
-            <option value="4">5-6</option>
-            <option value="5">7-8</option>
-            <option value="6">9-10</option>
-            <option value="7">11-12</option>
-            <option value="8">13-15</option>
-            <option value="9">16-18</option>
-            <option value="10">19-21</option>
-            <option value="10">22-24</option>
-            <!-- Add more values as needed -->
+            <option value="3">3-4</option>
+            <option value="5">5-6</option>
+            <option value="7">7-8</option>
+            <option value="9">9-10</option>
+            <option value="11">11-12</option>
+            <option value="13">13-15</option>
+            <option value="16">16-18</option>
+            <option value="19">19-21</option>
+            <option value="22">22-24</option>
         </select>
         <label for="opposingValue">Opposing Value:</label>
         <select id="opposingValue">
             <option value="">Select...</option>
-             <option value="1">1-2</option>
-            <option value="2">3-4</option>
-            <option value="3">4-5</option>
-            <option value="4">5-6</option>
-            <option value="5">7-8</option>
-            <option value="6">9-10</option>
-            <option value="7">11-12</option>
-            <option value="8">13-15</option>
-            <option value="9">16-18</option>
-            <option value="10">19-21</option>
-            <option value="10">22-24</option>
-            <!-- Add more values as needed -->
+            <option value="1">1-2</option>
+            <option value="3">3-4</option>
+            <option value="5">5-6</option>
+            <option value="7">7-8</option>
+            <option value="9">9-10</option>
+            <option value="11">11-12</option>
+            <option value="13">13-15</option>
+            <option value="16">16-18</option>
+            <option value="19">19-21</option>
+            <option value="22">22-24</option>
         </select>
         <br>
         <button onclick="rollDice()">Roll Dice</button>
@@ -92,13 +88,103 @@
         const log = [];
 
         function rollDice() {
-            const actingValue = parseInt(document.getElementById("actingValue").value);
-            const opposingValue = parseInt(document.getElementById("opposingValue").value);
+    const actingValue = parseInt(document.getElementById("actingValue").value);
+    const opposingValue = parseInt(document.getElementById("opposingValue").value);
 
-            if (isNaN(actingValue) || isNaN(opposingValue)) {
-                alert("Please select both Acting and Opposing values.");
-                return;
-            }
+    if (isNaN(actingValue) || isNaN(opposingValue)) {
+        alert("Please select both Acting and Opposing values.");
+        return;
+    }
+
+    // Define action table thresholds
+    const actionTable = [11, 13, 15, 17, 19, 21, 23, 25]; // Example chart ranges
+
+    let rollTotal = 0;
+    let rolls = [];
+    let isDoubles = false;
+
+    do {
+        const die1 = Math.floor(Math.random() * 10) + 1;
+        const die2 = Math.floor(Math.random() * 10) + 1;
+        rolls.push(die1 + die2);
+        rollTotal += die1 + die2;
+        isDoubles = die1 === die2 && die1 !== 1;
+    } while (isDoubles);
+
+    const actionValue = rollTotal + actingValue - opposingValue;
+    let columnShifts = 0;
+    let result;
+
+    // Determine column shifts based on the action table
+    for (let i = 0; i < actionTable.length; i++) {
+        if (actionValue >= actionTable[i]) {
+            columnShifts = i; // Match the shift index
+        } else {
+            break;
+        }
+    }
+
+    if (columnShifts === 0 && actionValue < actionTable[0]) {
+        result = "Fail";
+    } else {
+        result = `Success with ${columnShifts} column shift${columnShifts > 1 ? "s" : ""}`;
+    }
+
+    addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Result: ${result}`);
+}
+
+    let rollTotal = 0;
+    let rolls = [];
+    let isDoubles = false;
+
+    do {
+        const die1 = Math.floor(Math.random() * 10) + 1;
+        const die2 = Math.floor(Math.random() * 10) + 1;
+        rolls.push(die1 + die2);
+        rollTotal += die1 + die2;
+        isDoubles = die1 === die2 && die1 !== 1;
+    } while (isDoubles);
+
+    const actionValue = rollTotal + actingValue - opposingValue;
+    let columnShifts = 0;
+    let result;
+
+    // Start column shifts at 13
+    if (actionValue >= 13) {
+        columnShifts = Math.floor((actionValue - 13) / 2) + 1;
+        result = `Success with ${columnShifts} column shift${columnShifts > 1 ? "s" : ""}`;
+    } else {
+        result = "Fail";
+    }
+
+    addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Result: ${result}`);
+}
+
+    let rollTotal = 0;
+    let rolls = [];
+    let isDoubles = false;
+
+    do {
+        const die1 = Math.floor(Math.random() * 10) + 1;
+        const die2 = Math.floor(Math.random() * 10) + 1;
+        rolls.push(die1 + die2);
+        rollTotal += die1 + die2;
+        isDoubles = die1 === die2 && die1 !== 1;
+    } while (isDoubles);
+
+    const actionValue = rollTotal + actingValue - opposingValue;
+    let result;
+    let columnShifts = 0;
+
+    if (actionValue < actionTableBase) {
+        result = "Fail";
+    } else {
+        columnShifts = actionValue - actionTableBase;
+        result = `Success with ${columnShifts} column shift${columnShifts > 1 ? "s" : ""}`;
+    }
+
+    addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Result: ${result}`);
+}
 
             let rollTotal = 0;
             let rolls = [];
@@ -113,9 +199,18 @@
             } while (isDoubles);
 
             const actionValue = rollTotal + actingValue - opposingValue;
+            let result;
+            let columnShifts = 0;
+
+            if (actionValue < actionTableBase) {
+                result = "Fail";
+            } else {
+                columnShifts = Math.max(0, actionValue - actionTableBase);
+                result = `Success with ${columnShifts} column shift${columnShifts > 1 ? 's' : ''}`;
+            }
             const columnShifts = Math.max(0, actionValue - 11);
 
-            addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Column Shifts: ${columnShifts}`);
+            addToLog(`Rolls: ${rolls.join(", ")} | Total: ${rollTotal} | Action Value: ${actionValue} | Result: ${result}`);
         }
 
         function addToLog(entry) {
