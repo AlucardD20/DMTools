@@ -62,12 +62,13 @@
     </div>
 
     <script>
-        // Example Data Pools
+        // Data Pools
         const nationalities = ["American", "British", "French", "German", "Russian", "Italian"];
         const professions = ["Engineer", "Medic", "Sniper", "Pilot", "Infantry", "Mechanic"];
         const ranks = ["Private", "Corporal", "Sergeant", "Lieutenant", "Captain", "Major", "Colonel", "General"];
         const attributes = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
 
+        // Dice Roller
         function rollDice(sides, rolls = 1) {
             let total = 0;
             for (let i = 0; i < rolls; i++) {
@@ -77,33 +78,31 @@
         }
 
         function generateCharacter() {
-            const nationality = nationalities[Math.floor(Math.random() * nationalities.length)];
-            const profession = professions[Math.floor(Math.random() * professions.length)];
-            const rank = ranks[Math.floor(Math.random() * ranks.length)];
+            try {
+                // Generate Character Details
+                const nationality = nationalities[Math.floor(Math.random() * nationalities.length)];
+                const profession = professions[Math.floor(Math.random() * professions.length)];
+                const rank = ranks[Math.floor(Math.random() * ranks.length)];
+                const level = rollDice(6); // Random level from 1 to 6
+                const hitPoints = rollDice(6, level); // 1d6 per level
 
-            const level = rollDice(6); // Random level from 1 to 6
+                // Generate Attributes
+                const stats = attributes.map(attr => `${attr}: ${rollDice(6, 3)}`).join("\n");
 
-            // Hit Points Calculation (1d6 per level)
-            const hitPoints = rollDice(6, level);
+                // Generate Equipment
+                const equipmentPool = [
+                    "Rifle", "Pistol", "Med Kit", "Grenade", "Rations", "Compass", "Map", "Binoculars", 
+                    "Flashlight", "Radio", "Knife", "Ammo Pouch", "Explosives", "Uniform", "Boots"
+                ];
+                const equipment = Array.from({ length: 5 }, () =>
+                    equipmentPool[Math.floor(Math.random() * equipmentPool.length)]
+                ).join(", ");
 
-            // Attributes
-            const stats = attributes.map(attr => `${attr}: ${rollDice(6, 3)}`).join("
-"); // Proper line breaks
+                // Generate Bio
+                const bio = `A ${rank} from ${nationality} serving as a ${profession}. Known for their courage and dedication.`;
 
-            // Equipment Generation
-            const equipmentPool = [
-                "Rifle", "Pistol", "Med Kit", "Grenade", "Rations", "Compass", "Map", "Binoculars", 
-                "Flashlight", "Radio", "Knife", "Ammo Pouch", "Explosives", "Uniform", "Boots"
-            ];
-            const equipment = Array.from({ length: 5 }, () =>
-                equipmentPool[Math.floor(Math.random() * equipmentPool.length)]
-            ).join(", ");
-
-            // Bio
-            const bio = `A ${rank} from ${nationality} serving as a ${profession}. Known for their courage and dedication.`;
-
-            // Output
-            const output = `
+                // Output
+                const output = `
 Character Details:
 ------------------
 Nationality: ${nationality}
@@ -120,9 +119,13 @@ ${equipment}
 
 Bio:
 ${bio}
-            `;
+                `;
 
-            document.getElementById("output").textContent = output;
+                document.getElementById("output").textContent = output;
+            } catch (error) {
+                console.error("An error occurred during generation:", error);
+                alert("Something went wrong. Please try again.");
+            }
         }
     </script>
 </body>
