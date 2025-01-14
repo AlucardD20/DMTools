@@ -40,15 +40,20 @@ function rollDice() {
   return { total, rolls };
 }
 
-// Calculate column shifts based on exact matches (after 11 only)
-function calculateColumnShifts(rollTotal, thresholds) {
-  let shifts = 0;
-  for (const threshold of thresholds) {
-    if (threshold > 11 && rollTotal === threshold) {
-      shifts++; // Count only exact matches after 11
-    }
-  }
-  return shifts;
+// Determine column shifts based on exact matches to predefined thresholds
+function getColumnShifts(rollTotal) {
+  const thresholds = {
+    13: 1,
+    15: 2,
+    18: 3,
+    21: 4,
+    24: 5,
+    28: 6,
+    32: 7,
+    36: 8,
+    40: 9,
+  };
+  return thresholds[rollTotal] || 0; // Return the shift number or 0 if no match
 }
 
 // Main event listener
@@ -71,8 +76,7 @@ document.getElementById("rollDice").addEventListener("click", function () {
 
   const chartValue = row[columnIndex];
   const { total, rolls } = rollDice();
-  const thresholds = row.slice(columnIndex + 1); // Only consider values higher than the current column
-  const columnShifts = calculateColumnShifts(total, thresholds);
+  const columnShifts = getColumnShifts(total);
 
   // Determine success or failure
   const success = total >= chartValue;
@@ -80,7 +84,7 @@ document.getElementById("rollDice").addEventListener("click", function () {
   document.getElementById("result").innerHTML = `
     <p>Dice Rolls: ${rolls.join(", ")}</p>
     <p>Total Roll: ${total}</p>
-    <p>Column Shifts (After 11, Exact Matches Only): ${columnShifts}</p>
+    <p>Column Shifts: ${columnShifts}</p>
     <p>Result: ${success ? "Success" : "Failure"}</p>
   `;
 });
