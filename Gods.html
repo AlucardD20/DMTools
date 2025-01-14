@@ -48,7 +48,60 @@
     <button onclick="location.href='index.html'" style="margin-top: 20px;">Home</button>
 
     <script>
-        const domains = ["War", "Love", "Nature", "Knowledge", "Death", "Trickery", "Protection", "Healing", "Chaos", "Order", "Fire", "Water", "Earth", "Air", "Light", "Darkness", "Time", "Dreams", "Fortune", "Justice"];
+        const names = [
+            "Wrinkled Hipparchos",
+            "Zarvok the Eternal",
+            "Esmira the Gentle",
+            "Kaelith Flamebearer",
+            "Ivoris of the Shimmering Depths",
+            "Thalos the Just",
+            "Lythera of the Verdant Fields",
+            "Orovex, Keeper of Secrets",
+            "Vindral the Stormbringer",
+            "Nymara the Mournful",
+            "Gravarn, Hammer of Souls",
+            "Tirnath the Eternal Flame",
+            "Corivis the Shadowed Wing",
+            "Phoros the Guiding Light",
+            "Ambrin the Hidden",
+            "Delvion of the Whispering Winds",
+            "Feylara of the Blooming Forest",
+            "Xanithar the Boundless",
+            "Merin the Warden",
+            "Zelmaris of the Frozen Star",
+            "Tavrin the Unyielding",
+            "Quorath of the Endless Sands",
+            "Sylaris the Dreamweaver",
+            "Itharion the Watcher",
+            "Morrigal of the Crimson Tide",
+            "Lirindor the Tempest",
+            "Eryndor the Silent",
+            "Valkyra the Radiant",
+            "Fenthil of the Forgotten Realm",
+            "Kelvion the Seeker",
+            "Dorrim of the Forge",
+            "Rynaria the Merciful",
+            "Zovath of the Eternal Night",
+            "Clytheris the Wanderer",
+            "Velorna the Shieldbearer",
+            "Gryndol of the Hollow Mountain",
+            "Ismara the Unseen",
+            "Torvain the Eternal",
+            "Myrrith the Luminous",
+            "Falken of the Moonlit Vale",
+            "Xyvaris the Arbiter",
+            "Lorathis the Serene",
+            "Ervarn of the Golden Sun",
+            "Thrynn the Resolute",
+            "Yveris of the Deep",
+            "Nerys the Veiled",
+            "Pelorath the Flameforged",
+            "Kyveth the Whispering",
+            "Avandra of the Dawning Sky",
+            "Dorneth the Warden"
+        ];
+
+const domains = ["War", "Love", "Nature", "Knowledge", "Death", "Trickery", "Protection", "Healing", "Chaos", "Order", "Fire", "Water", "Earth", "Air", "Light", "Darkness", "Time", "Dreams", "Fortune", "Justice"];
         const alignments = ["Chaotic Good", "Neutral Evil", "Lawful Neutral", "True Neutral", "Chaotic Evil", "Lawful Good", "Neutral Good", "Lawful Evil", "Chaotic Neutral"];
         const appearances = [
             "A radiant figure wielding a golden staff",
@@ -167,6 +220,8 @@
             const commandment = randomElement(commandments);
 
             const resultHTML = `
+                <h2>${randomElement(names)}</h2>
+                <p><em>"${commandment}"</em></p>
                 <p><strong>Domain:</strong> ${domain}</p>
                 <p><strong>Alignment:</strong> ${alignment}</p>
                 <p><strong>Appearance:</strong> ${appearance}</p>
@@ -174,7 +229,6 @@
                 <p><strong>Sacred Artifact:</strong> ${artifact}</p>
                 <p><strong>Holy Animal:</strong> ${holyAnimal}</p>
                 <p><strong>Place of Worship:</strong> ${place}</p>
-                <p><strong>Commandment:</strong> "${commandment}"</p>
             `;
 
             document.getElementById("result").innerHTML = resultHTML;
