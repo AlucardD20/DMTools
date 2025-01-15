@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Dungeon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background-color: #000;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            overflow-y: auto;
+            height: 150px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enhanced Dungeon Generator</h1>
+    <canvas id="dungeonCanvas" width="800" height="800"></canvas>
+    <button onclick="generateDungeon()">Generate Dungeon</button>
+    <div id="output" class="output"></div>
+
+    <script>
+        const canvas = document.getElementById('dungeonCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const gridSize = 80;
+        const cellSize = canvas.width / gridSize;
+
+        const grid = Array.from({ length: gridSize }, () => Array(gridSize).fill('empty'));
+        const rooms = [];
+
+        function createRoom(x, y, width, height) {
+            for (let i = x; i < width + x; i++) {
+                for (let j = y; j < height + y; j++) {
+                    if (i >= 0 && i < gridSize && j >= 0 && j < gridSize) {
+                        grid[i][j] = 'room';
+                    }
+                }
+            }
+            rooms.push({ x, y, width, height });
+        }
+
+        function createCorridor(x1, y1, x2, y2) {
+            let x = x1, y = y1;
+
+            while (x !== x2 || y !== y2) {
+                if (grid[x][y] !== 'room') grid[x][y] = 'corridor'; // Avoid overwriting rooms
+
+                if (x !== x2) x += x < x2 ? 1 : -1;
+                else if (y !== y2) y += y < y2 ? 1 : -1;
+            }
+        }
+
+        function connectRooms(room1, room2) {
+            const x1 = room1.x + Math.floor(room1.width / 2);
+            const y1 = room1.y + Math.floor(room1.height / 2);
+            const x2 = room2.x + Math.floor(room2.width / 2);
+            const y2 = room2.y + Math.floor(room2.height / 2);
+
+            if (!checkCorridorExists(x1, y1, x2, y2)) {
+                createCorridor(x1, y1, x2, y2);
+                addDoor(room1, x1, y1);
+                addDoor(room2, x2, y2);
+            }
+        }
+
+        function checkCorridorExists(x1, y1, x2, y2) {
+            let x = x1, y = y1;
+
+            while (x !== x2 || y !== y2) {
+                if (grid[x][y] === 'corridor') return true;
+
+                if (x !== x2) x += x < x2 ? 1 : -1;
+                else if (y !== y2) y += y < y2 ? 1 : -1;
+            }
+
+            return false;
+        }
+
+        function addDoor(room, x, y) {
+            const doorLocations = [
+                { x: room.x - 1, y: y, orientation: 'vertical' },
+                { x: room.x + room.width, y: y, orientation: 'vertical' },
+                { x: x, y: room.y - 1, orientation: 'horizontal' },
+                { x: x, y: room.y + room.height, orientation: 'horizontal' }
+            ];
+
+            doorLocations.forEach(loc => {
+                if (
+                    loc.x >= 0 && loc.x < gridSize &&
+                    loc.y >= 0 && loc.y < gridSize &&
+                    grid[loc.x][loc.y] === 'corridor'
+                ) {
+                    grid[loc.x][loc.y] = 'door';
+                }
+            });
+        }
+
+        function generateDungeon() {
+            for (let i = 0; i < gridSize; i++) {
+                for (let j = 0; j < gridSize; j++) {
+                    grid[i][j] = 'empty';
+                }
+            }
+            rooms.length = 0;
+
+            const roomCount = Math.floor(Math.random() * 36) + 5; // Generate 5 to 40 rooms
+
+            for (let i = 0; i < roomCount; i++) {
+                let width = Math.floor(Math.random() * 6) + 3;
+                let height = Math.floor(Math.random() * 6) + 3;
+
+                let x = Math.floor(gridSize / 2) + Math.floor((Math.random() - 0.5) * gridSize / 2);
+                let y = Math.floor(gridSize / 2) + Math.floor((Math.random() - 0.5) * gridSize / 2);
+
+                let overlap = false;
+                for (const room of rooms) {
+                    if (
+                        x < room.x + room.width + 1 &&
+                        x + width + 1 > room.x &&
+                        y < room.y + room.height + 1 &&
+                        y + height + 1 > room.y
+                    ) {
+                        overlap = true;
+                        break;
+                    }
+                }
+
+                if (!overlap) {
+                    createRoom(x, y, width, height);
+                }
+            }
+
+            for (let i = 0; i < rooms.length - 1; i++) {
+                connectRooms(rooms[i], rooms[i + 1]);
+            }
+
+            drawGrid();
+            logDungeonDetails();
+        }
+
+        function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let x = 0; x < gridSize; x++) {
+                for (let y = 0; y < gridSize; y++) {
+                    switch (grid[x][y]) {
+                        case 'room':
+                            ctx.fillStyle = '#606060';
+                            break;
+                        case 'corridor':
+                            ctx.fillStyle = '#505050';
+                            break;
+                        case 'door':
+                            ctx.fillStyle = '#804000'; // Brown color for doors
+                            break;
+                        default:
+                            ctx.fillStyle = '#1e1e1e';
+                    }
+                    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                    ctx.strokeStyle = '#555';
+                    ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                }
+            }
+
+            rooms.forEach((room, index) => {
+                const centerX = (room.x + Math.floor(room.width / 2)) * cellSize;
+                const centerY = (room.y + Math.floor(room.height / 2)) * cellSize;
+
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = `${Math.floor(cellSize * 1.2)}px Arial`; // Increased font size
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(`${index + 1}`, centerX, centerY);
+            });
+        }
+
+        function logDungeonDetails() {
+            const output = document.getElementById('output');
+            output.textContent = `Generated ${rooms.length} rooms.
+
+`;
+
+            rooms.forEach((room, index) => {
+                                output.textContent +=
+                    `Room ${index + 1}: Position (${room.x}, ${room.y}), Size (${room.width}x${room.height})\n`;
+            });
+
+            const doors = [];
+            for (let x = 0; x < gridSize; x++) {
+                for (let y = 0; y < gridSize; y++) {
+                    if (grid[x][y] === 'door') {
+                        doors.push({ x, y });
+                    }
+                }
+            }
+
+            output.textContent += `\nDoors: ${doors.length}\n`;
+            doors.forEach((door, idx) => {
+                output.textContent += `Door ${idx + 1}: Position (${door.x}, ${door.y})\n`;
+            });
+        }
+
+        generateDungeon(); // Generate the dungeon on initial load
+    </script>
+</body>
+</html>
+
