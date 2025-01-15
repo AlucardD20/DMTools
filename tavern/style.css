@@ -1,60 +1,59 @@
 body {
-    background-color: #000000; /* Black background */
-    color: #ffffff; /* White text */
     font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #ffffff;
     margin: 0;
-    padding: 20px;
-    text-align: center; /* Center content */
+    padding: 0;
+    text-align: center;
 }
 
-header {
+h1 {
+    margin: 20px 0;
+    font-size: 36px;
+    color: #ff0000; /* Red color for the Tavern name */
+    text-transform: uppercase;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.left-column, .right-column {
+    flex: 1;
+    padding: 10px;
+    max-width: 600px;
+}
+
+.box {
+    background-color: #333333;
     margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    text-align: left;
 }
 
-h1, h2, h3 {
-    color: #ff6347; /* Accent color */
+.box h3 {
+    text-decoration: underline;
+    color: #ffcc00;
 }
 
 button {
-    background-color: #ff6347;
-    color: white;
-    border: none;
     padding: 10px 20px;
     font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 20px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
+    margin: 20px 0;
 }
 
-section {
-    background-color: #1a1a1a; /* Darker box color */
-    margin: 15px auto; /* Add space between sections and center */
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shading */
-    max-width: 800px; /* Limit section width */
+button:hover {
+    background-color: #0056b3;
 }
 
-p, table {
-    text-align: left; /* Align text inside sections to left */
-    margin: 0;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-table, th, td {
-    border: 1px solid #555;
-}
-
-th, td {
-    padding: 10px;
-}
-
-th {
-    background-color: #333;
-    color: #fff;
-}
