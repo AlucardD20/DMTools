@@ -196,6 +196,11 @@ function downloadTavern() {
 }
 
 document.addEventListener("DOMContentLoaded", generateTavern);
+// Existing code in script.js
+// (Other functions, event handlers, etc.)
+
+// Add this at the end
 function goHome() {
     window.location.href = window.location.origin + "/";
 }
+
