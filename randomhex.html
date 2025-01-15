@@ -178,8 +178,10 @@
                 // Update current column
                 currentColumn = newTerrain.split(" (")[0]; // Exclude depression type for column update
             } catch (error) {
-                console.error("Error generating hex:", error);
-                alert("An error occurred. Resetting to Plain.");
+                const output = document.getElementById("output");
+                const errorEntry = `Error: ${error.message}\nResetting to Plain.\n---\n`;
+                logEntries.push(errorEntry);
+                output.textContent += errorEntry;
                 currentColumn = "Plain";
             }
         }
