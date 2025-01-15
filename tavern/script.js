@@ -196,3 +196,6 @@ function downloadTavern() {
 }
 
 document.addEventListener("DOMContentLoaded", generateTavern);
+function goHome() {
+    window.location.href = window.location.origin + "/";
+}
