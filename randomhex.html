@@ -100,8 +100,19 @@
             { range: [71, 100], type: "Character-Types" }
         ];
 
+        let currentColumn = "Plain";
+        let logEntries = [];
+
         function rollDice(sides) {
             return Math.floor(Math.random() * sides) + 1;
+        }
+
+        function getPopulation(range) {
+            if (range.includes("-")) {
+                const [min, max] = range.split("-").map(Number);
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            return range;
         }
 
         function rollForCastleDetails() {
