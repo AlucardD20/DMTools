@@ -201,6 +201,6 @@ document.addEventListener("DOMContentLoaded", generateTavern);
 
 // Add this at the end
 function goHome() {
-    window.location.href = window.location.origin + "/";
+    window.location.href = "https://alucardd20.github.io/DMTools/";
 }
 
