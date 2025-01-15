@@ -47,6 +47,11 @@
             height: 300px;
             margin-top: 20px;
         }
+        .terrain-guide {
+            font-size: 12px;
+            color: #ddd;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -55,6 +60,19 @@
         <button onclick="generateHex()">Generate Hex</button>
         <button onclick="downloadLog()">Download Log</button>
         <div id="output" class="output"></div>
+        <div class="terrain-guide">
+            <strong>Terrain Guide:</strong><br>
+            Plain: tundra, steppe, savanna, prairie, heath, moor, downs, meadow<br>
+            Scrub: brush, veldt, bush, thickets, brackens<br>
+            Forest: woods, jungle, groves and copses (light forest)<br>
+            Rough: bad lands<br>
+            Desert: barrens, waste, flat, snowfield<br>
+            Hills: ridges, bluffs, dunes<br>
+            Mountains: mesas, glacier, tors<br>
+            Marsh: fen, slough, swamp, bog, mire, quagmire, morass<br>
+            Pond: pools, tarn, lake<br>
+            Depression: gorge, rift, valley, canyon
+        </div>
     </div>
 
     <script>
@@ -127,16 +145,17 @@
 
         function generateHex() {
             try {
+                // Check if currentColumn is valid, if not use Plain
+                if (!terrainColumns[currentColumn]) {
+                    currentColumn = "Plain";
+                }
+
                 // Roll for terrain
                 const terrainRoll = rollDice(20);
                 const terrainOptions = terrainColumns[currentColumn];
 
-                if (!terrainOptions || terrainRoll > terrainOptions.length) {
-                    logError("Invalid terrain encountered. Resetting to Plain.");
-                    return;
-                }
-
-                let newTerrain = terrainOptions[terrainRoll - 1];
+                // Check if the roll is within the bounds of the array
+                let newTerrain = terrainOptions[Math.min(terrainRoll - 1, terrainOptions.length - 1)];  // This prevents index out of bounds
 
                 // Redirect rolls for Pond cases to Plain
                 if (
