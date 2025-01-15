@@ -130,9 +130,10 @@
                 // Roll for terrain
                 const terrainRoll = rollDice(20);
                 const terrainOptions = terrainColumns[currentColumn];
+
                 if (!terrainOptions || terrainRoll > terrainOptions.length) {
-                    currentColumn = "Plain";
-                    throw new Error("Invalid terrain encountered. Resetting to Plain.");
+                    logError("Invalid terrain encountered. Resetting to Plain.");
+                    return;
                 }
 
                 let newTerrain = terrainOptions[terrainRoll - 1];
@@ -178,12 +179,16 @@
                 // Update current column
                 currentColumn = newTerrain.split(" (")[0]; // Exclude depression type for column update
             } catch (error) {
-                const output = document.getElementById("output");
-                const errorEntry = `Error: ${error.message}\nResetting to Plain.\n---\n`;
-                logEntries.push(errorEntry);
-                output.textContent += errorEntry;
-                currentColumn = "Plain";
+                logError(`Unexpected error: ${error.message}`);
             }
+        }
+
+        function logError(message) {
+            const output = document.getElementById("output");
+            const errorEntry = `Error: ${message}\nResetting to Plain.\n---\n`;
+            logEntries.push(errorEntry);
+            output.textContent += errorEntry;
+            currentColumn = "Plain";
         }
 
         function downloadLog() {
