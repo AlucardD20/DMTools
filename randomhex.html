@@ -64,9 +64,9 @@
             Forest: ["Forest", "Plain", "Scrub", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
             Rough: ["Rough", "Plain", "Scrub", "Forest", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
             Desert: ["Desert", "Plain", "Scrub", "Forest", "Rough", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
-            Hills: ["Hills", "Plain", "Scrub", "Forest", "Rough", "Desert", "Mountains", "Marsh", "Pond", "Mountains"],
+            Hills: ["Hills", "Plain", "Scrub", "Forest", "Rough", "Desert", "Mountains", "Marsh", "Pond", "Pond"],
             Mountains: ["Mountains", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Marsh", "Pond", "Mountains"],
-            Marsh: ["Marsh", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Pond", "Mountains"],
+            Marsh: ["Marsh", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Pond", "Pond"],
             Pond: ["Plain"] // Redirect Pond back to Plain
         };
 
@@ -82,19 +82,36 @@
             { range: [17, 100], type: "Uninhabited", population: "None" }
         ];
 
-        let currentColumn = "Plain";
-        let logEntries = [];
+        const castleSizeTypes = [
+            { range: [1, 10], type: "Small Shell Keep" },
+            { range: [11, 25], type: "Tower" },
+            { range: [26, 35], type: "Moat House or Friary" },
+            { range: [36, 45], type: "Large Shell Keep" },
+            { range: [46, 65], type: "Small Walled Castle with Keep" },
+            { range: [66, 80], type: "Medium Walled Castle with Keep" },
+            { range: [81, 95], type: "Concentric Castle" },
+            { range: [96, 100], type: "Fortress Complex" }
+        ];
+
+        const castleInhabitants = [
+            { range: [1, 45], type: "Totally Deserted" },
+            { range: [46, 60], type: "Deserted (Monster Therein)" },
+            { range: [61, 70], type: "Humans" },
+            { range: [71, 100], type: "Character-Types" }
+        ];
 
         function rollDice(sides) {
             return Math.floor(Math.random() * sides) + 1;
         }
 
-        function getPopulation(range) {
-            if (range.includes("-")) {
-                const [min, max] = range.split("-").map(Number);
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-            return range;
+        function rollForCastleDetails() {
+            const sizeRoll = rollDice(100);
+            const size = castleSizeTypes.find(s => sizeRoll >= s.range[0] && sizeRoll <= s.range[s.range.length - 1]).type;
+
+            const inhabitantsRoll = rollDice(100);
+            const inhabitants = castleInhabitants.find(i => inhabitantsRoll >= i.range[0] && inhabitantsRoll <= i.range[i.range.length - 1]).type;
+
+            return { size, inhabitants };
         }
 
         function generateHex() {
@@ -103,6 +120,14 @@
                 const terrainRoll = rollDice(20);
                 const terrainOptions = terrainColumns[currentColumn];
                 let newTerrain = terrainOptions && terrainRoll <= terrainOptions.length ? terrainOptions[terrainRoll - 1] : "Invalid Terrain";
+
+                // Redirect rolls for Pond cases to Plain
+                if (
+                    (currentColumn === "Hills" && (terrainRoll === 18 || terrainRoll === 19)) ||
+                    (currentColumn === "Marsh" && (terrainRoll >= 16 && terrainRoll <= 19))
+                ) {
+                    newTerrain = "Plain";
+                }
 
                 // Handle depressions on a roll of 20
                 if (terrainRoll === 20) {
@@ -120,8 +145,14 @@
                 const settlement = settlementTypes.find(s => settlementRoll >= s.range[0] && settlementRoll <= s.range[s.range.length - 1]);
                 const population = settlement.type !== "None" ? getPopulation(settlement.population) : "None";
 
+                let castleDetails = "";
+                if (settlement.type === "Castle") {
+                    const { size, inhabitants } = rollForCastleDetails();
+                    castleDetails = `\nCastle Details: Size - ${size}, Inhabitants - ${inhabitants}`;
+                }
+
                 // Log results
-                const entry = `Current Terrain: ${currentColumn}\nNew Terrain: ${newTerrain}\nSettlement: ${settlement.type}\nPopulation: ${population}\n---\n`;
+                const entry = `Current Terrain: ${currentColumn}\n(New Terrain Roll: ${terrainRoll}) New Terrain: ${newTerrain}\nSettlement: ${settlement.type}\nPopulation: ${population}${castleDetails}\n---\n`;
                 logEntries.push(entry);
 
                 const output = document.getElementById("output");
