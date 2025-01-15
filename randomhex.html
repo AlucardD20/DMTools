@@ -130,7 +130,12 @@
                 // Roll for terrain
                 const terrainRoll = rollDice(20);
                 const terrainOptions = terrainColumns[currentColumn];
-                let newTerrain = terrainOptions && terrainRoll <= terrainOptions.length ? terrainOptions[terrainRoll - 1] : "Invalid Terrain";
+                if (!terrainOptions || terrainRoll > terrainOptions.length) {
+                    currentColumn = "Plain";
+                    throw new Error("Invalid terrain encountered. Resetting to Plain.");
+                }
+
+                let newTerrain = terrainOptions[terrainRoll - 1];
 
                 // Redirect rolls for Pond cases to Plain
                 if (
@@ -171,14 +176,11 @@
                 output.scrollTop = output.scrollHeight; // Automatically scroll to the bottom
 
                 // Update current column
-                if (newTerrain !== "Invalid Terrain") {
-                    currentColumn = newTerrain.split(" (")[0]; // Exclude depression type for column update
-                } else {
-                    currentColumn = "Plain"; // Default to Plain if terrain is invalid
-                }
+                currentColumn = newTerrain.split(" (")[0]; // Exclude depression type for column update
             } catch (error) {
                 console.error("Error generating hex:", error);
-                alert("An error occurred. Please try again.");
+                alert("An error occurred. Resetting to Plain.");
+                currentColumn = "Plain";
             }
         }
 
