@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potion Generator</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Georgia', serif; /* Magical and elegant font */
+            background-color: #1a1a2e; /* Deep navy background */
+            color: #ffffff; /* White text for contrast */
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 20px 0;
+            text-shadow: 2px 2px 6px #6a0dad; /* Purple glow effect */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #252850; /* Dark blue container background */
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); /* Deep shadow */
+            border: 2px solid #6a0dad; /* Purple border */
+        }
+
+        button {
+            margin: 20px;
+            padding: 15px 30px;
+            font-size: 20px;
+            color: #ffffff;
+            background: linear-gradient(45deg, #6a0dad, #8a2be2); /* Gradient button */
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Button shadow */
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.1); /* Slight zoom on hover */
+            background: linear-gradient(45deg, #8a2be2, #d4af37); /* Change gradient on hover */
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #333366; /* Slightly lighter background */
+            border-radius: 10px;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5); /* Inner glow effect */
+            border: 1px solid #8a2be2; /* Light purple border */
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .result h3 {
+            font-size: 24px;
+            color: #d4af37; /* Gold for header */
+            text-shadow: 2px 2px 4px #000000; /* Slight shadow for emphasis */
+            margin-bottom: 10px;
+        }
+
+        .potion-title {
+            text-align: center;
+            font-size: 28px;
+            color: #d4af37; /* Gold text */
+            text-shadow: 2px 2px 6px #6a0dad; /* Purple glow */
+            margin-bottom: 20px;
+        }
+
+        .result p {
+            margin: 8px 0;
+            font-size: 18px;
+        }
+
+        /* Subtle Glow Effect for the Body */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Potion Generator</h1>
+    <div class="container">
+        <button onclick="generatePotion()">Generate Potion</button>
+        <button onclick="location.href='/'" style="margin-top: 20px;">Home</button>
+        <div id="potion-result" class="result"></div>
+    </div>
+    <script>
+        // Random Tables
+        const shapes = ["Orb", "Horn", "Hexagonal", "Spiral Flask", "Cube", "Crescent Moon", "Tear Drop", "Irregular"];
+        const glassConditions = [
+            "Frosted", "Cracked", "Pristine", "Etched with Runes", 
+            "Glowing", "Stained", "Chipped", "Misty"
+        ];
+        const labels = [
+            "Drink Me", "Danger", "Handle With Care", "For Emergencies Only",
+            "Elixir of Eternity", "Potion of the Unknown", "Do Not Shake", "Bottled Chaos"
+        ];
+        const liquidColors = [
+            "Amber", "Crimson", "Ethereal Blue", "Luminous Green",
+            "Dark Purple", "Gold", "Silver", "Rainbow"
+        ];
+        const smells = [
+            "Spicy", "Putrid", "Like Honey", "Rotten Eggs",
+            "Earthy", "Sweet", "Sulfuric", "Metallic"
+        ];
+        const effects = [
+            "Casts a random spell upon drinking.",
+            "Causes the drinker to float for 1 hour.",
+            "Makes the drinker glow in the dark.",
+            "Curses the drinker to hiccup uncontrollably.",
+            "Heals wounds instantly.",
+            "Increases the drinker's strength temporarily.",
+            "Turns the drinker's voice into a loud squawk.",
+            "Reveals invisible objects for 10 minutes.",
+            "Turns the drinker into a small animal for 1 hour.",
+"Grants the ability to understand any language for 10 minutes.",
+"Causes the drinker to speak in rhymes for 24 hours.",
+"Reverses the drinker's age by 5 years.",
+"Projects a random memory from the drinker's past as an illusion.",
+"Summons a harmless swarm of glowing fireflies.",
+"Causes the drinker to become invisible for 5 minutes.",
+"Allows the drinker to see through walls for 10 minutes.",
+"Creates a spectral duplicate of the drinker for 1 hour.",
+"Causes plants to grow rapidly in the drinker's presence.",
+"Grants the drinker night vision for 1 hour.",
+"Reveals hidden magical objects nearby.",
+"Summons a friendly spirit for advice.",
+"Causes the drinker to smell strongly of roses.",
+"Allows the drinker to walk on water for 30 minutes.",
+"Curses the drinker to trip over their own feet.",
+"Emits a loud, echoing laugh each time the drinker speaks.",
+"Grants immunity to poison for 24 hours.",
+"Enables the drinker to breathe underwater for 1 hour.",
+"Causes the drinker's skin to shimmer with iridescent colors."
+        ];
+
+        // Dice Roller
+        function rollDice(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        // Generate Potion
+        function generatePotion() {
+            const shape = shapes[rollDice(shapes.length)];
+            const condition = glassConditions[rollDice(glassConditions.length)];
+            const label = labels[rollDice(labels.length)];
+            const color = liquidColors[rollDice(liquidColors.length)];
+            const smell = smells[rollDice(smells.length)];
+            const effect = effects[rollDice(effects.length)];
+
+            document.getElementById("potion-result").innerHTML = `
+                <h2 class="potion-title">${color} Potion</h2>
+                <p><strong>Shape:</strong> ${shape}</p>
+                <p><strong>Glass Condition:</strong> ${condition}</p>
+                <p><strong>Label:</strong> "${label}"</p>
+                <p><strong>Liquid Color:</strong> ${color}</p>
+                <p><strong>Smell/Taste:</strong> ${smell}</p>
+                <p><strong>Effect:</strong> ${effect}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
