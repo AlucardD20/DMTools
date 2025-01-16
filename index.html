@@ -114,7 +114,23 @@ a:hover {
             return response.text();
         })
         .then(html => {
+            // Insert HTML into the content area
             contentArea.innerHTML = html;
+
+            // Extract and execute scripts from the loaded content
+            const scripts = contentArea.querySelectorAll("script");
+            scripts.forEach(script => {
+                const newScript = document.createElement("script");
+                if (script.src) {
+                    // External script
+                    newScript.src = script.src;
+                } else {
+                    // Inline script
+                    newScript.textContent = script.textContent;
+                }
+                document.body.appendChild(newScript);
+                document.body.removeChild(newScript); // Optional cleanup
+            });
         })
         .catch(error => {
             contentArea.innerHTML = `<p>Error loading page: ${error.message}</p>`;
