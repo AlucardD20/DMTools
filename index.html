@@ -81,16 +81,16 @@ a:hover {
             <h1>Welcome</h1>
             <p>Here is a list of tools for you, if you are a DM who needs something quickly to inspire you or you are playing a solo game and need results fast to keep the flow going!</p>
             <div class="links-container">
-    <a href="Oracle.html">Solo Oracle</a>
-    <a href="Curses.html">Random Curse Picker</a>
-    <a href="Legendary.html">Legendary Weapon Name Picker</a>
-    <a href="Book.html">Random Book Generator</a>
-    <a href="Penances.html">Cleric Penances Generator</a>
-    <a href="Gods.html">Random God Generator</a>
-    <a href="Dungeon.html">Dungeon Room Stocking Generator</a>
-    <a href="scrolls.html">Random Scroll Generator</a>
-    <a href="ring.html">Random Ring Generator</a>
-    <a href="randomhex.html">Random Hex Generator</a>
+    <a href="#" onclick="loadPage('Oracle.html')">Solo Oracle</a>
+    <a href="#" onclick="loadPage('Curses.html')">Random Curse Picker</a>
+    <a href="#" onclick="loadPage('Legendary.html')">Legendary Weapon Name Picker</a>
+    <a href="#" onclick="loadPage('Book.html')">Random Book Generator</a>
+    <a href="#" onclick="loadPage('Penances.html')">Cleric Penances Generator</a>
+    <a href="#" onclick="loadPage('Gods.html')">Random God Generator</a>
+    <a href="#" onclick="loadPage('Dungeon.html')">Dungeon Room Stocking Generator</a>
+    <a href="#" onclick="loadPage('scrolls.html')">Random Scroll Generator</a>
+    <a href="#" onclick="loadPage('ring.html')">Random Ring Generator</a>
+    <a href="#" onclick="loadPage('randomhex.html')">Random Hex Generator</a>
 </div>
             </div>
         </div>
@@ -107,19 +107,19 @@ a:hover {
     <script>
         // Example JavaScript for loading dynamic pages
         function loadPage(page) {
-            const content = document.getElementById("content");
-            fetch(page)
-                .then(response => {
-                    if (!response.ok) throw new Error("Page not found");
-                    return response.text();
-                })
-                .then(html => {
-                    content.innerHTML = html;
-                })
-                .catch(err => {
-                    content.innerHTML = `<p>Error loading page: ${err.message}</p>`;
-                });
-        }
+    const contentArea = document.getElementById("content");
+    fetch(page)
+        .then(response => {
+            if (!response.ok) throw new Error(`Unable to load page: ${page}`);
+            return response.text();
+        })
+        .then(html => {
+            contentArea.innerHTML = html;
+        })
+        .catch(error => {
+            contentArea.innerHTML = `<p>Error loading page: ${error.message}</p>`;
+        });
+}
     </script>
 </body>
 </html>
