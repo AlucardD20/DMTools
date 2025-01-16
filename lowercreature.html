@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lower Planes Creature Generator</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #1a0c0c; /* Deep black-red background */
+            color: #ffffff; /* White text for contrast */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #2e1a1a; /* Dark red container background */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); /* Intense shadow for depth */
+            border: 2px solid #8b0000; /* Blood-red border for the container */
+        }
+
+        /* Header Styling */
+        h1 {
+            text-align: center;
+            color: #ff4500; /* Fiery orange for the main header */
+            font-size: 36px;
+            text-shadow: 3px 3px 6px #000000; /* Glow effect */
+            margin-bottom: 20px;
+        }
+
+        /* Name Display Styling */
+        #name-display {
+            text-align: center;
+            color: #ff4500; /* Fiery orange for demonic effect */
+            font-size: 36px; /* Larger font for emphasis */
+            margin: 20px 0; /* Add spacing around the name */
+            font-weight: bold;
+            text-shadow: 3px 3px 6px #000000; /* Glow effect for text */
+        }
+
+        /* Output Section Styling */
+        .output {
+            background-color: #2e1a1a; /* Dark red background */
+            padding: 15px;
+            border-radius: 5px;
+            color: #ffffff; /* White text for contrast */
+            font-size: 14px;
+            box-shadow: inset 0 0 10px #8b0000; /* Inner red glow for a demonic vibe */
+            margin-top: 20px;
+        }
+
+        .output table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            background-color: #2e1a1a; /* Same background as the container */
+            border: 2px solid #8b0000; /* Matching border */
+        }
+
+        .output th, .output td {
+            padding: 10px;
+            text-align: left;
+            color: #ffffff;
+            font-family: 'Georgia', serif;
+            text-shadow: 1px 1px 2px #8b0000; /* Subtle red glow */
+        }
+
+        .output th {
+            background-color: #8b0000; /* Dark red for header rows */
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .output td {
+            background-color: #4b1e1e; /* Slightly lighter red */
+            font-size: 16px;
+        }
+
+        /* Description Box */
+        .description {
+            font-size: 16px;
+            font-style: italic;
+            line-height: 1.5;
+            border: 2px solid #8b0000;
+            padding: 10px;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #8b0000; /* Blood-red button */
+            color: #ffffff; /* White text */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px #000000; /* Subtle shadow for depth */
+        }
+
+        button:hover {
+            background-color: #ff4500; /* Fiery orange on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lower Planes Creature Generator</h1>
+        <center><div class="section">
+            <button onclick="generateCreature()">Generate Random Creature</button>
+            <button onclick="location.href='/'" style="margin-top: 20px;">Home</button>
+        </div></center>
+        <div id="name-display"></div>
+        <div class="section">
+            <div id="output" class="output">
+                <table id="creatureTable">
+                    <tr><th>Feature</th><th>Description</th></tr>
+                </table>
+            </div>
+            <div id="description" class="description">
+                <p>The creature description will appear here after generation.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Helper Function: Roll Dice
+        function rollDice(sides) {
+            return Math.floor(Math.random() * sides) + 1;
+        }
+
+        // Data Arrays
+        const names = ["Malzorath", "Vexmoth", "Kragulon", "Tharzax", "Grendok"];
+        const descriptors = ["The Scourge of Souls", "The Flame of Torment", "The Dark Whisperer"];
+        const skinTypes = ["furred/smooth", "scaled", "slimy"];
+        const colors = ["bluish", "greenish", "reddish"];
+        const backTypes = ["humped", "spiked", "normal"];
+        const wings = ["bat-like", "bird-like", "insect-like"];
+        const arms = ["human-like", "animal-like", "tentacles"];
+        const hands = ["clawed", "pincered", "taloned"];
+        const legsFeet = ["clawed", "hooved", "taloned"];
+        const specialAttacks = ["ability drain", "spell use", "summon/area"];
+        const specialDefenses = ["acid immunity", "fire immunity", "regeneration"];
+
+        // Generate Creature Function
+        function generateCreature() {
+            const randomName = names[rollDice(names.length) - 1];
+            const randomDescriptor = descriptors[rollDice(descriptors.length) - 1];
+            const name = `${randomName}, ${randomDescriptor}`;
+            document.getElementById("name-display").textContent = name;
+
+            const features = [
+                { feature: "Skin Type", description: skinTypes[rollDice(skinTypes.length) - 1] },
+                { feature: "Color", description: colors[rollDice(colors.length) - 1] },
+                { feature: "Back", description: backTypes[rollDice(backTypes.length) - 1] },
+                { feature: "Wings", description: wings[rollDice(wings.length) - 1] },
+                { feature: "Arms", description: arms[rollDice(arms.length) - 1] },
+                { feature: "Hands", description: hands[rollDice(hands.length) - 1] },
+                { feature: "Legs and Feet", description: legsFeet[rollDice(legsFeet.length) - 1] },
+                { feature: "Special Attack", description: specialAttacks[rollDice(specialAttacks.length) - 1] },
+                { feature: "Special Defense", description: specialDefenses[rollDice(specialDefenses.length) - 1] }
+            ];
+
+            const table = document.getElementById("creatureTable");
+            table.innerHTML = "<tr><th>Feature</th><th>Description</th></tr>";
+            features.forEach(f => {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${f.feature}</td><td>${f.description}</td>`;
+                table.appendChild(row);
+            });
+
+            const description = `This is ${name}. Its skin is ${features[0].description}, with a ${features[1].description} color. 
+            It has a ${features[2].description} back, ${features[3].description} wings, and ${features[4].description} arms. 
+            In combat, it uses ${features[7].description} and is protected by ${features[8].description}.`;
+            document.getElementById("description").textContent = description.trim();
+        }
+    </script>
+</body>
+</html>
