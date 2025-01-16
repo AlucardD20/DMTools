@@ -6,30 +6,28 @@
     <title>Wilderness Terrain Generator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #2e2e2e;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    font-family: Arial, sans-serif;
+    background-color: #2e2e2e;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
 
-        .generator-container {
-            background-color: #444;
-            padding: 10px; /* Reduced padding */
-            border-radius: 8px;
-            width: 500px; /* Reduced width */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+.generator-container {
+    background-color: #444;
+    padding: 10px;
+    border-radius: 8px;
+    width: 90%; /* Adjust width for frames */
+    max-width: 500px;
+    margin: 20px auto; /* Center content even in frames */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
-        button {
-    display: inline-block; /* Buttons inline for side-by-side layout */
-    margin: 5px; /* Smaller spacing between buttons */
-    padding: 8px 12px; /* Compact padding */
-    font-size: 14px; /* Consistent button size */
+button {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
     color: #ffffff;
     background-color: #007BFF;
     border: none;
@@ -41,29 +39,26 @@ button:hover {
     background-color: #0056b3;
 }
 
-.buttons-container {
-    text-align: center; /* Center the buttons */
-    margin-bottom: 10px; /* Add spacing below buttons */
-}
-
 .output {
     font-family: monospace;
     white-space: pre-wrap;
     background-color: #2e2e2e;
-    padding: 8px; /* Compact padding */
+    padding: 8px;
     border-radius: 5px;
     overflow-y: auto;
-    height: 150px; /* Reduced height */
-    margin-top: 10px; /* Adjust margin */
+    height: 150px; /* Adjusted height for frames */
+    margin-top: 10px;
 }
-        .terrain-guide {
-            font-size: 12px;
-            color: #ddd;
-            margin-top: 10px;
-            max-height: 80px; /* Limit height */
-            overflow-y: auto; /* Add scroll if content exceeds height */
-        }
 
+.terrain-guide {
+    font-size: 12px;
+    color: #ddd;
+    margin-top: 10px;
+    max-height: 80px; /* Add a max height */
+    overflow-y: auto;
+    border-top: 1px solid #555; /* Optional separator */
+    padding-top: 5px;
+}
         .buttons-container {
             display: flex;
             justify-content: space-around; /* Align buttons compactly */
