@@ -16,50 +16,65 @@
             align-items: center;
             height: 100vh;
         }
+
         .generator-container {
             background-color: #444;
-            padding: 20px;
+            padding: 10px; /* Reduced padding */
             border-radius: 8px;
-            width: 600px;
+            width: 500px; /* Reduced width */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
         button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
+            display: inline-block; /* Inline for compact layout */
+            margin: 5px; /* Reduced margin */
+            padding: 8px 12px; /* Reduced padding */
+            font-size: 14px; /* Smaller font size */
             color: #ffffff;
             background-color: #007BFF;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         .output {
             font-family: monospace;
             white-space: pre-wrap;
             background-color: #2e2e2e;
-            padding: 10px;
+            padding: 8px; /* Reduced padding */
             border-radius: 5px;
             overflow-y: auto;
-            height: 300px;
-            margin-top: 20px;
+            height: 200px; /* Reduced height */
+            margin-top: 10px; /* Reduced margin */
         }
+
         .terrain-guide {
             font-size: 12px;
             color: #ddd;
             margin-top: 10px;
+            max-height: 80px; /* Limit height */
+            overflow-y: auto; /* Add scroll if content exceeds height */
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: space-around; /* Align buttons compactly */
+            flex-wrap: wrap; /* Allow wrapping for smaller screens */
         }
     </style>
 </head>
 <body>
     <div class="generator-container">
         <h1 style="text-align: center;">Wilderness Terrain Generator</h1>
-        <button onclick="generateHex()">Generate Hex</button>
-        <button onclick="downloadLog()">Download Log</button>
-        <button onclick="location.href='index.html'" style="margin-top: 20px;">Home</button>
+        <div class="buttons-container">
+            <button onclick="generateHex()">Generate Hex</button>
+            <button onclick="downloadLog()">Download Log</button>
+            <button onclick="location.href='index.html'">Home</button>
+        </div>
         <div id="output" class="output"></div>
         <div class="terrain-guide">
             <strong>Terrain Guide:</strong><br>
@@ -75,7 +90,6 @@
             Depression: gorge, rift, valley, canyon
         </div>
     </div>
-
     <script>
         const terrainColumns = {
             Plain: ["Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
