@@ -143,21 +143,36 @@
     <script>
         // Function to Load Pages Dynamically
         function loadPage(event, page) {
-            event.preventDefault(); // Prevent default link behavior
-            const contentArea = document.getElementById("content");
+    event.preventDefault(); // Prevent default link behavior
+    const contentArea = document.getElementById("content");
 
-            fetch(page)
-                .then(response => {
-                    if (!response.ok) throw new Error(`Unable to load page: ${page}`);
-                    return response.text();
-                })
-                .then(html => {
-                    contentArea.innerHTML = html; // Replace content with new page
-                })
-                .catch(error => {
-                    contentArea.innerHTML = `<p>Error loading page: ${error.message}</p>`;
-                });
-        }
+    fetch(page)
+        .then(response => {
+            if (!response.ok) throw new Error(`Unable to load page: ${page}`);
+            return response.text();
+        })
+        .then(html => {
+            contentArea.innerHTML = html; // Replace content with new page
+
+            // Execute any scripts in the loaded content
+            const scripts = contentArea.querySelectorAll("script");
+            scripts.forEach(script => {
+                const newScript = document.createElement("script");
+                if (script.src) {
+                    // External script
+                    newScript.src = script.src;
+                } else {
+                    // Inline script
+                    newScript.textContent = script.textContent;
+                }
+                document.body.appendChild(newScript);
+                document.body.removeChild(newScript); // Optional cleanup
+            });
+        })
+        .catch(error => {
+            contentArea.innerHTML = `<p>Error loading page: ${error.message}</p>`;
+        });
+}
     </script>
 </body>
 </html>
