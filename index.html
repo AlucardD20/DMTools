@@ -4,21 +4,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+        /* General Reset */
+        body, html {
             margin: 0;
             padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Flex Container */
+        .frame-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header */
+        .header {
             background-color: #1e1e1e;
             color: #f5f5f5;
+            text-align: center;
+            padding: 10px 0;
+            height: 100px;
         }
-        h1 {
-            margin-top: 20px;
+
+        .header img {
+            max-height: 100%;
+            width: auto;
         }
-        p {
-            margin: 20px auto;
-            font-size: 18px;
+
+        /* Dynamic Content Area */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            background-color: #2e2e2e;
+            color: #f5f5f5;
+            padding: 20px;
         }
+
+        /* Footer */
+        .footer {
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+            text-align: center;
+            padding: 10px 0;
+            height: 50px;
+        }
+
+        /* Links */
         a {
             display: block;
             margin: 10px 0;
@@ -29,48 +62,63 @@
             border-radius: 5px;
             font-size: 16px;
         }
+
         a:hover {
             background-color: #0056b3;
-        }
-        img {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            margin-top: 10px;
-        }
-        .links-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
-        }
-        .column {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
         }
     </style>
 </head>
 <body>
-    <img src="images/banner.jpg" alt="The Evil Dungeon Master's Campaign Tools">
-    <h1>Welcome</h1>
-    <p style="margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; width: 60%; background-color: #2e2e2e;">
-    Here is a list of tools for you, if you are a DM who needs something quickly to inspire you or you are playing a solo game and need results fast to keep the flow going!</p>
-    <div class="links-container">
-        <div class="column">
-            <a href="Oracle.html">Solo Oracle</a>
-            <a href="Curses.html">Random Curse Picker</a>
-            <a href="Legendary.html">Legendary Weapon Name Picker</a>
-            <a href="Book.html">Random Book Generator</a>
-            <a href="Penances.html">Cleric Penances Generator</a>
+    <div class="frame-container">
+        <!-- Static Header -->
+        <div class="header">
+            <img src="images/banner.jpg" alt="The Evil Dungeon Master's Campaign Tools">
         </div>
-        <div class="column">
-            <a href="Gods.html">Random God Generator</a>
-            <a href="Dungeon.html">Dungeon Room Stocking Generator</a>
-            <a href="scrolls.html">Random Scroll Generator</a>
-            <a href="ring.html">Random Ring Generator</a>
-            <a href="randomhex.html"> Random Hex Generator</a>
+
+        <!-- Dynamic Content Area -->
+        <div class="content" id="content">
+            <h1>Welcome</h1>
+            <p>Here is a list of tools for you, if you are a DM who needs something quickly to inspire you or you are playing a solo game and need results fast to keep the flow going!</p>
+            <div class="links-container">
+                <div class="column">
+                    <a href="Oracle.html">Solo Oracle</a>
+                    <a href="Curses.html">Random Curse Picker</a>
+                    <a href="Legendary.html">Legendary Weapon Name Picker</a>
+                    <a href="Book.html">Random Book Generator</a>
+                    <a href="Penances.html">Cleric Penances Generator</a>
+                </div>
+                <div class="column">
+                    <a href="Gods.html">Random God Generator</a>
+                    <a href="Dungeon.html">Dungeon Room Stocking Generator</a>
+                    <a href="scrolls.html">Random Scroll Generator</a>
+                    <a href="ring.html">Random Ring Generator</a>
+                    <a href="randomhex.html">Random Hex Generator</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Static Footer -->
+        <div class="footer">
+            &copy; 2025 SoloDND.com | All Rights Reserved
         </div>
     </div>
+
+    <script>
+        // Example JavaScript for loading dynamic pages
+        function loadPage(page) {
+            const content = document.getElementById("content");
+            fetch(page)
+                .then(response => {
+                    if (!response.ok) throw new Error("Page not found");
+                    return response.text();
+                })
+                .then(html => {
+                    content.innerHTML = html;
+                })
+                .catch(err => {
+                    content.innerHTML = `<p>Error loading page: ${err.message}</p>`;
+                });
+        }
+    </script>
 </body>
 </html>
