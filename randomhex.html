@@ -26,32 +26,36 @@
         }
 
         button {
-            display: inline-block; /* Inline for compact layout */
-            margin: 5px; /* Reduced margin */
-            padding: 8px 12px; /* Reduced padding */
-            font-size: 14px; /* Smaller font size */
-            color: #ffffff;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    display: inline-block; /* Buttons inline for side-by-side layout */
+    margin: 5px; /* Smaller spacing between buttons */
+    padding: 8px 12px; /* Compact padding */
+    font-size: 14px; /* Consistent button size */
+    color: #ffffff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        button:hover {
-            background-color: #0056b3;
-        }
+button:hover {
+    background-color: #0056b3;
+}
 
-        .output {
-            font-family: monospace;
-            white-space: pre-wrap;
-            background-color: #2e2e2e;
-            padding: 8px; /* Reduced padding */
-            border-radius: 5px;
-            overflow-y: auto;
-            height: 200px; /* Reduced height */
-            margin-top: 10px; /* Reduced margin */
-        }
+.buttons-container {
+    text-align: center; /* Center the buttons */
+    margin-bottom: 10px; /* Add spacing below buttons */
+}
 
+.output {
+    font-family: monospace;
+    white-space: pre-wrap;
+    background-color: #2e2e2e;
+    padding: 8px; /* Compact padding */
+    border-radius: 5px;
+    overflow-y: auto;
+    height: 150px; /* Reduced height */
+    margin-top: 10px; /* Adjust margin */
+}
         .terrain-guide {
             font-size: 12px;
             color: #ddd;
@@ -73,7 +77,7 @@
         <div class="buttons-container">
             <button onclick="generateHex()">Generate Hex</button>
             <button onclick="downloadLog()">Download Log</button>
-            <button onclick="location.href='index.html'">Home</button>
+            <button onclick="location.href='/'">Home</button>
         </div>
         <div id="output" class="output"></div>
         <div class="terrain-guide">
