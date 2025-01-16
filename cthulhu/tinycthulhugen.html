@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiny Cthulhu Investigator Generator</title>
+  <style>
+  /* General Page Styles */
+  body {
+    background-color: #0d1b1e; /* Deep green-black background */
+    color: #d4c39e; /* Aged parchment text color */
+    font-family: "Georgia", serif;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    background-image: url('https://cdn.pixabay.com/photo/2024/01/31/21/08/horror-8544801_960_720.jpg'); /* Replace with a subtle texture */
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
+  /* Container Styles */
+  .container {
+    max-width: 650px;
+    margin: 10px auto;
+    padding: 15px;
+    background: rgba(13, 27, 30, 0.95); /* Dark translucent box */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8); /* Subtle glowing shadow */
+    border: 1px solid #2a4c4d; /* Greenish border */
+  }
+
+  h1 {
+    font-family: "Copperplate", "Georgia", serif;
+    font-size: 1.8em; /* Smaller font size */
+    color: #c6b47d; /* Gold text */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Subtle glow */
+    margin-bottom: 10px;
+  }
+
+  button {
+    background-color: #2a4c4d; /* Dark green button */
+    color: #d4c39e; /* Aged parchment color */
+    border: 1px solid #c6b47d; /* Gold border */
+    padding: 8px 16px; /* Reduced padding */
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px; /* Smaller button text */
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Subtle glow */
+  }
+
+  button:hover {
+    background-color: #c6b47d; /* Gold hover */
+    color: #0d1b1e; /* Dark text on hover */
+  }
+
+  /* Output Styles */
+  .output {
+    margin-top: 15px; /* Reduced top margin */
+    text-align: left;
+    background: rgba(20, 40, 45, 0.9); /* Slightly lighter translucent box */
+    border-radius: 6px; /* Slightly sharper corners */
+    padding: 10px; /* Reduced padding */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7); /* Smaller shadow */
+    border: 1px solid #3b6264; /* Subtle greenish border */
+  }
+
+  p, ul {
+    font-size: 1em; /* Smaller text size */
+    line-height: 1.4em; /* Tighter line spacing */
+    margin: 5px 0; /* Reduced margin */
+  }
+
+  ul {
+    margin: 5px 0 0 15px; /* Reduced indentation */
+    padding: 0;
+  }
+
+  ul li {
+    margin-bottom: 4px; /* Tightened spacing between list items */
+  }
+
+  /* Highlighting Specific Sections */
+  strong {
+    color: #c6b47d; /* Gold for emphasis */
+    font-weight: bold;
+  }
+
+  /* Decorative Font */
+  @import url('https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap');
+  p, ul, button {
+    font-family: "Almendra", Georgia, serif; /* Aged manuscript font */
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tiny Cthulhu Investigator Generator</h1>
+    <button onclick="generateInvestigator()">Generate Investigator</button>
+    <button onclick="downloadInvestigator()">Download as PDF</button>
+    <div class="output" id="output"></div>
+  </div>
+  <script>
+    const archetypes = [
+      { name: "Investigator", bonus: "Select an additional Trait", health: 12, maxCorruption: 6 },
+      { name: "Dilletante", bonus: "Start with an additional $100", health: 10, maxCorruption: 5 },
+      { name: "Explorer", bonus: "Ignore difficult terrain penalties", health: 14, maxCorruption: 4 },
+      { name: "Mystic", bonus: "Gain +1 Corruption Resistance", health: 10, maxCorruption: 8 },
+      { name: "Spiritualist", bonus: "Reroll failed Courage checks once per scene", health: 11, maxCorruption: 7 },
+      { name: "Inventor", bonus: "Start with a unique crafted gadget", health: 12, maxCorruption: 5 },
+      { name: "Soldier", bonus: "Gain +2 to damage with mastered weapons", health: 15, maxCorruption: 4 },
+      { name: "Veteran", bonus: "Gain +1 to all physical checks", health: 14, maxCorruption: 5 }
+    ];
+
+    const maleNames = ["John", "James", "Robert", "Charles", "George", "Frank", "Edward", "Albert", "Henry", "Walter"];
+    const femaleNames = ["Mary", "Helen", "Dorothy", "Margaret", "Ruth", "Mildred", "Elizabeth", "Anna", "Alice", "Florence"];
+    const lastNames = ["Smith", "Johnson", "Brown", "Williams", "Jones", "Miller", "Davis", "Wilson", "Anderson", "Taylor"];
+    const ageGroups = {
+      Teens: [13, 19],
+      "20s": [20, 29],
+      "30s": [30, 39],
+      "40s": [40, 49],
+      "50s": [50, 59],
+      "60s": [60, 69]
+    };
+
+    const trades = [
+  "Farmer",               // Rural/agricultural
+  "Factory Worker",       // Industrial
+  "Railroad Worker",      // Infrastructure
+  "Blacksmith",           // Craftsmanship
+  "Store Clerk",          // Retail
+  "Tailor/Dressmaker",    // Apparel
+  "Baker",                // Food production
+  "Butcher",              // Food preparation
+  "School Teacher",       // Education
+  "Barber",               // Grooming services
+  "Mechanic",             // Automotive/industrial repair
+  "Printer/Typesetter",   // Publishing and printing
+  "Shoemaker/Cobbler",    // Footwear crafting
+  "Carpenter",            // Construction and woodworking
+  "Dock Worker",          // Shipping and freight handling
+  "Librarian",            // Knowledge management
+  "Lawyer",               // Legal profession
+  "Scholar",              // Academic/research
+  "Military Personnel",   // Armed forces
+  "Police Officer"        // Law enforcement
+];
+    const traits = [
+    "Acrobat: Gain Advantage when performing acrobatic tricks such as tumbling, jumping, or climbing.",
+    "Alchemist: Gain Advantage when identifying unknown liquids or mixing potions, elixirs, and poisons.",
+    "Armor Master: Gain 3 extra Hit Points that must be depleted before taking damage while wearing armor.",
+    "Barfighter: Select Improvised Weapons as a Weapon Group; gain an extra Action when using them.",
+    "Beastspeaker: Communicate primitively with animals.",
+    "Berserker: Choose to attack with Disadvantage. If successful, deal +1 damage.",
+    "Blacksmith: Restore 1 Depletion Point to an object once per day by succeeding on a Test with Advantage.",
+    "Brawler: Gain 2d6 for Evade Tests when fighting unarmed.",
+    "Charismatic: Gain Advantage when attempting to convince or influence others.",
+    "Cleave: If you drop an enemy to 0 HP, make another attack with Disadvantage immediately.",
+    "Dark-Fighter: Do not suffer Disadvantage for impaired sight.",
+    "Defender: Take an attack meant for an adjacent ally before Evade Tests are made.",
+    "Diehard: Avoid being reduced to 0 HP once per day, instead staying at 2 HP.",
+    "Drunken Master: While intoxicated, Evade without spending an Action but suffer Disadvantage on precise actions.",
+    "Dungeoneer: Gain Advantage when navigating caves or dungeons and identifying creatures within them.",
+    "Educated: Gain Advantage when checking to see if you know specific information.",
+    "Eidetic Memory: Automatically succeed on Tests to recall information on a roll of 4, 5, or 6.",
+    "Familiar: Linked to a benevolent spirit that appears as an animal and communicates telepathically.",
+    "Fleet of Foot: Gain Advantage when chasing, being chased, or performing foot-speed Tests.",
+    "Healer: Heal a creature for 2 HP as an Action with a successful Test. Cure physical, non-magical ailments.",
+    "Insightful: Gain Advantage on Tests to discern if someone is lying.",
+    "Inured: Start with +2 to Corruption Threshold.",
+    "Lucky: Reroll one Test per session.",
+    "Marksman: With the Focus Action, Ranged attacks succeed on a roll of 3, 4, 5, or 6.",
+    "Martial Artist: Gain proficiency in Unarmed combat. Reroll one failed Unarmed attack or Evade Test daily.",
+    "Nimble Fingers: Gain Advantage on Tests for lockpicking, theft, or sleight-of-hand.",
+    "Opportunist: Attack an enemy who fails to hit you with Disadvantage immediately.",
+    "Perceptive: Gain Advantage when searching for information or hidden things.",
+    "Quartermaster: Reroll Depletion Tests once per day, keeping the second result.",
+    "Quick Shot: Reload and fire a Ranged Weapon in one Action.",
+    "Resolute: Gain Advantage on all Save Tests.",
+    "Shield Bearer: Test 2d6 for Evade Actions while using a shield.",
+    "Shrink: Restore 1 Corruption to an ally once per session with a successful Test.",
+    "Sneaky: Gain Advantage when attempting to hide or sneak.",
+    "Sound Mind: Gain Advantage on Corruption Tests.",
+    "Tome Reader: Read arcane Tomes; succeed on a roll of 4, 5, or 6 to activate their effects.",
+    "Sorcerer: Use magic to subtly affect surroundings or cast Light Ranged attacks.",
+    "Strong: Gain Advantage when performing actions requiring brute strength.",
+    "Survivalist: Gain Advantage when foraging, finding water, or creating shelter.",
+    "Tough: Gain +2 Hit Points.",
+    "Tracker: Gain Advantage when tracking creatures or people in the wilderness.",
+    "Trapmaster: Gain Advantage when creating, disarming, or detecting traps. Save against traps with Advantage.",
+    "Vigilant: Gain Advantage on Initiative Tests.",
+    "Wealthy: Gain Advantage when obtaining gear or items. Reroll Wealth Tests once per session with Disadvantage."
+];
+    const weaponGroups = {
+      "Light Melee": ["Daggers", "Knives", "Short Swords"],
+      "Heavy Melee": ["Axes", "Great Swords", "Warhammers"],
+      "Light Ranged": ["Bows", "Crossbows", "Throwing Knives"],
+      "Heavy Ranged": ["Rifles", "Shotguns", "Pistols"]
+    };
+
+    const beliefs = [
+      "I'll always find a diplomatic solution.",
+      "Money can buy happiness.",
+      "I let my gun do the talking.",
+      "Knowledge is the ultimate power.",
+      "The truth must always be uncovered."
+    ];
+
+    function randomElement(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function randomAge(group) {
+      const [min, max] = ageGroups[group];
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generateInvestigator() {
+      const archetype = randomElement(archetypes);
+      const numTraits = archetype.name === "Investigator" ? 4 : 3;
+      const selectedTraits = [];
+      while (selectedTraits.length < numTraits) {
+        const trait = randomElement(traits);
+        if (!selectedTraits.includes(trait)) selectedTraits.push(trait);
+      }
+
+      const weaponGroup = randomElement(Object.keys(weaponGroups));
+      const masteredWeapon = randomElement(weaponGroups[weaponGroup]);
+
+      const trade = randomElement(trades);
+      const belief = randomElement(beliefs);
+
+      const health = archetype.health;
+      const corruption = `0 / ${archetype.maxCorruption}`;
+
+      const isMale = Math.random() < 0.5;
+      const firstName = isMale ? randomElement(maleNames) : randomElement(femaleNames);
+      const lastName = randomElement(lastNames);
+      const sex = isMale ? "Male" : "Female";
+
+      const age = randomAge(randomElement(Object.keys(ageGroups)));
+
+      const formattedTraits = selectedTraits.map(trait => `<li>${trait}</li>`).join("");
+const background = generateBackground(
+  archetype.name,
+  selectedTraits,
+  trade,
+  belief,
+  age,
+  sex,
+  weaponGroup
+);
+
+const output = `
+  <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+  <p><strong>Sex:</strong> ${sex}</p>
+  <p><strong>Age:</strong> ${age}</p>
+  <p><strong>Archetype:</strong> ${archetype.name} (${archetype.bonus})</p>
+  <p><strong>Health:</strong> ${health}</p>
+  <p><strong>Corruption:</strong> ${corruption}</p>
+  <p><strong>Traits:</strong></p>
+  <ul>${formattedTraits}</ul>
+  <p><strong>Weapon Group:</strong> ${weaponGroup} (Mastered: ${masteredWeapon})</p>
+  <p><strong>Family Trade:</strong> ${trade}</p>
+  <p><strong>Belief:</strong> "${belief}"</p>
+  <p><strong>Background:</strong> ${background}</p>
+  <p><strong>Starting Gear:</strong> Investigator's Kit, $50</p>
+`;
+document.getElementById("output").innerHTML = output;
+    }
+async function downloadInvestigator() {
+  const { jsPDF } = window.jspdf;
+
+  const pdf = new jsPDF({
+    orientation: "portrait",
+    unit: "px",
+    format: "a4"
+  });
+
+  const outputElement = document.getElementById("output");
+
+  // Use html2canvas to take a snapshot of the output element
+  const canvas = await html2canvas(outputElement, { scale: 2 }); // Higher scale for better quality
+  const imgData = canvas.toDataURL("image/png");
+
+  // Calculate dimensions to fit the PDF page
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+  // Add the image to the PDF
+  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+  // Save the PDF
+  pdf.save("Investigator_Profile.pdf");
+}
+function generateBackground(archetype, traits, trade, belief, age, sex, weaponGroup) {
+  const genderPronoun = sex === "Male" ? "He" : "She";
+  const possessivePronoun = sex === "Male" ? "his" : "her";
+
+  // Extract only the trait names
+  const cleanTraits = traits.map(trait => trait.split(":")[0]);
+
+  const backgroundTemplates = [
+    `${genderPronoun} grew up as a ${trade}, learning the value of hard work early in life.`,
+    `As a ${archetype}, ${genderPronoun.toLowerCase()} developed skills in ${cleanTraits[0]} and ${cleanTraits[1]}.`,
+    `Known for ${cleanTraits[2]}, ${genderPronoun.toLowerCase()} often relied on "${belief}" to guide ${possessivePronoun} through difficult situations.`,
+    `In ${possessivePronoun} leisure time, ${genderPronoun.toLowerCase()} trained with ${weaponGroup.toLowerCase()} weapons, becoming a formidable combatant.`
+  ];
+
+  return backgroundTemplates.join(" ");
+}
+
+  </script>
+</body>
+</html>
