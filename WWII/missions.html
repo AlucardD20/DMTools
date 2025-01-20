@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WWII RPG Mission Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1b1b1b;
+            color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .banner {
+            display: block;
+            margin: 0 auto;
+            width: 80%;
+            height: auto;
+            max-height: 500px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #2c2c2c;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #e6e600;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #004080;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background: #0066cc;
+        }
+        .output {
+            padding: 1rem;
+            margin-top: 1rem;
+            background: #3c3c3c;
+            border-radius: 8px;
+        }
+        .scenario-description {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #444;
+            border-left: 4px solid #e6e600;
+        }
+        .reward {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #2e2e2e;
+            border-left: 4px solid #004080;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WWII RPG Mission Generator</h1>
+        <p>Click the button below to generate a mission scenario for your WWII RPG campaign. Obviously, this is a generator, and some things may not work in every situation. Use what you'd like and toss the rest.</p>
+        <button class="button" onclick="generateMission()">Generate Mission</button>
+        <div class="output" id="missionOutput"></div>
+    </div>
+
+    <script>
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function roll1d100() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
+
+        function getReward(roll) {
+            if (roll <= 25) {
+                return "Gain 1 point towards a battlefield promotion. (Track points; a promotion is earned after 5 points.)";
+            } else if (roll <= 99) {
+                return "You have done your country a great service today. Your efforts have been noted by your superior and added to your official record.";
+            } else {
+                return "You receive an immediate battlefield promotion for exemplary service.";
+            }
+        }
+
+        function generateMission() {
+            const missionTypes = ["Intel Recovery", "Rescue Operation", "Sabotage", "Escort", "Assault", "Defensive Hold", "Distraction", "Ambush", "Counter-Sabotage", "Civilians in Crisis", "Espionage"];
+            const locations = ["Railyard", "Dense Forest", "Bombed-Out Town", "Industrial Complex", "Coastal Area", "Mountain Pass", "Swampy Lowlands", "River Crossing", "Urban Center", "Underground Facility", "Airfield"];
+            const objectives = ["Steal critical enemy plans from a locked freight car", "Destroy a strategic target", "Rescue a group of prisoners of war", "Escort a convoy through hostile territory", "Hold a position until reinforcements arrive", "Infiltrate an enemy base"];
+            const secondaryObjectives = ["Sabotage the locomotive to delay enemy reinforcements", "Free captured resistance fighters", "Locate a hidden stash of supplies", "Set up a forward observation point", "Redirect enemy forces using explosives"];
+            const complications = ["Enemy reinforcements arrive sooner than expected", "Adverse weather conditions", "Terrain is hazardous or unstable", "Critical equipment malfunctions", "Civilians complicate the mission"];
+            const dynamicEvents = [
+                "A critical NPC, the resistance informant, goes missing", 
+                "An unexpected ally or rival faction appears", 
+                "Communications with HQ are lost", 
+                "A wild animal disrupts the mission", 
+                "Enemy forces deploy smoke cover, obscuring visibility", 
+                "A nearby explosion creates chaos and changes the terrain", 
+                "Friendly fire incident causes confusion", 
+                "Enemy scouts discover your squad's position", 
+                "An equipment cache is found but may be booby-trapped", 
+                "A sudden storm breaks, complicating the mission further"
+            ];
+
+            const missionType = getRandomElement(missionTypes);
+            const location = getRandomElement(locations);
+            const primaryObjective = getRandomElement(objectives);
+            const secondaryObjective = getRandomElement(secondaryObjectives);
+            const complication = getRandomElement(complications);
+            const dynamicEvent = getRandomElement(dynamicEvents);
+
+            const scenarioDescription = `Your squad is tasked with ${primaryObjective.toLowerCase()} at the ${location.toLowerCase()}. ` +
+                `In addition, you must ${secondaryObjective.toLowerCase()}. However, complications arise: ${complication.toLowerCase()}. ` +
+                `To make matters worse, ${dynamicEvent.toLowerCase()}, forcing your team to adapt on the fly.`;
+
+            const rewardRoll = roll1d100();
+            const reward = getReward(rewardRoll);
+
+            document.getElementById("missionOutput").innerHTML = `
+                <h2>Mission Scenario</h2>
+                <p><strong>Mission Type:</strong> ${missionType}</p>
+                <p><strong>Location:</strong> ${location}</p>
+                <p><strong>Primary Objective:</strong> ${primaryObjective}</p>
+                <p><strong>Secondary Objective:</strong> ${secondaryObjective}</p>
+                <p><strong>Complication:</strong> ${complication}</p>
+                <p><strong>Dynamic Event:</strong> ${dynamicEvent}</p>
+                <div class="scenario-description">
+                    <p><strong>Scenario Description:</strong></p>
+                    <p>${scenarioDescription}</p>
+                </div>
+                <div class="reward">
+                    <p><strong>(Optional) Mission Reward:</strong> ${reward}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
