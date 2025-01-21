@@ -511,6 +511,11 @@ function generateRandomClue() {
 
 // Event listener for the new "Generate Random Clue" button
 document.getElementById('generateClueBtn').addEventListener('click', generateRandomClue);
+// Function to clear the results
+document.getElementById('clearResultsBtn').addEventListener('click', function() {
+    document.getElementById('result-container').innerHTML = ''; // Clears the results
+});
+
 
 // Function to add the result to the results box
 function addResult(resultText) {

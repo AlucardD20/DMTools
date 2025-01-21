@@ -170,6 +170,27 @@ button {
     margin-top: 20px; /* Space above the copyright line */
     text-align: center; /* Center the text */
 }
+/* Clear Results Button */
+#clearResultsBtn {
+    width: 18%;
+    padding: 15px;
+    font-size: 13px;
+    margin-top: 15px;
+    cursor: pointer;
+    background-color: #16a085; /* Dark green background */
+    color: #f2f2f2;
+    border: 2px solid #1abc9c; /* Lighter green border */
+    border-radius: 10px;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+#clearResultsBtn:hover {
+    background-color: #1abc9c; /* Lighter green when hovered */
+    transform: scale(1.1);
+}
 
 #copyright-line a {
     color: #1abc9c; /* Green color for the hyperlink */
