@@ -6,63 +6,64 @@
     <title>Wilderness Terrain Generator</title>
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #2e2e2e;
-    color: #ffffff;
-    margin: 0;
-    padding: 0;
-}
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
 
-.generator-container {
-    background-color: #444;
-    padding: 10px;
-    border-radius: 8px;
-    width: 90%; /* Adjust width for frames */
-    max-width: 500px;
-    margin: 20px auto; /* Center content even in frames */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
+        .generator-container {
+            background-color: #444;
+            padding: 10px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-button {
-    display: inline-block;
-    margin: 5px;
-    padding: 8px 12px;
-    font-size: 14px;
-    color: #ffffff;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        button {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #ffffff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-button:hover {
-    background-color: #0056b3;
-}
+        button:hover {
+            background-color: #0056b3;
+        }
 
-.output {
-    font-family: monospace;
-    white-space: pre-wrap;
-    background-color: #2e2e2e;
-    padding: 8px;
-    border-radius: 5px;
-    overflow-y: auto;
-    height: 200px; /* Adjusted height for frames */
-    margin-top: 10px;
-}
+        .output {
+            font-family: monospace;
+            white-space: pre-wrap;
+            background-color: #2e2e2e;
+            padding: 8px;
+            border-radius: 5px;
+            overflow-y: auto;
+            height: 200px;
+            margin-top: 10px;
+        }
 
-.terrain-guide {
-    font-size: 12px;
-    color: #ddd;
-    margin-top: 10px;
-    max-height: 180px; /* Add a max height */
-    overflow-y: auto;
-    border-top: 1px solid #555; /* Optional separator */
-    padding-top: 5px;
-}
+        .terrain-guide {
+            font-size: 12px;
+            color: #ddd;
+            margin-top: 10px;
+            max-height: 180px;
+            overflow-y: auto;
+            border-top: 1px solid #555;
+            padding-top: 5px;
+        }
+
         .buttons-container {
             display: flex;
-            justify-content: space-around; /* Align buttons compactly */
-            flex-wrap: wrap; /* Allow wrapping for smaller screens */
+            justify-content: space-around;
+            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -91,15 +92,15 @@ button:hover {
     </div>
     <script>
         const terrainColumns = {
-            Plain: ["Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
-            Scrub: ["Scrub", "Plain", "Forest", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
-            Forest: ["Forest", "Plain", "Scrub", "Rough", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
-            Rough: ["Rough", "Plain", "Scrub", "Forest", "Desert", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
-            Desert: ["Desert", "Plain", "Scrub", "Forest", "Rough", "Hills", "Mountains", "Marsh", "Pond", "Mountains"],
-            Hills: ["Hills", "Plain", "Scrub", "Forest", "Rough", "Desert", "Mountains", "Marsh", "Pond", "Pond"],
-            Mountains: ["Mountains", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Marsh", "Pond", "Mountains"],
-            Marsh: ["Marsh", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Pond", "Pond"],
-            Pond: ["Plain"] // Redirect Pond back to Plain
+            Plain: ["Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Marsh", "Pond", "Mountains"],
+            Scrub: ["Scrub", "Plain", "Forest", "Rough", "Desert", "Hills", "Marsh", "Pond", "Mountains"],
+            Forest: ["Forest", "Plain", "Scrub", "Rough", "Desert", "Hills", "Marsh", "Pond", "Mountains"],
+            Rough: ["Rough", "Plain", "Scrub", "Forest", "Desert", "Hills", "Marsh", "Pond", "Mountains"],
+            Desert: ["Desert", "Plain", "Scrub", "Forest", "Rough", "Hills", "Marsh", "Pond", "Mountains"],
+            Hills: ["Hills", "Plain", "Scrub", "Forest", "Rough", "Desert", "Marsh", "Pond", "Mountains"],
+            Mountains: ["Mountains", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Marsh", "Pond"],
+            Marsh: ["Marsh", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Mountains", "Pond"],
+            Pond: ["Pond", "Plain", "Scrub", "Forest", "Rough", "Desert", "Hills", "Marsh", "Mountains"],
         };
 
         const settlementTypes = [
@@ -112,24 +113,6 @@ button:hover {
             { range: [12], type: "Castle", population: "Varies" },
             { range: [13, 16], type: "Ruins", population: "None" },
             { range: [17, 100], type: "Uninhabited", population: "None" }
-        ];
-
-        const castleSizeTypes = [
-            { range: [1, 10], type: "Small Shell Keep" },
-            { range: [11, 25], type: "Tower" },
-            { range: [26, 35], type: "Moat House or Friary" },
-            { range: [36, 45], type: "Large Shell Keep" },
-            { range: [46, 65], type: "Small Walled Castle with Keep" },
-            { range: [66, 80], type: "Medium Walled Castle with Keep" },
-            { range: [81, 95], type: "Concentric Castle" },
-            { range: [96, 100], type: "Fortress Complex" }
-        ];
-
-        const castleInhabitants = [
-            { range: [1, 45], type: "Totally Deserted" },
-            { range: [46, 60], type: "Deserted (Monster Therein)" },
-            { range: [61, 70], type: "Humans" },
-            { range: [71, 100], type: "Character-Types" }
         ];
 
         let currentColumn = "Plain";
@@ -147,16 +130,6 @@ button:hover {
             return range;
         }
 
-        function rollForCastleDetails() {
-            const sizeRoll = rollDice(100);
-            const size = castleSizeTypes.find(s => sizeRoll >= s.range[0] && sizeRoll <= s.range[s.range.length - 1]).type;
-
-            const inhabitantsRoll = rollDice(100);
-            const inhabitants = castleInhabitants.find(i => inhabitantsRoll >= i.range[0] && inhabitantsRoll <= i.range[i.range.length - 1]).type;
-
-            return { size, inhabitants };
-        }
-
         function generateHex() {
             try {
                 // Check if currentColumn is valid, if not use Plain
@@ -168,16 +141,9 @@ button:hover {
                 const terrainRoll = rollDice(20);
                 const terrainOptions = terrainColumns[currentColumn];
 
-                // Check if the roll is within the bounds of the array
-                let newTerrain = terrainOptions[Math.min(terrainRoll - 1, terrainOptions.length - 1)];  // This prevents index out of bounds
-
-                // Redirect rolls for Pond cases to Plain
-                if (
-                    (currentColumn === "Hills" && (terrainRoll === 18 || terrainRoll === 19)) ||
-                    (currentColumn === "Marsh" && (terrainRoll >= 16 && terrainRoll <= 19))
-                ) {
-                    newTerrain = "Plain";
-                }
+                // Use modulo to make sure terrainRoll stays within bounds of terrainOptions length
+                let terrainIndex = (terrainRoll - 1) % terrainOptions.length;  // This keeps it within bounds
+                let newTerrain = terrainOptions[terrainIndex]; // Select terrain based on the roll
 
                 // Handle depressions on a roll of 20
                 if (terrainRoll === 20) {
@@ -185,24 +151,13 @@ button:hover {
                     newTerrain = `Depression (${depressionTypes[Math.floor(Math.random() * depressionTypes.length)]})`;
                 }
 
-                // Default Pond to Plain
-                if (newTerrain === "Pond") {
-                    newTerrain = "Plain";
-                }
-
                 // Roll for settlement
                 const settlementRoll = rollDice(100);
                 const settlement = settlementTypes.find(s => settlementRoll >= s.range[0] && settlementRoll <= s.range[s.range.length - 1]);
                 const population = settlement.type !== "None" ? getPopulation(settlement.population) : "None";
 
-                let castleDetails = "";
-                if (settlement.type === "Castle") {
-                    const { size, inhabitants } = rollForCastleDetails();
-                    castleDetails = `\nCastle Details: Size - ${size}, Inhabitants - ${inhabitants}`;
-                }
-
                 // Log results
-                const entry = `Current Terrain: ${currentColumn}\n(New Terrain Roll: ${terrainRoll}) New Terrain: ${newTerrain}\nSettlement: ${settlement.type}\nPopulation: ${population}${castleDetails}\n---\n`;
+                const entry = `Current Terrain: ${currentColumn}\nNew Terrain: ${newTerrain}\nSettlement: ${settlement.type}\nPopulation: ${population}\n---\n`;
                 logEntries.push(entry);
 
                 const output = document.getElementById("output");
@@ -211,6 +166,7 @@ button:hover {
 
                 // Update current column
                 currentColumn = newTerrain.split(" (")[0]; // Exclude depression type for column update
+
             } catch (error) {
                 logError(`Unexpected error: ${error.message}`);
             }
