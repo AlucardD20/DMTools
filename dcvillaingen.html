@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Villain Generator</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #2c2c34;
+            color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ff4500;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #3a3a44;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        button {
+            margin: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background-color: #ff6347;
+        }
+
+        .villain {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #444451;
+            border-radius: 10px;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5);
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .villain h2 {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Villain Generator</h1>
+    <div class="container">
+        <button onclick="generateVillain()">Generate Villain</button>
+        <div class="villain" id="villain-display">
+            <h2>Your Villain Will Appear Here</h2>
+        </div>
+    </div>
+
+    <script>
+        const villains = [
+            { name: "Dr. Mirage", description: "A former stage magician who turned to a life of crime after his magic act was cancelled.", powers: "Uses knowledge of illusions and sleight of hand to pull off elaborate heists." },
+            { name: "Lady Lagoon", description: "A former marine biologist who mutated herself into a half-human, half-sea creature.", powers: "Seeks to flood the city to create an underwater paradise and rule as queen of the deep." },
+            { name: "The Techno-Tick", description: "A brilliant inventor who built a giant robotic tick suit.", powers: "Proves his technological prowess and seeks vengeance on a rival inventor." },
+            { name: "The Pinstripe Puzzler", description: "A dapper criminal mastermind who leaves behind elaborate riddles and puzzles.", powers: "Challenges the intellect of the city’s citizens while outwitting authorities." },
+            { name: "The Cheshire Cat Burglar", description: "A cunning thief who leaves behind smiley face stickers at robbery sites.", powers: "Plans to pull off the greatest heist in Nightfall Bay’s history." },
+            { name: "Professor Prism", description: "A disgraced scientist who manipulates light and color.", powers: "Creates dazzling illusions and light-based weaponry to showcase his brilliance." },
+            { name: "The Merry Mime", description: "A silent criminal who communicates only through pantomime.", powers: "Acts out elaborate and nonsensical crimes with masterful precision." },
+            { name: "Captain Cackle", description: "A former children's entertainer driven mad by the sound of laughter.", powers: "Seeks to silence all joy and control the city through fear." },
+            { name: "The Disco Inferno", description: "A flamboyant arsonist dressed in 1970s disco fashion.", powers: "Uses pyrotechnic skills to turn the city's nightlife into a fiery dance floor." },
+            { name: "The Cuckoo Clockmaker", description: "A brilliant inventor who creates clockwork contraptions to commit time-themed crimes.", powers: "Seeks to showcase his mastery of precision engineering and time manipulation." },
+            { name: "The Jester of Chaos", description: "A maniacal prankster with whimsical gadgets and confetti bombs.", powers: "Turns orderly routines into a chaotic carnival of laughter and mayhem." },
+            { name: "Madame Mischief", description: "A former fashion designer whose creations were rejected.", powers: "Uses stylish yet deadly garments to create haute couture chaos." },
+            { name: "The Pompous Pirate", description: "A delusional treasure hunter who believes Nightfall Bay holds legendary treasure.", powers: "Causes havoc while searching for riches." },
+            { name: "The Bubblegum Bandit", description: "A sweet-toothed thief armed with sticky, colorful gadgets.", powers: "Turns the city into a candy-coated playground." },
+            { name: "The Cackling Cuckoo", description: "A clockwork-themed villain who disrupts time itself.", powers: "Seeks to merge past, present, and future in chaotic harmony." },
+            { name: "The Carnival Kingpin", description: "A former circus ringmaster who leads a gang of eccentric performers.", powers: "Turns the city into a larger-than-life circus of crime." },
+            { name: "The Sardonic Sideshow Star", description: "A sideshow performer shunned by society.", powers: "Uses her unusual abilities to create a bizarre crime spree." },
+            { name: "The Mischief Maestro", description: "A musical prodigy turned villain.", powers: "Orchestrates chaos with cacophonous gadgets and instruments." },
+            { name: "The Nutty Nautical Navigator", description: "A deranged sailor who believes Nightfall Bay is Atlantis.", powers: "Uses nautical-themed gadgets to submerge the city underwater." },
+            { name: "The Giggling Gasman", description: "A chemist who developed potent laughing gas.", powers: "Spreads joyous chaos with uncontrollable laughter." },
+            { name: "The Retro Robotizer", description: "A mad scientist who created retro-styled robots.", powers: "Proves the superiority of old-fashioned robots over modern tech." },
+            { name: "The Peculiar Puppeteer", description: "A former puppet maker who infuses his creations with dark magic.", powers: "Uses eerie marionettes to spread fear and confusion." },
+            { name: "The Dastardly Dandy", description: "A suave criminal mastermind with a taste for high society.", powers: "Executes grandiose heists and swanky schemes." },
+            { name: "The Quirky Quizmaster", description: "A gameshow host turned villain.", powers: "Challenges the city to solve his devious puzzles." },
+            { name: "The Capering Clown", description: "A circus clown ousted from the spotlight.", powers: "Creates chaos with clownish gadgets and pranks." },
+            { name: "The Eccentric Enigma", description: "A reclusive inventor with elaborate traps.", powers: "Invites citizens to unravel his perplexing puzzles." },
+            { name: "The Soaring Showman", description: "Aerial acrobat using sky vehicles for heists.", powers: "Turns the city's skies into his daring stage." },
+            { name: "The Zany Zoologist", description: "A zookeeper who mutates animals into hybrids.", powers: "Unleashes whimsical and dangerous creatures upon the city." },
+            { name: "The Kooky Conductor", description: "A deranged maestro with hypnotized musicians.", powers: "Orchestrates chaos with discordant symphonies." }
+        ];
+
+        function generateVillain() {
+            const randomIndex = Math.floor(Math.random() * villains.length);
+            const villain = villains[randomIndex];
+
+            const display = `
+                <h2>${villain.name}</h2>
+                <p><strong>Description:</strong> ${villain.description}</p>
+                <p><strong>Powers:</strong> ${villain.powers}</p>
+            `;
+
+            document.getElementById("villain-display").innerHTML = display;
+        }
+    </script>
+</body>
+</html>
