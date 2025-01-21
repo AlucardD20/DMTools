@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lovecraftian Oracle Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h3>Lovecraftian Oracle Generator</h3>
+    
+    <!-- Likelihood Dropdown and Download Button in the same line -->
+    <div id="likelihood-container">
+        <select id="likelihood">
+            <option value="10">Impossible</option>
+            <option value="20">No way</option>
+            <option value="30">Very Unlikely</option>
+            <option value="40">Unlikely</option>
+            <option value="50">50/50 Chance</option>
+            <option value="60">Likely</option>
+            <option value="70">Very Likely</option>
+            <option value="80">Near sure thing</option>
+            <option value="90">A sure thing</option>
+        </select>
+        <button id="downloadBtn">Download Results</button>
+    </div>
+
+    <!-- Button Container for the other buttons (displayed in a row) -->
+    <div id="button-container">
+        <button id="rollEventBtn">Roll for Event</button>
+        <button id="inspirationBtn">Inspiration</button>
+        <button id="pickBookBtn">Pick an Old Book</button>
+        <button id="pickTownBtn">Pick a Town</button>
+        <button id="generatePlotBtn">Generate Plot Hook</button>
+		<button id="generatePersonBtn">Generate Random Name</button>
+		<button id="generateClueBtn">Generate Random Clue</button>
+    </div>
+
+    <!-- Results Box with Scrolling -->
+    <div id="result-container"></div>
+	<!-- Instructions Section -->
+<p id="instructions">Here are the instructions for how to use the Lovecraftian Oracle Generator:</p>
+<p id="instructions-detail">Select a likelihood to roll for events or generate random names, plot hooks, clues, and more! Random Events will happen on "doubles". Use the buttons above to interact with the oracle and discover strange happenings in your Lovecraftian world.</p>
+<p id="copyright-line">© 2025 <a href="https://theevildm.com/s/solo-sorcery" target="_blank">The Evil Dungeon Master</a>. All Rights Reserved.</p>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

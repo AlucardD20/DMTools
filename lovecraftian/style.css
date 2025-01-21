@@ -1,0 +1,185 @@
+body {
+    font-family: 'Georgia', serif;
+    background-color: #0d0d0d;
+    color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.6;
+    background-image: url('https://www.w3schools.com/w3images/space.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+h1 {
+    color: #1abc9c; /* Green color */
+    font-size: 40px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 30px 0;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.container {
+    background-color: #232323;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+}
+
+button {
+    width: 18%;
+    padding: 15px;
+    font-size: 13px;
+    margin-top: 15px;
+    cursor: pointer;
+    background-color: #16a085; /* Dark green background */
+    color: #f2f2f2;
+    border: 2px solid #1abc9c; /* Lighter green border */
+    border-radius: 10px;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+button:hover {
+    background-color: #1abc9c; /* Lighter green when hovered */
+    transform: scale(1.1);
+}
+
+/* Layout for the Likelihood dropdown and Download button */
+#likelihood-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 60%; /* Adjusted width for the container */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Styling for the select dropdown */
+select {
+    width: 40%; /* Reduced the width of the dropdown */
+    padding: 10px;
+    font-size: 16px;
+    background-color: #34495e;
+    color: #f2f2f2;
+    border: 2px solid #1abc9c; /* Green border matching the button */
+    border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Styling for the results container */
+#result-container {
+    margin-top: 30px;
+    font-size: 18px;
+    color: #f2f2f2;
+    max-height: 200px; /* Adjust this height value to match the size you want */
+    overflow-y: auto;  /* Allows scrolling when content overflows */
+    padding: 15px;
+    border: 2px solid #1abc9c; /* Apply the green border */
+    background-color: #1c1c1c;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Styling for the individual result boxes inside the result container */
+.result {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #2c3e50;
+    border-radius: 8px;
+    border: 1px solid #1abc9c; /* Apply the green border instead of purple */
+}
+
+/* Styling for the download button */
+#downloadBtn {
+    width: 40%; /* Set the same width as the dropdown */
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #16a085; /* Dark green background */
+    color: #f2f2f2;
+    border: 2px solid #1abc9c; /* Lighter green border */
+    border-radius: 8px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#downloadBtn:hover {
+    background-color: #1abc9c; /* Lighter green when hovered */
+    transform: scale(1.1);
+}
+
+/* Layout for the button container */
+#button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Ensures buttons are properly spaced */
+button {
+    width: 18%;
+    padding: 15px;
+    font-size: 13px;
+    margin-top: 15px;
+    cursor: pointer;
+    background-color: #16a085; /* Dark green background */
+    color: #f2f2f2;
+    border: 2px solid #1abc9c; /* Lighter green border */
+    border-radius: 10px;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Styling for instructions */
+#instructions {
+    font-size: 18px;
+    color: #f2f2f2;
+    margin-top: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+    text-align: center; /* Center only the first line */
+}
+
+#instructions-detail {
+    font-size: 16px;
+    color: #f2f2f2;
+    margin-top: 10px;
+    font-style: italic;
+    text-align: left; /* Align the second line to the left */
+}
+/* Styling for the copyright line */
+#copyright-line {
+    font-size: 10px; /* Smaller font size */
+    color: #f2f2f2; /* Light color for the text */
+    margin-top: 20px; /* Space above the copyright line */
+    text-align: center; /* Center the text */
+}
+
+#copyright-line a {
+    color: #1abc9c; /* Green color for the hyperlink */
+    text-decoration: none; /* Remove underline */
+}
+
+#copyright-line a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+button:hover {
+    background-color: #1abc9c; /* Lighter green when hovered */
+    transform: scale(1.1);
+}
