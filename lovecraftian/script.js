@@ -60,38 +60,158 @@ const subjectChart = [
 
 // Old Book List
 const bookList = [
-    "The Alchemy of Happiness", "Aurora consurgens", "Secret Key of Solomon", "Treatise on the Reintegration of Beings", "The Focus of Life",
-    "Greek Magical Papyri", "A Guide to Grand-Jury Men", "Liber Officiorum Spirituum", "The Book of Lies", "Rosary of Philosophers",
-    "Das Kloster", "Aurea Catena Homeri", "Greek Papyri", "Tripus Aureus", "A Treatise on White Magic", "Liber ignium", "Atalanta Fugiens",
-    "Sigillum Dei Aemeth", "Leyden papyrus X", "Pseudomonarchia Daemonum", "The Hermetic Triumph", "De Alchemia", "Museum Hermeticum",
-    "Steganographia", "Theatrvm Chemicvm", "The Nabataean Agriculture", "Magic: History, Theory, and Practice", "The Red Dragon", "Exorcation texts",
-    "Secreta Secretorum", "Rosarium Philosophorum", "The Book of Mediums", "The Mirror of Alchimy", "Great Book of Magical Charms",
-    "The Kybalion", "Nuremberg Handschrift GNM 3227a", "The Book of Ceremonial Magic", "Grand Albert", "The Discovery of Witchcraft",
-    "Book of Oberon", "The Twelve Keys of Basil Valentine", "Chaldean Oracles", "Arbatel de magia veterum", "Pow-Wows; or, Long Lost Friend",
-    "Corpus Hermeticum", "Book of Magical Charms", "De praestigiis daemonum", "The Golem and its Servants", "Fasciculus Chemicus",
-    "Secretum Secretorum", "The Rosicrucian Cosmo-Conception", "The Triangular Book of St. Germain", "Book of Saint Cyprian", "Biblia de inferno",
-    "Cantilenae Intellectuales de Phoenice Redivivo", "Steganographia", "De nigromancia", "Esoteric Buddhism", "The Geheminis of the Runen",
-    "Magical Treatise of Solomon", "The Most Holy Trinosophia", "Alexandria Codex", "Papyri Graecus Holmiensis", "Sybilline Books",
-    "Senji Ryakketsu", "Theatrvm Chemicvm Britannicvm", "Speculum Philosophiae", "The Golden Chain of Homer", "The Kybalion",
-    "Secreta secretorum", "Das Geheminis des Runen", "The Book of Pleasure: Psychology of Ecstasy", "The Book of Abramelin", "The Philosophers’ Stone",
-    "Tabula Smaragdina", "De Compositione Alchemiae", "Magic: Theory and Practice", "The Grand Grimoire", "The Corpus Hermeticum",
-    "The Book of Lies", "The Secret Teachings of All Ages", "De Clavicvla Salomonis", "Liber ignium ad comburendos hostes", "Atlantis", "The Talmud"
+    "Whispers of the Abyss", 
+    "The Eldritch Codex", 
+    "Terrors from the Deep", 
+    "Chants of the Unspeakable", 
+    "The Nameless Grimoire", 
+    "Shadows Beyond Time", 
+    "The Forgotten Scrolls", 
+    "Echoes of the Infinite", 
+    "The Blasphemous Manuscript", 
+    "Invocation of the Old Ones", 
+    "The Cursed Library", 
+    "Secrets of the Crawling Chaos", 
+    "The Dread Compendium", 
+    "Rituals of the Darkened Moon", 
+    "The Unseen Texts", 
+    "Chronicles of the Elders", 
+    "The Shattered Sigils", 
+    "Veils of the Forgotten", 
+    "The Cryptic Omnibus", 
+    "Psalms of the Unknowable", 
+    "The Abominable Archive", 
+    "Scribbles from the Void", 
+    "The Lost Grimoire of Yuggoth", 
+    "The Grasp of the Shoggoth", 
+    "The Haunting Codex", 
+    "Writings from Beyond the Stars", 
+    "The Forbidden Lore", 
+    "The Ebon Book of Secrets", 
+    "The Lurker's Compendium", 
+    "Mysteries of the Outer Realms", 
+    "The Unholy Anthology", 
+    "The Altar of the Great Old Ones", 
+    "The Eerie Chronicles", 
+    "The Baneful Text", 
+    "The Shroud of the Abyssal", 
+    "The Whispering Pages", 
+    "The Eldritch Archives", 
+    "The Dreaded Tome", 
+    "The Dark Grimoire of R'lyeh", 
+    "The Celestial Convergence", 
+    "The Malignant Codex", 
+    "The Terrors of Nyarlathotep", 
+    "The Forbidden Rites", 
+    "The Unfathomable Ledger", 
+    "The Crypt of the Forgotten", 
+    "The Veil of Shadows", 
+    "The Desolate Chronicles", 
+    "The Grimoire of Shadows", 
+    "Essence of the Abyss", 
+    "The Wailing Manuscript", 
+    "The Eldritch Compendium", 
+    "The Arcane Texts of the Nameless", 
+    "The Sorrowful Grimoire", 
+    "The Timeless Grasp", 
+    "The Secrets of the Deep Ones", 
+    "The Book of Unearthly Horrors", 
+    "The Arcane Altar", 
+    "The Forgotten Texts", 
+    "The Eldritch Incantation", 
+    "The Forsaken Library", 
+    "The Grasp of the Unknown", 
+    "The Cacophony of Madness", 
+    "The Keeper's Tome", 
+    "The Dreamer's Codex", 
+    "The Cyclopean Grimoire", 
+    "Abyssal Whispers", 
+    "The Lost Lore of the Ancients", 
+    "The Tome of Infinite Night", 
+    "The Dread Codex of the Abyss", 
+    "The Wretched Manuscript", 
+    "Chronicles of the Abyss", 
+    "The Unholy Grimoire", 
+    "The Accursed Tome", 
+    "The Whispering Grimoire", 
+    "Legends of the Unspeakable", 
+    "The Veil of the Great Old Ones", 
+    "The Abyssal Text", 
+    "The Tome of Shadows", 
+    "The Gatherings of the Forgotten", 
+    "The Eldritch Rituals", 
+    "The Sinister Codex", 
+    "The Horrors of the Beyond", 
+    "The Book of Dread", 
+    "The Forgotten Rites", 
+    "The Abyssal Archive", 
+    "The Shattered Codex", 
+    "The Dreadful Manuscript", 
+    "The Lamentations of the Old Ones", 
+    "The Secrets of the Abyss", 
+    "The Grimoire of the Lost Ones", 
+    "The Cursed Text", 
+    "The Writings of the Elders", 
+    "The Knowledge of the Forgotten", 
+    "The Sinister Archives", 
+    "The Terrors of the Unknown", 
+    "The Dark Omnibus", 
+    "The Eldritch Text", 
+    "The Haunting Grimoire", 
+    "The Arcane Rites", 
+    "The Forbidden Archive", 
+    "The Lost Codex", 
+    "The Tome of Despair"
 ];
 
-// Function to randomly pick a book
+// Languages for the books
+const languages = [
+    "Latin", "Ancient Greek", "Hebrew", "English", "Aramaic", "Sumerian", "Old Norse", "Arabic", "German", "Duriac"
+];
+
+// Descriptions for the books
+const bookDescriptions = [
+    "A comprehensive guide to ancient alchemical practices and their relation to happiness.",
+    "A mysterious text full of arcane symbols that promises to unlock hidden truths about the cosmos.",
+    "A lost grimoire said to be written by Solomon himself, containing forbidden rituals.",
+    "An obscure treatise on the reintegration of beings, mixing philosophy and mysticism.",
+    "A dense work exploring the fundamental aspects of life, from the philosophical to the metaphysical.",
+    "An ancient papyrus believed to be a collection of magical spells from the Greek world.",
+    "A manual for Grand Jury men, outlining the judicial duties in ancient times with esoteric twists.",
+    "A rare text filled with the confounding secrets of spirit summoning.",
+    "A notorious book said to be the work of the devil himself, filled with cryptic lies.",
+    "A mystical guide to the philosophical and alchemical practices of ancient Rosicrucians."
+    // Add descriptions for each book here.
+];
+
+// Function to randomly pick a book, language, and description
 function pickBook() {
-    // Ensure the bookList is populated and the index is valid
-    if (bookList.length === 0) {
-        addResult("No books available in the list.");
-        return;
-    }
+    // Randomly pick a book, a language, and a description
+    let randomBookIndex = Math.floor(Math.random() * bookList.length);
+    let randomLanguageIndex = Math.floor(Math.random() * languages.length);
+    let randomDescriptionIndex = Math.floor(Math.random() * bookDescriptions.length);
 
-    let randomIndex = Math.floor(Math.random() * bookList.length);
-    let book = bookList[randomIndex];
+    let book = bookList[randomBookIndex];
+    let language = languages[randomLanguageIndex];
+    let description = bookDescriptions[randomDescriptionIndex];
 
-    // Display the selected book
+    // Display the selected book, language, and description
     addResult(`The selected book is: "${book}"`);
+    addResult(`Written in: ${language}`);
+    addResult(`Description: ${description}`);
 }
+
+// Function to add results to the result container
+function addResult(resultText) {
+    const resultContainer = document.getElementById("result-container");
+    const resultDiv = document.createElement("div");
+    resultDiv.classList.add("result");
+    resultDiv.innerHTML = resultText;
+    resultContainer.appendChild(resultDiv);
+    resultContainer.scrollTop = resultContainer.scrollHeight;
+}
+
+
 
 // Function to add the result to the results box
 function addResult(resultText) {
@@ -102,6 +222,8 @@ function addResult(resultText) {
     resultContainer.appendChild(resultDiv);
     resultContainer.scrollTop = resultContainer.scrollHeight;
 }
+
+
 
 // Function to roll for event based on likelihood and event focus
 function rollEvent() {

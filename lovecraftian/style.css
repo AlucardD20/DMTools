@@ -82,7 +82,7 @@ select {
     margin-top: 30px;
     font-size: 18px;
     color: #f2f2f2;
-    max-height: 200px; /* Adjust this height value to match the size you want */
+    max-height: 300px; /* Adjust this height value to match the size you want */
     overflow-y: auto;  /* Allows scrolling when content overflows */
     padding: 15px;
     border: 2px solid #1abc9c; /* Apply the green border */
