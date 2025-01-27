@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WWII Yes/No Oracle</title>
+    <style>
+        body {
+    font-family: 'Roboto Slab', serif; /* Update to a WWII-style font */
+    background: linear-gradient(145deg, #2e2e2e, #1a1a1a); /* Subtle gradient background */
+    color: #f0e6d2; /* Light tan for a parchment-style look */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    /* Optional background image */
+    background-color: #1a1a1a; /* Lighter shade of black */
+    background-image: url('https://cdn10.picryl.com/photo/1943/01/01/aerial-view-of-us-naval-dry-dock-7cd4a0-1024.jpg'); /* Optional background image */
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-blend-mode: multiply; /* Blends image with solid color */
+}
+h1 {
+    font-size: 2.5rem;
+    color: #e0c097; /* Gold accent for title */
+    text-shadow: 2px 2px 4px #000; /* Shadow for a glowing effect */
+    margin-bottom: 20px;
+    text-align: center;
+}
+.container {
+    text-align: center;
+    width: 90%; /* Restrict width */
+    max-width: 800px; /* Prevent stretching across the page */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px;
+    background-color: #252525; /* Slightly different background for the container */
+    border: 1px solid #444;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7); /* Subtle shadow effect */
+}
+
+textarea {
+    width: 90%;
+    height: 50px;
+    background-color: #1c1c1c;
+    color: #f0e6d2;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 10px;
+    resize: none;
+    font-family: 'Roboto Slab', serif;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #3b6e3b; /* Military green */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Roboto Slab', serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+button:hover {
+    transform: scale(1.1); /* Slight zoom effect */
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.7);
+    background-color: #4b8e4b;
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#result-container {
+    width: 90%; /* Match container width */
+    max-width: 700px; /* Prevent it from being too wide */
+    height: 200px; /* Fixed height for the box */
+    background-color: #121212;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 10px;
+    overflow-y: auto; /* Enable internal scrolling */
+    text-align: left;
+    margin: 20px auto;
+}
+
+.result {
+    border: 1px solid #555;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #2e2e2e;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WWII Oracle</h1>
+        <textarea id="userInput" placeholder="Type your question here..."></textarea>
+        <div>
+            <label for="likelihood">Likelihood:</label>
+            <select id="likelihood">
+                <option value="10">Impossible</option>
+                <option value="20">No Way</option>
+                <option value="30">Very Unlikely</option>
+                <option value="40">Unlikely</option>
+                <option value="50" selected>50/50 Chance</option>
+                <option value="60">Likely</option>
+                <option value="70">Very Likely</option>
+                <option value="80">Near Sure Thing</option>
+                <option value="90">A Sure Thing</option>
+            </select>
+        </div>
+        <div class="button-container">
+            <button id="rollEventBtn">Roll for Answer</button>
+            <button id="inspirationBtn">Action/Subject</button>
+			<button id="searchingBtn">Searching</button>
+            <button id="situationEventsBtn">Situational Events</button>
+            <button id="civilianInteractionsBtn">Civilian Interactions</button>
+            <button id="randomEncountersBtn">Random Encounters</button>
+            <button id="clearResultsBtn">Clear Results</button>
+            <button id="downloadBtn">Download Results</button>
+        </div>
+        <div id="result-container"></div>
+		 <div id="instructions" style="margin-top: 20px; text-align: left; font-size: 16px; color: #ddd;">
+        <p>Instructions:</p>
+        <ul style="list-style-type: none; padding: 0;">
+            <li>Type your question in the box above to roll for Yes/No events or outcomes.</li>
+            <li>Use the "Roll for Answer" button to get an answer and possible actions or subjects. Random Events happen on doubles!</li>
+            <li>Click "Action/Subject" to receive a random action and subject for creativity.</li>
+			<li>Click on the "Searching" button if you want a random item found on someone or an area.</li>
+            <li>Use "Random Encounters" for narrative or situational elements.</li>
+            <li>Try the "Situation Events" button for environmental challenges or effects.</li>
+            <li>Use "Civilian Interactions" button if you want inspiration of what a Civilian might say or do.</li>
+            <li>Clear the results with "Clear Results" or download them using "Download Results."</li>
+        </ul>
+    </div>
+    </div>
+    <script>
+         const actionChart = [
+            "Intercept", "Sabotage", "Ambush", "Rescue", "Deliver", "Guard", "Destroy", "Spy", "Decode", "Scout",
+            "Defend", "Capture", "Sneak", "Escape", "Interrogate", "Recon", "Raid", "Repair", "Signal", "Dive",
+            "Camouflage", "Patrol", "Encircle", "Disrupt", "Bombard", "Fortify", "Liberate", "Advance", "Retreat", "Delay",
+            "Flank", "Assault", "Secure", "Counter", "Cover", "Retrieve", "Hold", "Breach", "Evacuate", "Block",
+            "Deploy", "Support", "Regroup", "Overrun", "Reinforce", "Neutralize", "Intercept", "Engage", "Search", "Suppress",
+            "Parachute", "Intercept", "Blow", "Coordinate", "Demolish", "Install", "Construct", "Transport", "Evade", "Reconvene",
+            "Seize", "Defuse", "Intervene", "Extract", "Escort", "Backtrack", "Trap", "Rally", "Pursue", "Sabotage",
+            "Interrupt", "Prepare", "Redirect", "Conceal", "Expand", "Track", "Warn", "Deceive", "Expose", "Communicate",
+            "Launch", "Establish", "Disguise", "Trick", "Aid", "Oversee", "Deploy", "Scan", "Exchange", "Prevent",
+            "Confuse", "Force", "Win", "Coordinate", "Withdraw", "Hide", "Cover", "Signal", "Replace", "Stop",
+            "Analyze", "Negotiate", "Assist", "Outmaneuver", "Subvert", "Inspect", "Capture", "Trap", "Destroy", "Detour"
+        ];
+
+        const subjectChart = [
+            "Enemy Convoy", "Supply Depot", "Codebook", "Allied Spy", "Axis Command Post", "Artillery Position", "Communication Tower",
+            "Civilian Refugees", "Captured Soldiers", "Bridge Crossing", "Train Depot", "Secret Tunnel", "Enemy HQ", "Fortified Hill",
+            "Airfield", "Tank Division", "Radar Station", "Bunker Complex", "Partisan Fighters", "Fuel Dump", "Ammunition Cache",
+            "Commanding Officer", "Naval Fleet", "Air Raid Shelter", "Observation Post", "Prison Camp", "Underground Bunker", "Sniper Nest",
+            "Coastal Battery", "Forward Operating Base", "Military Research Facility", "Weapon Prototype", "Cryptography Lab", "Hidden Minefield",
+            "Escape Route", "Black Market", "Propaganda Broadcast", "Resistance Leader", "Strategic Map", "Infiltrator", "Enemy Agent",
+            "Captured Equipment", "Factory Workers", "Explosives Cache", "Anti-Aircraft Guns", "Spy Network", "Medical Supplies", "Abandoned Outpost",
+            "Military Documents", "Weather Station", "Covert Landing Zone", "Submarine Base", "Mechanized Division", "Partisan Hideout", "Neutral Border",
+            "Secret Airstrip", "Lost Platoon", "High-Value Target", "Booby-Trapped Village", "Cryptography Machine", "Underground Railroad",
+            "Hidden Supply Cache", "Saboteur Team", "Allied Prisoners", "Resistance Safehouse", "Enemy Scout", "Warship Blueprint", "Deserted Village",
+            "Bridge Demolition", "Stranded Pilot", "Explosive Charges", "Cryptic Radio Message", "Damaged Tank", "Spy Ring", "Minefield Map",
+            "Coded Telegram", "Undercover Operative", "Enemy Scientist", "Munitions Plant", "Allied Drop Zone", "Camouflaged Enemy Outpost",
+            "Hostile Checkpoint", "Destroyed Convoy", "Weathered Supply Cache", "Captured Partisan", "Hollowed-Out Safehouse", "Intercepted Orders",
+            "Hidden Artillery", "Advanced Radar", "Military Outpost", "Refugee Caravan", "Sabotaged Equipment", "Neutral Spy", "Lost Recon Team",
+            "Critical Rail Line", "Experimental Weapon", "Crash Site", "Stolen Prototype", "Desert Crossing", "Enemy Bunker Network"
+        ];
+		  function rollEvent() {
+            const roll = Math.floor(Math.random() * 100) + 1;
+            const likelihood = parseInt(document.getElementById('likelihood').value);
+
+            let resultText = `You rolled a ${roll}.`;
+            const userText = document.getElementById('userInput').value.trim();
+
+            if (userText) {
+                resultText = `You asked: "${userText}"<br>` + resultText;
+            }
+
+            resultText += roll <= likelihood ? " Yes." : " No.";
+
+            if (roll % 11 === 0) {
+                const action = actionChart[Math.floor(Math.random() * actionChart.length)];
+                const subject = subjectChart[Math.floor(Math.random() * subjectChart.length)];
+                resultText += `<br><b>Action:</b>${action}<br><b>Subject:</b> ${subject}`;
+            }
+
+            addResult(resultText);
+            document.getElementById('userInput').value = '';
+        }
+
+        function addResult(resultText) {
+            const resultContainer = document.getElementById("result-container");
+            const resultDiv = document.createElement("div");
+
+            resultDiv.classList.add("result");
+            resultDiv.innerHTML = resultText;
+            resultContainer.appendChild(resultDiv);
+
+            // Scroll the container to the bottom
+            resultContainer.scrollTop = resultContainer.scrollHeight;
+
+            // Force page scroll to stay in place
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            setTimeout(() => {
+                window.scrollTo(0, currentScroll);
+            }, 0);
+        }
+
+        function clearResults() {
+            document.getElementById("result-container").innerHTML = '';
+        }
+
+        function downloadResults() {
+            const resultContainer = document.getElementById('result-container');
+            const textToDownload = resultContainer.innerText;
+
+            const blob = new Blob([textToDownload], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'results.txt';
+
+            link.click();
+        }
+
+        function generateInspiration() {
+            const action = actionChart[Math.floor(Math.random() * actionChart.length)];
+            const subject = subjectChart[Math.floor(Math.random() * subjectChart.length)];
+            const resultText = `Inspiration:<br> <b>Action:</b>${action}<br><b>Subject:</b>${subject}`;
+            addResult(resultText);
+        }
+// Situation Events Array
+const situationEvents = [
+    "Heavy rain begins, muffling sound but making movement slower and riskier",
+    "A thick fog rolls in, reducing visibility for everyone",
+    "A muddy patch of ground slows movement and increases the chance of noise",
+    "A sudden gust of wind scatters leaves or debris, potentially drawing attention",
+    "A dense section of underbrush forces the character to crawl or find another route",
+    "A loud thunderclap startles characters and NPCs, but also gives cover for noise",
+    "The character finds a partially frozen stream, which is slippery and noisy to cross",
+    "Falling branches or loose rocks create noise, requiring a Stealth roll to avoid detection",
+    "Sudden bright moonlight breaks through the clouds, making stealth more difficult",
+    "An area of rocky terrain is difficult to traverse, reducing movement speed",
+    "Nearby artillery fire shakes the ground, potentially causing disorientation",
+    "A sudden downpour makes visibility worse, but does cover noises.",
+    "The character discovers a natural cave or hollow that could serve as temporary cover",
+    "An eerie silence falls, increasing alertness",
+    "A partially collapsed bridge blocks the route, requiring a Climbing roll to cross",
+    "A hidden sinkhole or loose ground threatens to trap the character",
+    "Swarming insects or a small animal distracts the character, imposing a disadvantage to Observation for the next turn",
+    "Flashes of lightning temporarily reveal the character’s position if not in cover",
+    "A foul smell indicates a nearby animal carcass or hazardous waste, causing nausea",
+    "The character finds higher ground, giving an Observation bonus but increasing visibility to enemies"
+];
+
+// Function for Situation Events
+function generateSituationEvent() {
+    const randomIndex = Math.floor(Math.random() * situationEvents.length);
+    const event = situationEvents[randomIndex];
+    addResult(`Situation Event: ${event}`);
+}
+// Searching Table
+const searching = [
+    "A cache of rations is discovered, enough for 1d6 days",
+    "A small stash of ammunition is found (roll 1d6 for the number of rounds)",
+    "An old medical kit is uncovered, containing 1d3 usable items",
+    "A hidden compartment contains a pistol with one loaded magazine",
+    "A damaged but repairable radio is found",
+    "A map of the local area with potential enemy positions marked is discovered",
+    "A box of grenades (1d3) hidden under floorboards is unearthed",
+    "A rifle in good condition with a partially full magazine is located",
+    "Personal effects like photos or letters give insight into the previous occupant's life",
+    "A broken watch that could be repaired for trade value is found",
+    "A small bag of coins or valuables (useful for bribing or trading) is recovered",
+    "A lantern or flashlight with limited battery life is discovered",
+    "A partially full canteen of water is found",
+    "A knife or bayonet in usable condition is uncovered",
+    "A pair of binoculars with a cracked lens but still functional is discovered",
+    "A lockbox containing documents or intel is hidden under rubble",
+    "An old uniform jacket with intact insignia (useful for disguise) is found",
+    "A pack of cigarettes or small comfort items is uncovered",
+    "Spare parts for weapons or equipment are located in a toolbox",
+    "A hidden cache of explosives (1d3 sticks of dynamite) is found",
+    "A stash of blankets or cold-weather gear is discovered",
+    "A hidden crawlspace reveals a small supply of alcohol (for trade or sterilization)",
+    "A sack of grain or non-perishable food is located",
+    "A partially loaded revolver with a holster is uncovered",
+    "A stack of Allied propaganda posters is discovered, useful for rallying locals or psychological warfare",
+    "A partially buried crate of weapons, including one fully operational rifle and extra magazines",
+    "A crate of canned food with intact seals, enough to feed several people for days",
+    "A hidden journal detailing troop movements in the area",
+    "A concealed stash of medical supplies including bandages and morphine",
+    "A working compass tucked inside an old jacket pocket",
+    "An improvised incendiary device, risky but functional",
+    "A discarded helmet with minor damage that still offers protection",
+    "A signal flare gun with two flares tucked away in a box",
+    "A dismantled but repairable machine gun with spare parts nearby",
+    "A small stack of firewood prepared for cooking or warmth",
+    "A box of signal flags or semaphore equipment",
+    "A water purification tablet kit hidden among supplies",
+    "A sturdy pair of boots in good condition, perfect for long treks",
+    "A roll of sturdy rope that could prove useful in many situations",
+    "A portable hand-cranked radio that still works",
+    "A concealed first-aid guidebook, offering bonus rolls to medical checks"
+];
+
+// Function for Searching
+function generateSearching() {
+    const randomIndex = Math.floor(Math.random() * searching.length);
+    const result = searching[randomIndex];
+    addResult(`Searching Result: ${result}`);
+}
+
+        function randomEncounters() {
+        const encounters = [
+            "A lone German soldier smoking a cigarette, inattentive but near a key path.",
+            "A patrol of 2 German soldiers arguing loudly about supplies, making it easier to avoid them.",
+            "Guard dog off its leash, sniffing near the character’s position but no handler in sight.",
+            "A bird suddenly takes flight near the character, drawing attention from nearby guards.",
+            "An abandoned Resistance cache containing a knife, rations, and a map.",
+            "An injured German soldier hiding in the woods, disoriented and calling for help.",
+            "An Allied bombing run starts nearby, causing chaos among German forces but limiting visibility.",
+            "A French civilian walking a path ahead, possibly a collaborator or innocent bystander.",
+            "The character discovers a sniper’s nest. The sniper isn’t there but left ammo and binoculars behind.",
+            "A German truck convoy passes on a dirt road, escorted by a light armored vehicle.",
+            "A German officer with two bodyguards inspects the depot’s perimeter.",
+            "A sudden downpour worsens visibility but makes stealth easier.",
+            "The character stumbles into a tripwire, potentially setting off an alarm unless they succeed on Observation.",
+            "A Resistance fighter emerges from a hidden shelter and offers the character intel about the depot.",
+            "A pair of soldiers stop for a smoke break, temporarily stationary.",
+            "A machine gun nest overlooks the character’s planned route but appears unmanned at the moment.",
+            "A German supply truck breaks down nearby, its driver distracted while fixing it.",
+            "A deer runs through the area, briefly distracting nearby guards.",
+            "An unexploded bomb is lodged in the ground. It’s inert but unnerves nearby patrols.",
+            "A German patrol is searching for something and looks agitated; they seem to be hunting someone.",
+            "The character hears indistinct shouting and gunfire in the distance; it may be another Allied team.",
+            "A guard dog handler is setting up a patrol near the character’s position.",
+            "A hidden minefield blocks the character’s planned route. They must find a way around or risk detection.",
+            "A German officer stumbles out of a nearby shack, drunk and oblivious to their surroundings.",
+            "A sudden explosion rocks the depot—likely an accident or sabotage by another team.",
+            "An elite patrol of 4 heavily armed soldiers, led by a decorated officer, begins sweeping the area."
+        ];
+            const randomEncounter = encounters[Math.floor(Math.random() * encounters.length)];
+            addResult(`Random Encounter:<br> ${randomEncounter}`);
+        }
+		// Civilian Interactions Table
+const civilianInteractions = [
+    "A farmer offers shelter in exchange for protection",
+    "A child warns the character of a patrol in exchange for food",
+    "A collaborator attempts to alert the Germans to the character’s presence",
+    "A Resistance safehouse is nearby, but it’s under observation",
+    "Villagers reluctantly provide supplies under duress",
+    "A French civilian offers inaccurate directions, unknowingly sending the character toward danger",
+    "A group of frightened villagers tries to flee past the character, attracting enemy attention",
+    "An elderly local provides cryptic advice about enemy patrol patterns",
+    "A young resistance fighter offers a dangerous side mission to sabotage equipment",
+    "A villager claims to have seen an Allied plane crash nearby and offers to guide the character",
+    "A suspicious villager seems to be watching the character closely but makes no move",
+    "A local priest offers sanctuary but warns the character not to stay too long",
+    "A Resistance courier passes by, carrying urgent intel that could aid the mission",
+    "A family is discovered hiding in a barn, offering aid in exchange for secrecy",
+    "A collaborator spreads false rumors to nearby German patrols about the character’s location",
+    "A young boy quietly leads the character to a hidden escape route",
+    "A local shopkeeper is hoarding rations and might barter for needed supplies",
+    "A frightened villager begs the character for help in rescuing their family from German forces",
+    "A hidden Allied soldier is found injured, needing medical attention",
+    "A local blacksmith offers to repair damaged equipment for the character",
+    "A suspicious movement in a nearby house reveals an Allied radio operator in hiding",
+    "A musician plays loudly in the village square, masking the sound of the character’s movements",
+    "A merchant caravan is passing through and might have useful items to trade",
+    "A French Resistance fighter urgently explains that enemy reinforcements are en route",
+    "An elderly villager offers an old map that might provide alternate routes through the area"
+];
+
+function generateCivilianInteraction() {
+            const randomInteraction = civilianInteractions[Math.floor(Math.random() * civilianInteractions.length)];
+            addResult(`Civilian Interaction: ${randomInteraction}`);
+        }
+
+        document.getElementById('rollEventBtn').addEventListener('click', rollEvent);
+        document.getElementById('clearResultsBtn').addEventListener('click', clearResults);
+        document.getElementById('downloadBtn').addEventListener('click', downloadResults);
+        document.getElementById('inspirationBtn').addEventListener('click', generateInspiration);
+        document.getElementById('randomEncountersBtn').addEventListener('click', randomEncounters);
+        document.getElementById('situationEventsBtn').addEventListener('click', generateSituationEvent);
+        document.getElementById('civilianInteractionsBtn').addEventListener('click', generateCivilianInteraction);
+		document.getElementById('searchingBtn').addEventListener('click', generateSearching);
+    </script>
+</body>
+</html>
