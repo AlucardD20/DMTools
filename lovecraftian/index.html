@@ -10,7 +10,7 @@
 
 <div class="container">
     <h3>Lovecraftian Oracle Generator</h3>
-    
+
     <!-- Likelihood Dropdown and Download Button in the same line -->
     <div id="likelihood-container">
         <select id="likelihood">
@@ -24,26 +24,36 @@
             <option value="80">Near sure thing</option>
             <option value="90">A sure thing</option>
         </select>
+		<button id="rollEventBtn">Roll for Event</button>
         <button id="downloadBtn">Download Results</button>
     </div>
+<div id="button-container"><!-- Add this above your Roll for Event button -->
+<input type="text" id="userInput" placeholder="Type your phrase or question here..." />
+</div>
 
     <!-- Button Container for the other buttons (displayed in a row) -->
     <div id="button-container">
-        <button id="rollEventBtn">Roll for Event</button>
+        
         <button id="inspirationBtn">Inspiration</button>
-        <button id="pickBookBtn">Pick an Old Book</button>
+        <button id="pickBookBtn">Pick Tome Name</button>
         <button id="pickTownBtn">Pick a Town</button>
+		<button id="generateTomeEffectBtn">Generate Tome Effect</button>
+		<button id="generateAdventureBtn">Generate Adventure</button>
+		<button id="generateComplicationsBtn">Complication Generator</button>
+		<button id="generateInvestigationBtn">Investigation Lead</button>
+		<button id="generateNpcMotivationBtn">Generate NPC Motivation</button>
         <button id="generatePlotBtn">Generate Plot Hook</button>
 		<button id="generatePersonBtn">Generate Random Name</button>
 		<button id="generateClueBtn">Generate Random Clue</button>
+		<button id="sensesBtn">Senses</button>
 		<button id="clearResultsBtn">Clear Results</button>
     </div>
 
     <!-- Results Box with Scrolling -->
-    <div id="result-container"></div>
+<div id="result-container"></div>
 	<!-- Instructions Section -->
 <p id="instructions">Here are the instructions for how to use the Lovecraftian Oracle Generator:</p>
-<p id="instructions-detail">Select a likelihood to roll for events or generate random names, plot hooks, clues, and more! Random Events will happen on "doubles". Use the buttons above to interact with the oracle and discover strange happenings in your Lovecraftian world.</p>
+<p id="instructions-detail">Enter your question or phrase in the box and select a likelihood then click "Roll for Event" to get an answer. You can generate random names, plot hooks, clues, and more! Random Events will happen on "doubles". Use the buttons above to interact with the oracle and discover strange happenings in your Lovecraftian world. When you are done using the oracle, you can download your entire results in a .txt file for reference. Refreshing, closing/"X'ing" out the page or clicking "Clear Results" will wipe the log.</p>
 <p id="copyright-line">© 2025 <a href="https://theevildm.com/s/solo-sorcery" target="_blank">The Evil Dungeon Master</a>. All Rights Reserved.</p>
 </div>
 

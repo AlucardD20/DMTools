@@ -7,13 +7,13 @@ body {
     text-align: center;
     font-size: 18px;
     line-height: 1.6;
-    background-image: url('https://www.w3schools.com/w3images/space.jpg');
+    background-image: url('wallpaper.jpg'); /* Use the image file in the same folder */
     background-size: cover;
     background-position: center;
 }
 
 h1 {
-    color: #1abc9c; /* Green color */
+    color: #1abc9c;
     font-size: 40px;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -30,21 +30,22 @@ h1 {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
 }
 
-button {
-    width: 18%;
-    padding: 15px;
-    font-size: 13px;
-    margin-top: 15px;
-    cursor: pointer;
-    background-color: #16a085; /* Dark green background */
-    color: #f2f2f2;
-    border: 2px solid #1abc9c; /* Lighter green border */
-    border-radius: 10px;
-    display: inline-block;
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
-}
+/*  REMOVED THIS SECTION */
+/*button {*/
+/*    width: 18%;*/
+/*    padding: 15px;*/
+/*    font-size: 13px;*/
+/*    margin-top: 15px;*/
+/*    cursor: pointer;*/
+/*    background-color: #16a085; !* Dark green background *!*/
+/*    color: #f2f2f2;*/
+/*    border: 2px solid #1abc9c; !* Lighter green border *!*/
+/*    border-radius: 10px;*/
+/*    display: inline-block;*/
+/*    text-align: center;*/
+/*    transition: background-color 0.3s ease, transform 0.2s ease;*/
+/*    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);*/
+/*}*/
 
 button:hover {
     background-color: #1abc9c; /* Lighter green when hovered */
@@ -77,19 +78,108 @@ select {
     margin-right: auto;
 }
 
-/* Styling for the results container */
+/* Styling for the result container */
 #result-container {
     margin-top: 30px;
-    font-size: 18px;
+    font-size: 14px; /* Adjusted font size for results */
     color: #f2f2f2;
-    max-height: 300px; /* Adjust this height value to match the size you want */
+    max-height: 300px; /* Adjust height for the box */
     overflow-y: auto;  /* Allows scrolling when content overflows */
     padding: 15px;
     border: 2px solid #1abc9c; /* Apply the green border */
     background-color: #1c1c1c;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px; /* Adds spacing between boxes */
+    width: 100%; /* Make sure the container stretches fully */
+    box-sizing: border-box; /* Prevent padding from affecting width */
 }
+
+/* Styling for individual result boxes */
+#result-container .result {
+    background-color: #2c3e50;
+    border-radius: 8px;
+    border: 1px solid #1abc9c;
+    padding: 10px;
+    word-wrap: break-word; /* Ensures long text breaks and wraps properly */
+    text-align: left; /* Left-align text */
+    width: 100%; /* Ensures the box takes full width of the container */
+    box-sizing: border-box; /* Prevent padding from affecting width */
+    overflow-wrap: break-word; /* Prevents content overflow */
+    white-space: normal; /* Ensures text breaks properly */
+    word-break: break-word; /* Breaks words when necessary */
+}
+
+/* Centering short results */
+#result-container .result.short {
+    text-align: center; /* Center text for shorter results */
+}
+
+/* Styling for the input text box */
+#userInput {
+    width: 70%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    background-color: #34495e;
+    color: #f2f2f2;
+    border: 2px solid #1abc9c;
+    border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 50px; /* Ensures the input box has a consistent height */
+}
+
+/* Styling for the Roll for Event button */
+#rollEventBtn {
+    width: 70%;
+    padding: 10px;
+    font-size: 14px;
+    background-color: #16a085;
+    color: #f2f2f2;
+    border: 2px solid #1abc9c;
+    border-radius: 8px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#rollEventBtn:hover {
+    background-color: #1abc9c;
+    transform: scale(1.1);
+}
+
+
+/* Add some spacing and styling to individual result paragraphs */
+#result-container .result {
+    margin-bottom: 15px; /* Spacing between results */
+    padding: 10px;
+    background-color: #2c3e50;
+    border-radius: 8px;
+    border: 1px solid #1abc9c; /* Green border for each result */
+    word-wrap: break-word; /* Ensures long text breaks and wraps properly */
+    display: inline-block; /* Keeps it in the inline block format */
+    text-align: left; /* Align long text to the left */
+}
+
+/* Make sure that very short results stay centered */
+#result-container .result.short {
+    text-align: center; /* Center short results */
+}
+
+/* Add some styles for shorter results to help identify them */
+#result-container .result.short {
+    font-weight: bold; /* Make it bold for visual distinction */
+    background-color: #34495e; /* Slightly different background for emphasis */
+}
+
 
 /* Styling for the individual result boxes inside the result container */
 .result {
@@ -97,8 +187,17 @@ select {
     padding: 10px;
     background-color: #2c3e50;
     border-radius: 8px;
-    border: 1px solid #1abc9c; /* Apply the green border instead of purple */
+    border: 1px solid #1abc9c; /* Apply the green border */
 }
+
+/* Styling for individual paragraphs inside the result boxes */
+#result-container p {
+    margin-bottom: 10px;
+    font-size: 14px; /* Adjust font size for text inside the box */
+    line-height: 1.4;
+    color: #f2f2f2;
+}
+
 
 /* Styling for the download button */
 #downloadBtn {
@@ -125,26 +224,52 @@ select {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 10px; /* Reduced gap between buttons */
     margin-bottom: 20px;
 }
 
-/* Ensures buttons are properly spaced */
-button {
-    width: 18%;
-    padding: 15px;
-    font-size: 13px;
-    margin-top: 15px;
+/* Styling for buttons */
+button, #button-container button {
+    width: auto; /* Allow buttons to auto adjust width based on text */
+    min-width: 140px; /* Minimum width to ensure buttons are large enough for text */
+    padding: 8px 12px; /* Adjust padding to make buttons smaller */
+    font-size: 10px !important; /* Ensure font size is smaller with !important */
+    margin-top: 5px; /* Reduced margin-top for better alignment */
     cursor: pointer;
     background-color: #16a085; /* Dark green background */
     color: #f2f2f2;
     border: 2px solid #1abc9c; /* Lighter green border */
-    border-radius: 10px;
+    border-radius: 8px;
     display: inline-block;
     text-align: center;
     transition: background-color 0.3s ease, transform 0.2s ease;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+    white-space: nowrap; /* Prevent text from wrapping */
 }
+
+/* Hover effect for buttons */
+button:hover {
+    background-color: #1abc9c; /* Lighter green when hovered */
+    transform: scale(1.05); /* Slightly smaller hover effect */
+}
+
+
+/* ENSURES BUTTONS ARE PROPERLY SPACED. PUT BUTTON'S STYLING INSIDE THE #button-container context */
+/*button {*/
+/*    width: 18%;*/
+/*    padding: 15px;*/
+/*    font-size: 13px;*/
+/*    margin-top: 15px;*/
+/*    cursor: pointer;*/
+/*    background-color: #16a085; !* Dark green background *!*/
+/*    color: #f2f2f2;*/
+/*    border: 2px solid #1abc9c; !* Lighter green border *!*/
+/*    border-radius: 10px;*/
+/*    display: inline-block;*/
+/*    text-align: center;*/
+/*    transition: background-color 0.3s ease, transform 0.2s ease;*/
+/*    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);*/
+/*}*/
 
 /* Styling for instructions */
 #instructions {
@@ -192,15 +317,75 @@ button {
     transform: scale(1.1);
 }
 
-#copyright-line a {
-    color: #1abc9c; /* Green color for the hyperlink */
-    text-decoration: none; /* Remove underline */
+/* New Result Container Styling */
+#result-container {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #f2f2f2;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 15px;
+    border: 2px solid #1abc9c;
+    background-color: #1c1c1c;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-#copyright-line a:hover {
-    text-decoration: underline; /* Add underline on hover */
+/* Styling for individual result boxes */
+#result-container .result {
+    background-color: #2c3e50;
+    border-radius: 8px;
+    border: 1px solid #1abc9c;
+    padding: 10px;
+    word-wrap: break-word;
+    text-align: center; /* Ensure all text is left aligned */
+    width: 100%; /* Ensure the box takes full width of the container */
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: break-word;
 }
-button:hover {
-    background-color: #1abc9c; /* Lighter green when hovered */
-    transform: scale(1.1);
+
+/* Adjust specific content inside the result box */
+#result-container .result.short {
+    text-align: center; /* Center align short results */
+}
+
+/* Fix for any specific labels like Plot Hook, Color, etc. */
+#result-container .result span {
+    font-weight: bold;
+}
+
+/* Remove any unwanted center alignment inside result boxes */
+#result-container .result p {
+    text-align: left;
+}
+
+/* Optional: Styling for the title-like elements */
+#result-container .result h3 {
+    text-align: left; /* Ensure titles are left-aligned */
+}
+
+#generateComplicationsBtn {
+    width: auto; /* Allow buttons to auto adjust width based on text */
+    min-width: 140px; /* Minimum width to ensure buttons are large enough for text */
+    padding: 8px 12px; /* Adjust padding to make buttons smaller */
+    font-size: 10px !important; /* Ensure font size is smaller with !important */
+    margin-top: 5px; /* Reduced margin-top for better alignment */
+    cursor: pointer;
+    background-color: #16a085; /* Dark green background */
+    color: #f2f2f2;
+    border: 2px solid #1abc9c; /* Lighter green border */
+    border-radius: 8px;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+    white-space: nowrap; /* Prevent text from wrapping */
 }
