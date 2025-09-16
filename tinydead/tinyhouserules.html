@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tiny Living Dead House Rules</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      background: #23231f url('https://raw.githubusercontent.com/AlucardD20/DMTools/main/images/city.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #ece8dd;
+      font-family: Georgia, serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(20,20,18,0.76);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      position: relative;
+      z-index: 2;
+      background: rgba(30,32,28,0.97);
+      max-width: 700px;
+      margin: 40px auto 20px auto;
+      border-radius: 10px;
+      padding: 30px 24px 24px 24px;
+      box-shadow: 0 0 16px 2px #181815c0;
+      border: 2px solid #3b3930;
+      text-align: left;
+    }
+    h1 {
+      font-size: 2em;
+      color: #bfa96d;
+      letter-spacing: 1px;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 4px #0008;
+    }
+    h2 {
+      color: #f2df9c;
+      font-size: 1.25em;
+      margin-top: 1.7em;
+      margin-bottom: 0.4em;
+      text-shadow: 1px 1px 3px #222b;
+    }
+    button {
+      background: #3b3930;
+      color: #ece8dd;
+      border: 1.5px solid #bfa96d;
+      border-radius: 4px;
+      font-size: 1em;
+      padding: 7px 18px;
+      margin: 5px 0 15px 0;
+      font-weight: bold;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      display: block;
+    }
+    button:hover {
+      background: #bfa96d;
+      color: #23231f;
+    }
+    .rule {
+      margin-bottom: 1.5em;
+    }
+    .example, .quick-notes, .optional, .escalation {
+      background: rgba(52, 49, 40, 0.85);
+      border-left: 4px solid #bfa96d;
+      padding: 10px 18px;
+      margin: 12px 0 12px 0;
+      font-size: 1em;
+      color: #d5ceaf;
+      border-radius: 6px;
+    }
+    ul, ol {
+      margin: 0 0 1em 2em;
+    }
+    @media (max-width: 800px) {
+      .container { padding: 8px 2vw; }
+      h1 { font-size: 1.3em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="location.href='/'">Home</button>
+    <h1>Tiny Living Dead House Rules</h1>
+    
+    <div class="rule">
+      <h2>1. Noise Draws Walkers</h2>
+      <p>
+        Survival means keeping quiet. Every gunshot, scream, or smash risk drawing in more walkers. But tracking every single noise... that gets tedious, and honestly, it kills the pace when you’re in the middle of a fight.
+      </p>
+      <b>When Does This Rule Trigger?</b>
+      <p>
+        Any major loud event: a running fight, a gun battle, shouting matches, smashing doors or windows, car alarms, explosions, whatever fits the scene.
+      </p>
+      <b>How It Works:</b>
+      <ul>
+        <li>Don’t Roll During Combat. Instead, wait until the scene calms down...</li>
+        <li>As soon as the dust settles, immediately make a Walker Check for the total chaos that just happened.</li>
+        <li>Roll 1d6. On a 5 or 6, a new group of walkers shows up in the aftermath.</li>
+        <li>GM decides if it’s a handful, a mob, or even a bigger horde depending on the location, time of day, and just how much noise went down.</li>
+      </ul>
+      <div class="escalation"><b>Escalation:</b> If there were multiple loud events in the same scene (three gunshots, an explosion, a car horn blaring), add +1 to the roll.<br>
+      <br>
+      Example: A gunfight (gunfire + shouting) and then a car alarm goes off. That’s plus one to the roll, the GM rolls 1d6, but now walkers show up on 4–6.
+      </div>
+      <b>Result:</b>
+      <p>
+        The walkers don’t burst in mid-combat (unless you want them to). They shamble during the aftermath, when people are wounded, distracted, arguing, or just catching their breath.<br>
+        This keeps tension up but doesn’t interrupt the action.
+      </p>
+      <div class="quick-notes"><b>Remind Players:</b> If you make noise, you’re not safe just because you survived the fight. The world is listening... and it’s hungry.</div>
+    </div>
+
+    <div class="rule">
+      <h2>2. Trust &amp; Tension: Building Relationships</h2>
+      <p>
+        Every NPC group or key character starts at a Trust Level:<br>
+        <b>Trusted / Neutral / Hostile</b><br>
+        (The GM or solo player sets this at first contact, based on history, rumors, or first impressions.)
+      </p>
+      <b>How Trust Changes:</b>
+      <ul>
+        <li>Don’t shift trust up or down after every little thing.</li>
+        <li>Instead, keep a trust log—just make a note after major interactions (positive or negative).</li>
+      </ul>
+      <div class="example">
+        <b>Example:</b> "Positive: traded food and medical supplies at the water tower."<br>
+        "Negative: PC threatened their leader outside the old school."
+      </div>
+      <ul>
+        <li>After three positive interactions, move trust up one level.<br>
+        Hostile → Neutral → Trusted</li>
+        <li>After three negative interactions, move trust down one level.<br>
+        Trusted → Neutral → Hostile</li>
+      </ul>
+      <b>Betrayal or heroics shortcut:</b>
+      <ul>
+        <li>A single, major betrayal (theft, murder, sabotage, etc.) immediately drops trust to Hostile.</li>
+        <li>A single, major sacrifice (saving their life, giving up something huge, defending their home) can bump trust up one level instantly—but only at GM’s call.</li>
+      </ul>
+      <div class="optional"><b>Optional:</b> If you want more granularity, use tally marks (✓ for positive, ✗ for negative) next to each NPC/group. After three of the same type in a row, shift their trust.</div>
+    </div>
+
+    <div class="rule">
+      <h2>3. Bleak Morality: Choices Have Consequences</h2>
+      <p>
+        In this world, everything you do leaves a mark... not just on the world, but on you. No alignment, no cosmic scorecard. You just do what you have to, and then you live with it... or you don’t.
+      </p>
+      <b>How It Works:</b>
+      <ul>
+        <li>When your Survivor crosses a line... murder, betrayal, abandoning someone, or going against their core belief... write down a Trauma. This isn’t just a penalty... the trauma should be something real and specific. Paranoia, guilt, nightmares, anger, addiction... whatever fits what happened.</li>
+        <li>You and the GM (or just you, if you’re solo) decide how that trauma looks in play. Maybe you hesitate to pull the trigger. Maybe you have trouble trusting anyone. Maybe you keep seeing their face when you close your eyes. Bring it into the story, let it change how you play.</li>
+      </ul>
+      <b>Mechanical Impact:</b>
+      <ul>
+        <li>For each unresolved trauma, you take disadvantage on any Test directly tied to it... guilt gives you disadvantage helping others... paranoia gives disadvantage in social scenes... nightmares might mean you lose sleep and start a day with 1 less HP. Write every trauma on your sheet. Get too many, and things just start slipping out of control.</li>
+      </ul>
+      <b>How to Resolve Trauma:</b>
+      <ul>
+        <li>These aren’t going away on their own. You have to deal with them through play. Maybe you save someone in a way that echoes what you did wrong. Maybe you open up to the group. Maybe you take a risk doing the right thing. If it’s believable and honest in the story, you can cross that trauma off. The scar is still there, but you’re not carrying the same weight.</li>
+      </ul>
+      <b>If It Builds Up:</b>
+      <ul>
+        <li>If you ever have three or more traumas at once, the GM can introduce breakdowns, hallucinations, bad choices, or even have you step away from play for a bit... maybe the character leaves the group, maybe they’re just not themselves for a while. Don’t force it but let the world feel heavy and real.</li>
+      </ul>
+      <p>
+        This isn’t about punishing anyone... it’s about making the story matter. Sometimes you dig yourself out, sometimes you don’t. Play it honest, play it messy, and let the game breathe.
+      </p>
+    </div>
+
+    <div class="rule">
+      <h2>4. Gritty Healing: No Easy Recovery</h2>
+      <p>
+        Survival means living with your wounds. Nobody wakes up fully healed. If you want to get better, you need time... and you need someone who knows what they’re doing.
+      </p>
+      <b>Healing Rules:</b>
+      <ul>
+        <li>A doctor or anyone with the Doctor trait can attempt to heal another Survivor once per day. If they succeed on their Test, the patient regains 2 HP. (No one can heal themselves this way. You need help.)</li>
+        <li>Resting overnight, at least 8 hours of uninterrupted rest, restores just 2 HP, no more. No full healing from a good night’s sleep, not anymore.</li>
+        <li>No magic, no instant cures. Only real medicine, bandages, and time.</li>
+      </ul>
+      <div class="quick-notes">
+        <b>Quick Notes:</b> If you don’t get enough sleep, you don’t heal at all... and you risk exhaustion, which can lead to more trouble.<br>
+        Food, water, shelter, these all matter for recovery. If you’re lacking, the GM can slow healing or add extra problems.
+      </div>
+    </div>
+
+    <div class="rule">
+      <h2>5. Downtime and Community Projects</h2>
+      <p>
+        Survival isn’t just running from danger. You have to build, repair, and create something that lasts... whether it’s a safe shelter, a working generator, or a simple garden.
+      </p>
+      <b>How It Works:</b>
+      <ul>
+        <li>Pick a project you want to attempt. It should make sense for the setting. If you want to repair a truck, you need a truck and someone who knows engines. If you want to set up a garden, you need seeds, dirt, and some know-how.</li>
+        <li>Traits are important. The right Survivor needs a fitting Trait for the job. A Mechanic can repair engines. Someone with Strong or Builder traits can work on walls or heavy lifting. A Doctor can organize a clinic. If nobody has the right skill, you can still try, but you roll with Disadvantage.</li>
+        <li>Every project needs a number of successful Tests to finish. Small and simple projects need 1 or 2 successes. Medium projects need 3 or 4. Big, complicated projects need 5 or more. Each day of work, roll a Test using a relevant Trait. Success means you’re one step closer. Failure means no progress... and sometimes things get worse. Maybe you waste supplies, lose time, or make noise that attracts walkers.</li>
+        <li>Other survivors can help. If someone else has a relevant Trait and helps, you get Advantage on the roll. Too many unskilled helpers can actually slow things down. Use common sense when deciding who can really help.</li>
+        <li>Time and resources matter. The GM decides how long each Test takes... sometimes a day, sometimes longer if you don’t have what you need or the project is especially tough.</li>
+      </ul>
+      <div class="optional"><b>Optional complication:</b> If you fail a Test, the GM can throw in new problems... supplies run out, the weather wrecks your progress, or you make too much noise and draw attention.</div>
+      <div class="example">
+        <b>Examples:</b>
+        <ul>
+          <li>Fixing a car engine needs a Mechanic and 3 successes. Each Test is a day of work.</li>
+          <li>Reinforcing a fence needs someone Strong or with a Builder trait. Two successes and materials.</li>
+          <li>Setting up a clinic needs a Doctor, 4 successes, and medical supplies.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rule">
+      <h2>6. NPC Relationships: Who Matters to You?</h2>
+      <p>
+        In this world, no one survives alone for long. Every Survivor has bonds…people they care about, people they rely on, or even rivals they just can’t ignore. These relationships aren’t just for flavor... they change how the game plays out.
+      </p>
+      <b>How to Use Relationships:</b>
+      <ul>
+        <li>At the start of play, or whenever you meet someone important, write their name on your sheet as a Relationship. This could be a friend, a family member, a trusted ally, or even an enemy you just can’t get rid of.</li>
+        <li>Each Relationship should have a short note about why they matter. Maybe they’re your last living friend. Maybe they saved you once. Maybe you owe them, or maybe you swore to kill them for what they did.</li>
+      </ul>
+      <b>Mechanical Impact:</b>
+      <ul>
+        <li>If a Relationship is threatened, lost, or betrayed, the effect is real. If you lose a Relationship (death, separation, betrayal), gain a temporary trauma... maybe it’s grief, rage, guilt, or something else. This works just like other traumas. You take disadvantage on Tests linked to that emotion until you deal with it in the story.</li>
+        <li>If you save or protect a Bond in a meaningful way, you can mark that moment. Next time you take a big risk for someone else, you can spend that memory for one roll with Advantage... sort of a burst of courage or clarity.</li>
+        <li>If a Relationship is an enemy or rival, any time you defeat them or finally settle the score, you get a sense of closure. You can heal one trauma or gain a small boost of hope…maybe a bonus to a recovery roll, or a moment of focus in the next session.</li>
+      </ul>
+      <b>Why This Matters:</b>
+      <p>
+        Relationships give your Survivor something to fight for, or something to regret. Every loss cuts a little deeper. Every reunion, every moment you save someone, makes survival mean more.
+      </p>
+    </div>
+  </div>
+
+  <!-- Static Footer -->
+  <footer style="display:flex;align-items:center;justify-content:center;padding:10px;background-color:#1e1e1e;color:#f5f5f5;font-size:14px;text-align:center;">
+      <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games</span>
+      <div style="margin-left:10px;">
+          <a href="https://patreon.com/TheEvilDM" target="_blank">
+              <img src="images/Patreon-Logo.png" alt="Support me on Patreon" style="height:24px;">
+          </a>
+      </div>
+  </footer>
+</body>
+</html>
