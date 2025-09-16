@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tiny Living Dead Faction Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      background: #23231f url('https://raw.githubusercontent.com/AlucardD20/DMTools/main/images/city.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #ece8dd;
+      font-family: Georgia, serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(20,20,18,0.76);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      position: relative;
+      z-index: 2;
+      background: rgba(30,32,28,0.97);
+      max-width: 700px;
+      margin: 40px auto 20px auto;
+      border-radius: 10px;
+      padding: 28px 24px 24px 24px;
+      box-shadow: 0 0 16px 2px #181815c0;
+      border: 2px solid #3b3930;
+      text-align: left;
+    }
+    h1 {
+      font-size: 2em;
+      color: #bfa96d;
+      letter-spacing: 1px;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 4px #0008;
+    }
+    button {
+      background: #3b3930;
+      color: #ece8dd;
+      border: 1.5px solid #bfa96d;
+      border-radius: 4px;
+      font-size: 1em;
+      padding: 7px 18px;
+      margin: 5px 0 15px 0;
+      font-weight: bold;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      display: block;
+    }
+    button:hover {
+      background: #bfa96d;
+      color: #23231f;
+    }
+    .output {
+      background: rgba(41, 40, 34, 0.93);
+      border-radius: 8px;
+      border: 1.5px solid #bfa96d;
+      box-shadow: 0 0 8px #0006;
+      margin-top: 22px;
+      text-align: left;
+      padding: 16px 18px;
+      font-size: 1.08em;
+    }
+    .section {
+      margin-bottom: 14px;
+    }
+    .label {
+      color: #f2df9c;
+      font-weight: bold;
+      display: inline-block;
+      min-width: 120px;
+    }
+    strong { color: #f2df9c; }
+    @media (max-width: 900px) {
+      .container { max-width: 97vw; padding: 8px 2vw; }
+      h1 { font-size: 1.3em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="location.href='/'">Home</button>
+    <h1>Tiny Living Dead Faction Generator</h1>
+    <button onclick="generateFaction()">Generate Faction</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <!-- Static Footer -->
+  <footer style="display:flex;align-items:center;justify-content:center;padding:10px;background-color:#1e1e1e;color:#f5f5f5;font-size:14px;text-align:center;">
+      <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games</span>
+      <div style="margin-left:10px;">
+          <a href="https://patreon.com/TheEvilDM" target="_blank">
+              <img src="https://raw.githubusercontent.com/AlucardD20/DMTools/main/images/Patreon-Logo.png" alt="Support me on Patreon" style="height:24px;">
+          </a>
+      </div>
+  </footer>
+
+  <script>
+    // Faction Name
+    const names = [
+      "The Watchmen","The Bastion","The Bloodhands","The Last Line","The Water Tower Crew",
+      "The Drifters","The Wolves","The Nightlights","The Silverbacks","The Churchyard",
+      "The Fallen","The Remnants","The Outpost","The Torchbearers","The Gleaners","The Scavvers",
+      "The Greenhouse Gang","The Iron Road","The Dead Eyes"
+    ];
+    // Add some leader-based names
+    const leaderBasedNames = [
+      "Stokes' Boys","Ruth's Circle","Mason's Marauders","Vega's Chosen","Grace's Family"
+    ];
+
+    // Purpose / Main Goal
+    const purposes = [
+      "Protect their own at any cost","Gather resources (food, water, medicine)","Control a vital route or crossing",
+      "Defend a landmark (bridge, church, tower, etc.)","Enforce order and laws","Find a cure or work on medical research",
+      "Convert others to their faith/ideology","Recruit new members for strength","Trade and barter for survival",
+      "Seek revenge against another group","Exterminate all walkers (or the infected)","Hide from a larger threat",
+      "Prepare for the return of normalcy","Rule the area as warlords","Liberate the oppressed","Keep a dangerous secret hidden"
+    ];
+
+    // Vibe / Flavor / Approach
+    const vibes = [
+      "Ex-military, disciplined","Brutal enforcers, iron rule","Religious fanatics or true believers",
+      "Hopeful, democratic, community-minded","Ruthless survivalists","Desperate and on the edge",
+      "Isolationists, trust no one","Nomadic, always on the move","Technically skilled (fixers, engineers)",
+      "Medical (doctors, nurses, medics)","Cult-like hierarchy","Thieves and smugglers",
+      "Vigilantes","Scavenger pack (travel light, hit and run)","Maintain old-world manners and dress"
+    ];
+
+    // Base / Headquarters
+    const bases = [
+      "Abandoned school or university","Church or cathedral","Water tower","Rooftop garden","Subway tunnels",
+      "Gutted hospital","Old prison or jail","Fortress made from buses or trucks","Gated community","Farmhouse or barn",
+      "Highway police station","Mall or big-box store","Marina or dockside warehouse","Fire station","Ruined hotel or motel",
+      "Gas station with generator","Supermarket or convenience store","Underground bunker","Radio station","City library"
+    ];
+
+    // Leadership Style
+    const leaderships = [
+      "Charismatic single leader","Council of elders","Elected committee","Ruthless warlord",
+      "Hidden puppet master","Democracy—but really a figurehead","Rotating leader each week",
+      "Divine/prophetic figure","Strongest rules (trial by combat)","Family or bloodline"
+    ];
+
+    // Attitude Toward Outsiders
+    const attitudes = [
+      "Open, welcoming","Cautiously friendly","Will trade, but never trust","Suspicious of all strangers",
+      "Hostile, shoot on sight","Deceptively friendly (lure and rob)","Recruiting new members",
+      "Willing to negotiate if offered tribute","Only help the desperate or sick","Will barter, but never allow entry"
+    ];
+
+    // Quirk / Twist / Secret
+    const quirks = [
+      "Always wear masks or uniforms","Hide infected members among them","Cannibalistic (secretly or openly)",
+      "Maintain a strange ritual","Strict no guns policy","All leadership under age 21",
+      "No killing walkers—believe they can be cured","Secretly radioing to a mystery group","Kidnap survivors for labor",
+      "Only allow people of a certain trade/background","Religious relic or artifact kept at all costs",
+      "Run underground fighting pits","Constantly moving HQ","Will pay in gold or silver, not supplies",
+      "Mark territory with graffiti or symbols","Require oaths or tattoos to join"
+    ];
+
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function generateFaction() {
+      // Randomly include leader-based names sometimes for variety
+      const name = (Math.random() < 0.2) ? pick(leaderBasedNames) : pick(names);
+      const purpose = pick(purposes);
+      const vibe = pick(vibes);
+      const base = pick(bases);
+      const leadership = pick(leaderships);
+      const attitude = pick(attitudes);
+      const quirk = pick(quirks);
+
+      let output = `
+        <div class="section"><span class="label">Faction:</span> ${name}</div>
+        <div class="section"><span class="label">Purpose:</span> ${purpose}</div>
+        <div class="section"><span class="label">Vibe:</span> ${vibe}</div>
+        <div class="section"><span class="label">Base:</span> ${base}</div>
+        <div class="section"><span class="label">Leadership:</span> ${leadership}</div>
+        <div class="section"><span class="label">Attitude to Outsiders:</span> ${attitude}</div>
+        <div class="section"><span class="label">Quirk/Secret:</span> ${quirk}</div>
+      `;
+      document.getElementById('output').innerHTML = output;
+    }
+  </script>
+</body>
+</html>
