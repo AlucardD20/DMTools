@@ -108,7 +108,7 @@
       <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games</span>
       <div style="margin-left:10px;">
           <a href="https://patreon.com/TheEvilDM" target="_blank">
-              <img src="https://solodnd.com/images/Patreon-Logo.png" alt="Support me on Patreon" style="height:24px;">
+              <img src="https://raw.githubusercontent.com/AlucardD20/DMTools/main/images/Patreon-Logo.png" alt="Support me on Patreon" style="height:24px;">
           </a>
       </div>
   </footer>
@@ -123,6 +123,136 @@
       "Journalist","Engineer","Musician","Delivery Driver","Nurse","Veteran","Truck Driver"
     ];
     const beliefs = [
-      "I’ll always find a diplomatic solution
+      "I’ll always find a diplomatic solution.",
+      "Money can buy happiness.",
+      "I let my fists do the talking.",
+      "No one gets left behind.",
+      "Nothing matters except survival.",
+      "The strong must protect the weak.",
+      "I trust my instincts, not the crowd.",
+      "Family is everything.",
+      "The ends justify the means.",
+      "I fight so others don’t have to."
+    ];
+    const weaknesses = [
+      "Fear of the dark", "Compulsive honesty", "Trusts too easily", "Short temper", "Haunted by guilt", "Addiction (nicotine)", "Asthma", "Claustrophobic", "Nightmares", "Grief over lost loved ones"
+    ];
 
+    // Trait List from p.20–21 of the rules
+    const traits = [
+      "Acrobat: Advantage on acrobatics, jumping, climbing, balance.",
+      "Armor Master: +3 Armor HP (must repair, not heal).",
+      "Barfighter: Proficient with Improvised Weapons (no Mastered weapon).",
+      "Berserker: Melee attack with Disadvantage for +1 damage.",
+      "Born Fighter: Take a full Turn before initiative is rolled.",
+      "Brawler: Unarmed Evade 2d6 (not 1d6).",
+      "Charismatic: Advantage to influence or convince.",
+      "Chemist: Mix medicine/elixirs/poisons, advantage to ID liquids.",
+      "Cleave: Drop enemy to 0 HP, extra attack with Disadvantage.",
+      "Dark-fighter: Ignore sight impairment penalties.",
+      "Detective: Advantage searching for clues, motives, etc.",
+      "Diehard: Once/day, drop to 1 HP instead of 0.",
+      "Doctor: Heal others 2 HP with Test; cure poison/disease.",
+      "Educated: Advantage to know info.",
+      "Eidetic Memory: Recall info on 4,5,6.",
+      "Familiar: Spirit companion (needs GM approval/magic rules).",
+      "Fleet of Foot: Move 30ft instead of 25ft per action.",
+      "Insightful: Advantage to detect lies.",
+      "Lucky: Reroll 1 Test per session.",
+      "Marksman: Focused Ranged attack succeeds on 3–6.",
+      "Martial Artist: Proficient Unarmed, reroll 1 Unarmed fail/day.",
+      "Nimble Fingers: Advantage picking locks, sleight-of-hand, theft.",
+      "Opportunist: Enemy misses, counter-attack with Disadvantage.",
+      "Perceptive: Advantage to notice/find info (even asleep).",
+      "Quick Shot: Reload + fire Ranged weapon in one Action.",
+      "Resolute: Advantage on all Save Tests.",
+      "Shield Bearer: Shield: Evade 2d6. Start with shield.",
+      "Sneaky: Advantage to hide or sneak.",
+      "Strong: Advantage brute force.",
+      "Survivalist: Advantage to forage, find water/shelter.",
+      "Tough: +2 Hit Points.",
+      "Tracker: Advantage to track, always find North outdoors.",
+      "Trapmaster: Advantage with traps, Save vs traps.",
+      "Vigilant: Advantage on Initiative."
+    ];
+    // Weapon Groups and examples
+    const weaponGroups = {
+      "Light Melee": ["Knife","Crowbar","Hatchet","Machete","Baseball Bat"],
+      "Heavy Melee": ["Sledgehammer","Fire Axe","Chainsaw","Rebar","Shovel"],
+      "Ranged": ["Pistol","Rifle","Shotgun","Bow","Crossbow"]
+    };
 
+    // Utility
+    function rand(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+
+    // Main generator
+    function generateSurvivor() {
+      const isMale = Math.random() < 0.5;
+      const firstName = rand(isMale ? maleNames : femaleNames);
+      const lastName = rand(lastNames);
+      const name = firstName + " " + lastName;
+      const sex = isMale ? "Male" : "Female";
+      const age = Math.floor(Math.random()*35)+16; // 16–50
+      const hpBase = 6;
+
+      // Traits: unique, random 3
+      let traitIdxs = [];
+      while(traitIdxs.length<3){
+        let idx = Math.floor(Math.random()*traits.length);
+        if(!traitIdxs.includes(idx)) traitIdxs.push(idx);
+      }
+      let selectedTraits = traitIdxs.map(idx => traits[idx]);
+
+      // Add HP if Tough or Armor Master is chosen
+      let hp = hpBase;
+      if (selectedTraits.some(t=>t.startsWith("Tough:"))) hp += 2;
+      if (selectedTraits.some(t=>t.startsWith("Armor Master:"))) hp += 3;
+
+      // Weapon group, then mastered weapon
+      let weaponGroupNames = Object.keys(weaponGroups);
+      // Allow Barfighter and Martial Artist to pick special groups
+      if (selectedTraits.some(t=>t.startsWith("Barfighter:"))) weaponGroupNames.push("Improvised");
+      if (selectedTraits.some(t=>t.startsWith("Martial Artist:"))) weaponGroupNames.push("Unarmed");
+      let group = rand(weaponGroupNames);
+      let masteredWeapon;
+      if (group==="Improvised") masteredWeapon = "Your choice (Chair, Pipe, Bottle, etc.)";
+      else if (group==="Unarmed") masteredWeapon = "Fist, Kick, Headbutt, etc.";
+      else masteredWeapon = rand(weaponGroups[group]);
+
+      // Weakness
+      let weakness = rand(weaknesses);
+
+      // Family Trade / Belief
+      let trade = rand(trades);
+      let belief = rand(beliefs);
+
+      // Output formatting
+      let output = `
+        <div class="section"><strong>Name:</strong> ${name}</div>
+        <div class="section"><strong>Sex:</strong> ${sex} &nbsp; <strong>Age:</strong> ${age}</div>
+        <div class="section"><strong>Hit Points:</strong> ${hp}</div>
+        <div class="section"><strong>Traits:</strong>
+          <ul>${selectedTraits.map(trait=>`<li>${trait}</li>`).join('')}</ul>
+        </div>
+        <div class="section"><strong>Weapon Group Proficient:</strong> ${group}</div>
+        <div class="section"><strong>Mastered Weapon:</strong> ${masteredWeapon}</div>
+        <div class="section"><strong>Family Trade:</strong> ${trade}</div>
+        <div class="section"><strong>Belief:</strong> "${belief}"</div>
+        <div class="section"><strong>Weakness:</strong> ${weakness}</div>
+        <div class="section"><strong>Starting Gear:</strong> Outfit, personal gear, 1 ${masteredWeapon} (${group})${selectedTraits.some(t=>t.startsWith("Shield Bearer:")) ? ", shield" : ""}, backpack. Any extra equipment based on traits.</div>
+      `;
+      document.getElementById('output').innerHTML = output;
+    }
+
+    // Download as TXT
+    function downloadSurvivor() {
+      const output = document.getElementById('output').innerText;
+      const blob = new Blob([output], {type: "text/plain"});
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = "TinyLivingDead_Survivor.txt";
+      link.click();
+    }
+  </script>
+</body>
+</html>
