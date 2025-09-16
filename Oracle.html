@@ -1,152 +1,175 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One-Page Mythic Oracle</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
-            color: #f5f5f5;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        h1 {
-            margin: 20px 0;
-        }
-        .container {
-            margin: 20px auto;
-            width: 80%;
-            max-width: 800px;
-        }
-        select, button {
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 16px;
-        }
-        #log {
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #2e2e2e;
-            text-align: left;
-            overflow-y: auto;
-            height: 300px;
-        }
-        .log-entry {
-            margin-bottom: 10px;
-        }
-        button:hover {
-            background-color: #0056b3;
-            color: #fff;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>One-Page Mythic Oracle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 { margin: 20px 0; }
+    .container {
+      margin: 20px auto;
+      width: 80%;
+      max-width: 800px;
+    }
+    select, button, input[type="text"] {
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    #log {
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #3a3a3a;
+      border-radius: 10px;
+      background-color: #2e2e2e;
+      text-align: left;
+      overflow-y: auto;
+      height: 300px;
+    }
+    .log-entry { margin-bottom: 10px; }
+    button:hover {
+      background-color: #0056b3;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <h1>One-Page Mythic Oracle</h1>
-    <p style="margin: 20px auto; padding: 10px; border: 1px solid #ccc; border-radius: 10px; background-color: #2e2e2e; text-align: center; width: 80%;">
-        This is a solo oracle page. Please enter your question, select your odds, and click 'Ask the Oracle.' Doubles will be auto-interpreted as events. You can download the logs when you are done. Once you leave the page or refresh it, the log is cleared.
-    </p>
-    <div class="container">
-        <label for="question">Question:</label>
-        <input type="text" id="question" placeholder="Type your question here..." style="width: 80%;"><br>
-        <label for="odds">Select Odds:</label>
-        <select id="odds">
-            <option value="1-19">Impossible</option>
-            <option value="20-35">Very Unlikely</option>
-            <option value="36-55">Unlikely</option>
-            <option value="56-85">50/50</option>
-            <option value="86-94">Likely</option>
-            <option value="95-99">Very Likely</option>
-            <option value="100">Certain</option>
-        </select>
-        <br>
-        <button onclick="askOracle()">Ask the Oracle</button>
-        <button onclick="location.href='/'" style="margin-top: 20px;">Home</button>
-        <button onclick="rollActionDescription()">Discover Meaning</button>
-        <button onclick="downloadLog()">Download Log</button>
-        <div id="log"></div>
-    </div>
+  <h1>One-Page Mythic Oracle</h1>
+  <p style="margin: 20px auto; padding: 10px; border: 1px solid #3a3a3a; border-radius: 10px; background-color: #2e2e2e; text-align: center; width: 80%;">
+    This is a solo oracle page. Enter your question, select the odds, then click Ask the Oracle. Doubles are auto-interpreted as events. You can download the log before leaving the page. Refreshing clears the log.
+  </p>
 
-    <script>
-        const log = [];
-        window.addEventListener('beforeunload', () => {
-            document.getElementById("question").value = "";
-        });
+  <div class="container">
+    <label for="question">Question:</label><br/>
+    <input type="text" id="question" placeholder="Type your question here..." style="width: 80%;" />
 
-        const actionTable = ["Attack", "Defend", "Heal", "Steal", "Bargain", "Build", "Break", "Guide", "Search", "Rescue", "Transform", "Control", "Destroy", "Unite", "Move", "Create", "Discover", "Protect", "Explore", "Investigate"];
-        const descriptionTable = ["Beautiful", "Dangerous", "Hidden", "Powerful", "Mysterious", "Fragile", "Enigmatic", "Bright", "Dark", "Frightening", "Peaceful", "Chaotic", "Ancient", "Sacred", "Cursed", "Valuable", "Strange", "Massive", "Small", "Ethereal"];
+    <br/><label for="odds">Select Odds:</label><br/>
+    <!-- The value is exYes-yes. This yields symmetric exceptional tails. -->
+    <select id="odds">
+      <option value="1-5">Impossible</option>
+      <option value="3-15">Very Unlikely</option>
+      <option value="5-35">Unlikely</option>
+      <option value="10-50">50/50</option>
+      <option value="15-65">Likely</option>
+      <option value="20-85">Very Likely</option>
+      <option value="25-100">Certain</option>
+    </select>
+    <br/>
 
-        function rollDice(sides) {
-            return Math.floor(Math.random() * sides) + 1;
-        }
+    <button onclick="askOracle()">Ask the Oracle</button>
+    <button onclick="rollActionDescription()">Discover Meaning</button>
+    <button onclick="downloadLog()">Download Log</button>
+    <button onclick="location.href='/'" style="margin-left: 10px;">Home</button>
 
-        function askOracle() {
-            const questionInput = document.getElementById("question");
-            const odds = document.getElementById("odds").value.split("-");
-            const roll = rollDice(100);
-            const question = document.getElementById("question").value;
-            let result = "";
-            
-            if (roll <= odds[0]) {
-                result = "Exceptional Yes";
-            } else if (roll <= odds[1]) {
-                result = "Yes";
-            } else if (roll > 100 - odds[0]) {
-                result = "Exceptional No";
-            } else {
-                result = "No";
-            }
+    <div id="log"></div>
+  </div>
 
-            if (roll % 11 === 0) {
-                result += " | Doubles - Random Event!";
-                const action = randomElement(actionTable);
-                const description = randomElement(descriptionTable);
-                result += ` (Action: ${action}, Description: ${description})`;
-            }
+  <script>
+    const log = [];
 
-            addToLog(`Question: ${question} | Roll: ${roll} | Result: ${result}`);
-            questionInput.value = "";
-        }
+    window.addEventListener('beforeunload', () => {
+      const q = document.getElementById("question");
+      if (q) q.value = "";
+    });
 
-        function rollActionDescription() {
-            const action = randomElement(actionTable);
-            const description = randomElement(descriptionTable);
-            addToLog(`Discover Meaning: Action - ${action}, Description - ${description}`);
-        }
+    const actionTable = [
+      "Attack","Defend","Heal","Steal","Bargain","Build","Break","Guide","Search","Rescue",
+      "Transform","Control","Destroy","Unite","Move","Create","Discover","Protect","Explore","Investigate"
+    ];
+    const descriptionTable = [
+      "Beautiful","Dangerous","Hidden","Powerful","Mysterious","Fragile","Enigmatic","Bright","Dark","Frightening",
+      "Peaceful","Chaotic","Ancient","Sacred","Cursed","Valuable","Strange","Massive","Small","Ethereal"
+    ];
 
-        function addToLog(entry) {
-            log.push(entry);
-            const logDiv = document.getElementById("log");
-            logDiv.innerHTML += `<div class='log-entry'>${entry}</div>`;
-            logDiv.scrollTop = logDiv.scrollHeight;
-        }
+    function rollDice(sides) {
+      return Math.floor(Math.random() * sides) + 1;
+    }
 
-        function downloadLog() {
-            const logContent = log.join("\n");
-            const blob = new Blob([logContent], { type: "text/plain" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "oracle_log.txt";
-            link.click();
-        }
+    function askOracle() {
+      const questionInput = document.getElementById("question");
+      const question = questionInput.value.trim();
 
-        function randomElement(array) {
-            return array[Math.floor(Math.random() * array.length)];
-        }
-    </script>
-     <!-- Static Footer -->
-       <footer style="display: flex; align-items: center; justify-content: center; padding: 10px; background-color: #1e1e1e; color: #f5f5f5; font-size: 14px; text-align: center;">
+      // Parse exYes and yes as integers
+      const parts = document.getElementById("odds").value.split("-").map(n => parseInt(n, 10));
+      const exYes = parts[0];      // exceptional yes cutoff
+      const yesCut = parts[1];     // standard yes cutoff
+
+      const roll = rollDice(100);
+      let result = "";
+
+      // Ranges:
+      // 1..exYes -> Exceptional Yes
+      // (exYes+1)..yesCut -> Yes
+      // (yesCut+1)..(100-exYes) -> No
+      // (100-exYes+1)..100 -> Exceptional No
+      if (roll <= exYes) {
+        result = "Exceptional Yes";
+      } else if (roll <= yesCut) {
+        result = "Yes";
+      } else if (roll > 100 - exYes) {
+        result = "Exceptional No";
+      } else {
+        result = "No";
+      }
+
+      // Doubles trigger random event on 11,22,...,99
+      if (roll % 11 === 0) {
+        const action = randomElement(actionTable);
+        const description = randomElement(descriptionTable);
+        result += " | Doubles... Random Event! (Action: " + action + ", Description: " + description + ")";
+      }
+
+      addToLog("Question: " + (question || "[no text]") + " | Roll: " + roll + " | Result: " + result);
+      questionInput.value = "";
+    }
+
+    function rollActionDescription() {
+      const action = randomElement(actionTable);
+      const description = randomElement(descriptionTable);
+      addToLog("Discover Meaning: Action... " + action + ", Description... " + description);
+    }
+
+    function addToLog(entry) {
+      log.push(entry);
+      const logDiv = document.getElementById("log");
+      logDiv.innerHTML += "<div class='log-entry'>" + entry + "</div>";
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    function downloadLog() {
+      const logContent = log.join("\n");
+      const blob = new Blob([logContent], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "oracle_log.txt";
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+
+    function randomElement(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+  </script>
+
+  <!-- Static Footer -->
+  <footer style="display:flex; align-items:center; justify-content:center; padding:10px; background-color:#1e1e1e; color:#f5f5f5; font-size:14px; text-align:center;">
     <span>&copy; 2025 SoloDND.com | All generators inspired by a needed basis for my games</span>
-    <div style="margin-left: 10px;">
-        <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-        <script type='text/javascript'>
-            kofiwidget2.init('Support me on Ko-fi', '#0f67ff', 'P5P2LK8J');
-            kofiwidget2.draw();
-        </script>
+    <div style="margin-left:10px;">
+      <script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+      <script type="text/javascript">
+        kofiwidget2.init('Support me on Ko-fi', '#0f67ff', 'P5P2LK8J');
+        kofiwidget2.draw();
+      </script>
     </div>
-</footer>
+  </footer>
 </body>
 </html>
