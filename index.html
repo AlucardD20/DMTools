@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solo Quests | Adventures & Updates</title>
+  <title>Solo D&D | Adventures & Updates</title>
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
     body {
@@ -89,6 +89,24 @@
       text-decoration: underline;
     }
 
+    #loadMore {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      background-color: #1e1e1e;
+      color: #e1c699;
+      border: 1px solid #333;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      width: fit-content;
+    }
+
+    #loadMore:hover {
+      background-color: #333;
+    }
+
     footer {
       display: flex;
       align-items: center;
@@ -113,14 +131,15 @@
 <body>
   <!-- Header with Banner -->
   <header>
-    <img src="images/soloquests1.jpg" alt="Solo Quests Banner">
+    <img src="images/soloquests1.jpg" alt="Solo D&D Banner">
     <nav>
       <a href="tools.html">Tools</a>
     </nav>
   </header>
 
   <!-- Blog Posts -->
-  <main>
+  <main id="postContainer">
+    <!-- Example posts -->
     <article>
       <h2><a href="posts/2025-10-05.html">October 5, 2025</a></h2>
       <p>Recorded a new Real Talk Unscripted episode. I went into what makes solo campaigns tick and why improvisation is the best GM skill no one teaches. Video link inside.</p>
@@ -132,7 +151,12 @@
       <p>This week’s Solo Quests episode was pure chaos in the best way. The dice hated me, but the story didn’t care. A breakdown of what worked and what didn’t.</p>
       <a class="read-more" href="posts/2025-10-01.html">Read More →</a>
     </article>
+
+    <!-- Add as many <article> elements as you want here -->
   </main>
+
+  <!-- Load More Button -->
+  <div id="loadMore">Older Posts</div>
 
   <!-- Static Footer -->
   <footer>
@@ -143,5 +167,30 @@
       </a>
     </div>
   </footer>
+
+  <script>
+    // JavaScript for "Older Posts" feature
+    const posts = document.querySelectorAll('#postContainer article');
+    const loadMore = document.getElementById('loadMore');
+    const postsPerPage = 10;
+    let currentCount = postsPerPage;
+
+    function showPosts(count) {
+      posts.forEach((post, i) => {
+        post.style.display = i < count ? 'block' : 'none';
+      });
+    }
+
+    showPosts(currentCount);
+
+    loadMore.addEventListener('click', () => {
+      currentCount += postsPerPage;
+      showPosts(currentCount);
+
+      if (currentCount >= posts.length) {
+        loadMore.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
