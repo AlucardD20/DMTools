@@ -5,30 +5,144 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Solo D&D | Blog & Tools</title>
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      color: #f5f5f5;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      background-color: #000;
+    }
+
+    header img {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+
+    nav {
+      background-color: #1e1e1e;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #e1c699;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    article {
+      background-color: #1b1b1b;
+      border: 1px solid #333;
+      border-radius: 5px;
+      margin-bottom: 25px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    article h2 {
+      margin-top: 0;
+      color: #e1c699;
+    }
+
+    article h2 a {
+      color: #e1c699;
+      text-decoration: none;
+    }
+
+    article h2 a:hover {
+      text-decoration: underline;
+    }
+
+    article p {
+      color: #ddd;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 10px;
+      color: #e1c699;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .read-more:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    footer div {
+      margin-left: 10px;
+    }
+
+    footer img {
+      height: 24px;
+    }
+  </style>
 </head>
+
 <body>
+  <!-- Header with Banner -->
   <header>
-    <h1>Solo D&D</h1>
+    <img src="images/soloquests1.jpg" alt="Solo D&D Banner">
     <nav>
       <a href="index.html">Blog</a>
       <a href="tools.html">Tools</a>
     </nav>
   </header>
 
+  <!-- Blog Posts -->
   <main>
     <article>
-      <h2><a href="posts/2025-10-05.html">New Video: Solo Quests - Episode 8</a></h2>
-      <p>A quick look at what went down in this week’s solo session...</p>
+      <h2><a href="posts/2025-10-05-video-update.html">New Video: Solo Quests - Episode 8</a></h2>
+      <p>This week’s adventure went off the rails in the best way. I rolled up something unexpected and it changed the tone of the entire session. Here’s what happened and what I learned from it.</p>
+      <a class="read-more" href="posts/2025-10-05-video-update.html">Read More →</a>
     </article>
 
     <article>
       <h2><a href="posts/2025-10-01-podcast-recap.html">Podcast Recap: Real Talk Unscripted</a></h2>
-      <p>Behind-the-scenes notes from the recording booth...</p>
+      <p>Talking shop about running solo campaigns, where inspiration really comes from, and how much of the game happens in your head. It’s not just about rolling dice, it’s about framing stories.</p>
+      <a class="read-more" href="posts/2025-10-01-podcast-recap.html">Read More →</a>
     </article>
   </main>
 
+  <!-- Static Footer -->
   <footer>
-    <p>&copy; 2025 The Evil Dungeon Master</p>
+    <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games</span>
+    <div>
+      <a href="https://patreon.com/TheEvilDM" target="_blank">
+        <img src="images/Patreon-Logo.png" alt="Support me on Patreon">
+      </a>
+    </div>
   </footer>
 </body>
 </html>
