@@ -12,6 +12,9 @@
       color: #f5f5f5;
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     header {
@@ -26,46 +29,42 @@
       display: block;
     }
 
-    nav {
-      background-color: #1e1e1e;
-      padding: 10px 0;
+    main {
+      flex: 1;
       display: flex;
       justify-content: center;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
       gap: 20px;
     }
 
-    nav a {
-      color: #e1c699;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    main {
+    #content {
+      flex: 1;
       max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
+      position: relative;
     }
 
+    /* Floating Search Bar */
     #searchBox {
       width: 100%;
       padding: 10px;
-      margin-bottom: 25px;
+      position: sticky;
+      top: 15px;
       border: 1px solid #333;
       border-radius: 4px;
       background-color: #1b1b1b;
       color: #f5f5f5;
       font-size: 16px;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     }
 
     article {
       background-color: #1b1b1b;
       border: 1px solid #333;
       border-radius: 5px;
-      margin-bottom: 25px;
+      margin-top: 25px;
       padding: 20px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
@@ -118,6 +117,35 @@
       background-color: #333;
     }
 
+    /* Sidebar */
+    aside {
+      width: 220px;
+      background-color: #1b1b1b;
+      border: 1px solid #333;
+      border-radius: 5px;
+      padding: 15px;
+      height: fit-content;
+      position: sticky;
+      top: 15px;
+    }
+
+    aside h3 {
+      color: #e1c699;
+      margin-top: 0;
+    }
+
+    aside a {
+      display: block;
+      color: #e1c699;
+      text-decoration: none;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    aside a:hover {
+      text-decoration: underline;
+    }
+
     footer {
       display: flex;
       align-items: center;
@@ -136,45 +164,59 @@
     footer img {
       height: 24px;
     }
+
+    /* Responsive layout */
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+      }
+      aside {
+        width: 100%;
+        position: relative;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <!-- Header with Banner -->
+  <!-- Header -->
   <header>
     <img src="images/soloquests1.jpg" alt="Solo D&D Banner">
-    <nav>
-      <a href="tools.html">Tools</a>
-    </nav>
   </header>
 
-  <!-- Blog Content -->
   <main>
-    <!-- Search Bar -->
-    <input type="text" id="searchBox" placeholder="Search posts...">
+    <!-- Main content -->
+    <section id="content">
+      <input type="text" id="searchBox" placeholder="Search posts...">
 
-    <!-- Blog Posts -->
-    <div id="postContainer">
-      <article>
-        <h2><a href="posts/2025-10-05.html">October 5, 2025</a></h2>
-        <p>Recorded a new Real Talk Unscripted episode. I went into what makes solo campaigns tick and why improvisation is the best GM skill no one teaches. Video link inside.</p>
-        <a class="read-more" href="posts/2025-10-05.html">Read More →</a>
-      </article>
+      <div id="postContainer">
+        <article>
+          <h2><a href="posts/2025-10-05.html">October 5, 2025</a></h2>
+          <p>Recorded a new Real Talk Unscripted episode. I went into what makes solo campaigns tick and why improvisation is the best GM skill no one teaches. Video link inside.</p>
+          <a class="read-more" href="posts/2025-10-05.html">Read More →</a>
+        </article>
 
-      <article>
-        <h2><a href="posts/2025-10-01.html">October 1, 2025</a></h2>
-        <p>This week’s Solo Quests episode was pure chaos in the best way. The dice hated me, but the story didn’t care. A breakdown of what worked and what didn’t.</p>
-        <a class="read-more" href="posts/2025-10-01.html">Read More →</a>
-      </article>
+        <article>
+          <h2><a href="posts/2025-10-01.html">October 1, 2025</a></h2>
+          <p>This week’s Solo Quests episode was pure chaos in the best way. The dice hated me, but the story didn’t care. A breakdown of what worked and what didn’t.</p>
+          <a class="read-more" href="posts/2025-10-01.html">Read More →</a>
+        </article>
 
-      <!-- Add more <article> elements here -->
-    </div>
+        <!-- Add more <article> elements here -->
+      </div>
 
-    <!-- Load More Button -->
-    <div id="loadMore">Older Posts</div>
+      <div id="loadMore">Older Posts</div>
+    </section>
+
+    <!-- Sidebar -->
+    <aside>
+      <h3>Navigation</h3>
+      <a href="tools.html">Tools</a>
+    </aside>
   </main>
 
-  <!-- Static Footer -->
+  <!-- Footer -->
   <footer>
     <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games</span>
     <div>
@@ -185,7 +227,7 @@
   </footer>
 
   <script>
-    // Pagination logic
+    // Pagination
     const posts = document.querySelectorAll('#postContainer article');
     const loadMore = document.getElementById('loadMore');
     const postsPerPage = 10;
@@ -205,7 +247,7 @@
       if (currentCount >= posts.length) loadMore.style.display = 'none';
     });
 
-    // Search filtering logic
+    // Search
     const searchBox = document.getElementById('searchBox');
     searchBox.addEventListener('input', function() {
       const query = this.value.toLowerCase();
@@ -218,7 +260,7 @@
         if (matches) visibleCount++;
       });
 
-      // Hide the "Older Posts" button while searching
+      // Hide Older Posts while searching
       loadMore.style.display = query ? 'none' : (currentCount < posts.length ? 'block' : 'none');
     });
   </script>
