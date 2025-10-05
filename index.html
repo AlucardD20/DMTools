@@ -50,6 +50,17 @@
       padding: 0 20px;
     }
 
+    #searchBox {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 25px;
+      border: 1px solid #333;
+      border-radius: 4px;
+      background-color: #1b1b1b;
+      color: #f5f5f5;
+      font-size: 16px;
+    }
+
     article {
       background-color: #1b1b1b;
       border: 1px solid #333;
@@ -137,26 +148,31 @@
     </nav>
   </header>
 
-  <!-- Blog Posts -->
-  <main id="postContainer">
-    <!-- Example posts -->
-    <article>
-      <h2><a href="posts/2025-10-05.html">October 5, 2025</a></h2>
-      <p>Recorded a new Real Talk Unscripted episode. I went into what makes solo campaigns tick and why improvisation is the best GM skill no one teaches. Video link inside.</p>
-      <a class="read-more" href="posts/2025-10-05.html">Read More →</a>
-    </article>
+  <!-- Blog Content -->
+  <main>
+    <!-- Search Bar -->
+    <input type="text" id="searchBox" placeholder="Search posts...">
 
-    <article>
-      <h2><a href="posts/2025-10-01.html">October 1, 2025</a></h2>
-      <p>This week’s Solo Quests episode was pure chaos in the best way. The dice hated me, but the story didn’t care. A breakdown of what worked and what didn’t.</p>
-      <a class="read-more" href="posts/2025-10-01.html">Read More →</a>
-    </article>
+    <!-- Blog Posts -->
+    <div id="postContainer">
+      <article>
+        <h2><a href="posts/2025-10-05.html">October 5, 2025</a></h2>
+        <p>Recorded a new Real Talk Unscripted episode. I went into what makes solo campaigns tick and why improvisation is the best GM skill no one teaches. Video link inside.</p>
+        <a class="read-more" href="posts/2025-10-05.html">Read More →</a>
+      </article>
 
-    <!-- Add as many <article> elements as you want here -->
+      <article>
+        <h2><a href="posts/2025-10-01.html">October 1, 2025</a></h2>
+        <p>This week’s Solo Quests episode was pure chaos in the best way. The dice hated me, but the story didn’t care. A breakdown of what worked and what didn’t.</p>
+        <a class="read-more" href="posts/2025-10-01.html">Read More →</a>
+      </article>
+
+      <!-- Add more <article> elements here -->
+    </div>
+
+    <!-- Load More Button -->
+    <div id="loadMore">Older Posts</div>
   </main>
-
-  <!-- Load More Button -->
-  <div id="loadMore">Older Posts</div>
 
   <!-- Static Footer -->
   <footer>
@@ -169,7 +185,7 @@
   </footer>
 
   <script>
-    // JavaScript for "Older Posts" feature
+    // Pagination logic
     const posts = document.querySelectorAll('#postContainer article');
     const loadMore = document.getElementById('loadMore');
     const postsPerPage = 10;
@@ -186,10 +202,24 @@
     loadMore.addEventListener('click', () => {
       currentCount += postsPerPage;
       showPosts(currentCount);
+      if (currentCount >= posts.length) loadMore.style.display = 'none';
+    });
 
-      if (currentCount >= posts.length) {
-        loadMore.style.display = 'none';
-      }
+    // Search filtering logic
+    const searchBox = document.getElementById('searchBox');
+    searchBox.addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      let visibleCount = 0;
+
+      posts.forEach(post => {
+        const text = post.innerText.toLowerCase();
+        const matches = text.includes(query);
+        post.style.display = matches ? 'block' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      // Hide the "Older Posts" button while searching
+      loadMore.style.display = query ? 'none' : (currentCount < posts.length ? 'block' : 'none');
     });
   </script>
 </body>
