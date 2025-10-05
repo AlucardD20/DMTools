@@ -152,10 +152,18 @@
       text-decoration: underline;
     }
 
-    aside p {
+    .about-title {
+      text-align: center;
+      color: #b33;
+      font-size: 18px;
+      margin-top: 20px;
+      margin-bottom: 5px;
+    }
+
+    .about-text {
+      text-align: center;
       color: #ccc;
       font-size: 14px;
-      margin-top: 10px;
       line-height: 1.4;
     }
 
@@ -216,8 +224,6 @@
           <p>This week’s Solo Quests episode was pure chaos in the best way. The dice hated me, but the story didn’t care. A breakdown of what worked and what didn’t.</p>
           <a class="read-more" href="posts/2025-10-01.html">Read More →</a>
         </article>
-
-        <!-- Add more <article> elements here -->
       </div>
 
       <div id="loadMore">Older Posts</div>
@@ -226,8 +232,14 @@
     <!-- Sidebar -->
     <aside>
       <h3>Navigation</h3>
-      <a href="tools.html">Tools</a>
-      <p><strong>About:</strong> Solo D&D is a home for solo adventurers, random generators, and The Evil Dungeon Master’s personal gaming chaos. Here you’ll find updates, experiments, and the occasional cursed table.</p>
+      <a href="tools.html">Solo Tools</a>
+
+      <div class="about-title">About</div>
+      <p class="about-text">
+        Solo Quests: Party of One is a space for solo adventurers and storytellers.  
+        Here you'll find campaign updates, behind-the-scenes thoughts, and tools to help  
+        you explore the strange corners of tabletop worlds—alone or with friends.
+      </p>
     </aside>
   </main>
 
@@ -275,7 +287,6 @@
         if (matches) visibleCount++;
       });
 
-      // Hide "Older Posts" while searching
       loadMore.style.display = query ? 'none' : (currentCount < posts.length ? 'block' : 'none');
     });
   </script>
