@@ -85,6 +85,16 @@
     article h2 {
       margin-top: 0;
       color: #e1c699;
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .post-date {
+      color: #999;
+      font-style: italic;
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: block;
     }
 
     article h2 a {
@@ -221,44 +231,51 @@
 
       <div id="postContainer">
         <article>
-          <h2><a href="posts/2025-10-03.html">October 3, 2025</a></h2>
-          <p>Punisher Takes on Gotham – Season 1, Episode 7. A hard choice lands on the table. I talk about letting consequences breathe and why I sometimes accept failure to get better story.</p>
+          <h2><a href="posts/2025-10-03.html">Punisher Takes on Gotham – Season 1, Episode 7</a></h2>
+          <span class="post-date">October 3, 2025</span>
+          <p>A hard choice lands on the table. I talk about letting consequences breathe and why I sometimes accept failure to get better story.</p>
           <a class="read-more" href="posts/2025-10-03.html">Read More →</a>
         </article>
 
         <article>
-          <h2><a href="posts/2025-09-17.html">September 17, 2025</a></h2>
-          <p>Punisher Takes on Gotham – Season 1, Episode 6. Ambush, recovery, escalation. I show how I pace injuries and gear checks without stalling momentum in solo play.</p>
+          <h2><a href="posts/2025-09-17.html">Punisher Takes on Gotham – Season 1, Episode 6</a></h2>
+          <span class="post-date">September 17, 2025</span>
+          <p>Ambush, recovery, escalation. I show how I pace injuries and gear checks without stalling momentum in solo play.</p>
           <a class="read-more" href="posts/2025-09-17.html">Read More →</a>
         </article>
 
         <article>
-          <h2><a href="posts/2025-09-11.html">September 11, 2025</a></h2>
-          <p>Punisher Takes on Gotham – Season 1, Episode 5. Frank digs into the network behind the club. I use simple clues, heat clocks, and a rolling suspicion track to pressure every scene.</p>
+          <h2><a href="posts/2025-09-11.html">Punisher Takes on Gotham – Season 1, Episode 5</a></h2>
+          <span class="post-date">September 11, 2025</span>
+          <p>Frank digs into the network behind the club. I use simple clues, heat clocks, and a rolling suspicion track to pressure every scene.</p>
           <a class="read-more" href="posts/2025-09-11.html">Read More →</a>
         </article>
 
         <article>
-          <h2><a href="posts/2025-08-11.html">August 11, 2025</a></h2>
-          <p>Punisher Takes on Gotham – Season 1, Episode 4. Heat rises in Gotham. I adjust oracles, tighten consequences, and let a single clue shift the next target.</p>
+          <h2><a href="posts/2025-08-11.html">Punisher Takes on Gotham – Season 1, Episode 4</a></h2>
+          <span class="post-date">August 11, 2025</span>
+          <p>Heat rises in Gotham. I adjust oracles, tighten consequences, and let a single clue shift the next target.</p>
           <a class="read-more" href="posts/2025-08-11.html">Read More →</a>
         </article>
 
         <article>
-          <h2><a href="posts/2025-07-17.html">July 17, 2025</a></h2>
-          <p>Punisher Takes on Gotham – Season 1, Episode 3. A rooftop shadow forces a risky choice. I show how I interpret mixed results and keep Frank moving without telegraphing outcomes.</p>
+          <h2><a href="posts/2025-07-17.html">Punisher Takes on Gotham – Season 1, Episode 3</a></h2>
+          <span class="post-date">July 17, 2025</span>
+          <p>A rooftop shadow forces a risky choice. I show how I interpret mixed results and keep Frank moving without telegraphing outcomes.</p>
           <a class="read-more" href="posts/2025-07-17.html">Read More →</a>
         </article>
 
         <article>
-          <h2><a href="posts/2025-07-10.html">July 10, 2025</a></h2>
-          <p>Punisher Takes on Gotham – Season 1, Episode 2. Stakeouts and bad intel test my patience. I lean on reaction rolls, quick clocks, and tight scene goals to keep the pace sharp.</p>
+          <h2><a href="posts/2025-07-10.html">Punisher Takes on Gotham – Season 1, Episode 2</a></h2>
+          <span class="post-date">July 10, 2025</span>
+          <p>Stakeouts and bad intel test my patience. I lean on reaction rolls, quick clocks, and tight scene goals to keep the pace sharp.</p>
           <a class="read-more" href="posts/2025-07-10.html">Read More →</a>
         </article>
 
         <article>
-          <h2><a href="posts/2025-07-08.html">July 8, 2025</a></h2>
-          <p>Punisher Takes on Gotham – Season 1, Episode 1. Frank arrives in Gotham and the city pushes back. I walk through the setup, the ground rules I use for solo play, and the first decisions that shape his path.</p>
+          <h2><a href="posts/2025-07-08.html">Punisher Takes on Gotham – Season 1, Episode 1</a></h2>
+          <span class="post-date">July 8, 2025</span>
+          <p>Frank arrives in Gotham and the city pushes back. I walk through the setup, the ground rules I use for solo play, and the first decisions that shape his path.</p>
           <a class="read-more" href="posts/2025-07-08.html">Read More →</a>
         </article>
       </div>
@@ -290,7 +307,6 @@
   </footer>
 
   <script>
-    // Pagination logic
     const posts = document.querySelectorAll('#postContainer article');
     const loadMore = document.getElementById('loadMore');
     const postsPerPage = 10;
@@ -310,7 +326,6 @@
       if (currentCount >= posts.length) loadMore.style.display = 'none';
     });
 
-    // Search logic
     const searchBox = document.getElementById('searchBox');
     const viewingLabel = document.getElementById('viewingLabel');
 
@@ -322,21 +337,16 @@
         post.style.display = matches ? 'block' : 'none';
       });
       loadMore.style.display = query ? 'none' : (currentCount < posts.length ? 'block' : 'none');
-      viewingLabel.style.display = query ? 'none' : 'none';
+      viewingLabel.style.display = 'none';
     });
 
-    // Filter by Punisher series
     const filterPunisher = document.getElementById('filterPunisher');
     filterPunisher.addEventListener('click', (e) => {
       e.preventDefault();
       searchBox.value = '';
       posts.forEach(post => {
         const text = post.innerText.toLowerCase();
-        if (text.includes('punisher takes on gotham')) {
-          post.style.display = 'block';
-        } else {
-          post.style.display = 'none';
-        }
+        post.style.display = text.includes('punisher takes on gotham') ? 'block' : 'none';
       });
       loadMore.style.display = 'none';
       viewingLabel.style.display = 'block';
