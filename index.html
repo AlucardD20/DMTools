@@ -152,15 +152,16 @@
     }
 
     aside h3 {
-  color: #b33;              /* red headers */
-  margin-top: 15px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #333;
-  padding-bottom: 4px;
-  font-size: 15px;
-  font-family: 'Press Start 2P', cursive; /* matches your pixel vibe */
-  letter-spacing: 0.5px;
-}
+      color: #b33; /* red headings */
+      margin-top: 15px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 4px;
+      font-size: 15px;
+      font-family: 'Press Start 2P', cursive;
+      letter-spacing: 0.5px;
+    }
+
     aside a {
       display: block;
       color: #e1c699;
@@ -173,13 +174,21 @@
       text-decoration: underline;
     }
 
+    .about-box {
+      background-color: #161616;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
     .about-title {
       text-align: center;
       color: #b33;
       font-family: 'Press Start 2P', cursive;
       font-size: 12px;
-      margin-top: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .about-text {
@@ -187,6 +196,7 @@
       font-size: 14px;
       line-height: 1.5;
       text-align: justify;
+      margin: 0;
     }
 
     footer {
@@ -298,12 +308,14 @@
       <h3>Solo Plays (Filters)</h3>
       <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
 
-      <div class="about-title">ABOUT</div>
-      <p class="about-text">
-        Solo Quests Party of One is a space built for lone adventurers and storytellers.  
-        Here you’ll find updates, behind the scenes notes, and tools to guide your journeys  
-        through strange worlds, dark taverns, and forgotten dungeons.
-      </p>
+      <div class="about-box">
+        <div class="about-title">ABOUT</div>
+        <p class="about-text">
+          Solo Quests Party of One is a space built for lone adventurers and storytellers.  
+          Here you’ll find updates, behind the scenes notes, and tools to guide your journeys  
+          through strange worlds, dark taverns, and forgotten dungeons.
+        </p>
+      </div>
     </aside>
   </main>
 
