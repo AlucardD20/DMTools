@@ -258,6 +258,42 @@
 @media (max-width: 900px) {
   .stats-box { width: 100%; }
 }
+    /* Right column container */
+.rail {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px; /* spacing between sidebar, about, visitors */
+}
+
+/* Keep sidebar sticky; About and Visitors scroll normally */
+aside { position: sticky; top: 15px; }
+
+/* Visitors, inline not a box */
+.stats-inline { width: 220px; }
+.stats-title {
+  text-align: center;
+  color: #b33;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.stats-inline .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  border-top: 1px solid #2a2a2a;
+}
+.stats-inline .row:first-child { border-top: 0; }
+.stats-inline span { color: #bbb; font-size: 13px; }
+.stats-inline strong { color: #e1c699; font-size: 15px; }
+
+/* Mobile */
+@media (max-width: 900px) {
+  .rail, .stats-inline { width: 100%; }
+}
   </style>
 </head>
 
@@ -328,29 +364,33 @@
       <div id="loadMore">Older Posts</div>
     </section>
 
-    <div>
-      <aside>
-        <h3>Links</h3>
-        <a href="index.html">Home</a>
-        <a href="tools.html">Solo Tools</a>
-        <a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank">YouTube Channel</a>
-        <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
+   <div class="rail">
+  <aside>
+    <h3>Links</h3>
+    <a href="index.html">Home</a>
+    <a href="tools.html">Solo Tools</a>
+    <a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank">YouTube Channel</a>
+    <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
 
-        <h3>Solo Plays (Filters)</h3>
-        <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
-      </aside>
-      <div class="about-box">
-        <div class="about-title">ABOUT</div>
-        <p class="about-text">
-          Solo Quests Party of One is a space built for lone adventurers and storytellers.  
-          Here you’ll find updates, behind the scenes notes, and tools to guide your journeys  
-          through strange worlds, dark taverns, and forgotten dungeons.
-        </p>
-    <div class="stats-box">
-  <div class="stats-title">VISITORS</div>
-  <div class="stats-rows">
-    <div><span>Total Views</span><strong id="viewCount">—</strong></div>
-    <div><span>Unique Visitors</span><strong id="visitorCount">—</strong></div>
+    <h3>Solo Plays (Filters)</h3>
+    <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
+  </aside>
+
+  <div class="about-box">
+    <div class="about-title">ABOUT</div>
+    <p class="about-text">
+      Solo Quests Party of One is a space built for lone adventurers and storytellers.
+      Here you’ll find updates, behind the scenes notes, and tools to guide your journeys
+      through strange worlds, dark taverns, and forgotten dungeons.
+    </p>
+  </div>
+
+  <!-- Visitors, simple inline style, not a box -->
+  <div class="stats-inline">
+    <div class="stats-title">VISITORS</div>
+    <div class="row"><span>Total Views</span><strong id="viewCount">—</strong></div>
+    <div class="row"><span>Unique Visitors</span><strong id="visitorCount">—</strong></div>
+  </div>
 </div>
   </main>
 
