@@ -229,6 +229,35 @@
         position: relative;
       }
     }
+    .stats-box {
+  width: 220px;
+  background-color: #161616;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+.stats-title {
+  text-align: center;
+  color: #b33;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.stats-rows > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-top: 1px solid #2a2a2a;
+}
+.stats-rows > div:first-child { border-top: 0; }
+.stats-rows span { color: #bbb; font-size: 13px; }
+.stats-rows strong { color: #e1c699; font-size: 16px; }
+@media (max-width: 900px) {
+  .stats-box { width: 100%; }
+}
   </style>
 </head>
 
@@ -320,6 +349,13 @@
         </p>
       </div>
     </div>
+    <div class="stats-box">
+  <div class="stats-title">VISITORS</div>
+  <div class="stats-rows">
+    <div><span>Total Views</span><strong id="viewCount">—</strong></div>
+    <div><span>Unique Visitors</span><strong id="visitorCount">—</strong></div>
+  </div>
+</div>
   </main>
 
   <footer>
@@ -376,6 +412,45 @@
       loadMore.style.display = 'none';
       viewingLabel.style.display = 'block';
     });
+    <script>
+  // Site counters: total views and unique visitors
+  (function() {
+    const NS = 'soloquests_site';          // change if you want a different namespace
+    const viewsKey = 'views_total';
+    const visitorsKey = 'visitors_total';
+
+    const viewOut = document.getElementById('viewCount');
+    const visitorOut = document.getElementById('visitorCount');
+
+    function setText(el, val) {
+      if (el) el.textContent = Number(val).toLocaleString();
+    }
+
+    // Always increment total views
+    fetch(`https://api.countapi.xyz/hit/${NS}/${viewsKey}`)
+      .then(r => r.json())
+      .then(data => setText(viewOut, data.value))
+      .catch(() => setText(viewOut, '—'));
+
+    // Increment unique visitors only once per browser
+    const SEEN_KEY = 'sq_unique_seen';
+    const seen = localStorage.getItem(SEEN_KEY);
+
+    if (!seen) {
+      fetch(`https://api.countapi.xyz/hit/${NS}/${visitorsKey}`)
+        .then(r => r.json())
+        .then(data => {
+          localStorage.setItem(SEEN_KEY, '1');
+          setText(visitorOut, data.value);
+        })
+        .catch(() => setText(visitorOut, '—'));
+    } else {
+      fetch(`https://api.countapi.xyz/get/${NS}/${visitorsKey}`)
+        .then(r => r.json())
+        .then(data => setText(visitorOut, data.value))
+        .catch(() => setText(visitorOut, '—'));
+    }
+  })();
   </script>
 </body>
 </html>
