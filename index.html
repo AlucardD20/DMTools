@@ -17,17 +17,8 @@
       min-height: 100vh;
     }
 
-    header {
-      text-align: center;
-      background-color: #000;
-    }
-
-    header img {
-      width: 100%;
-      max-height: 250px;
-      object-fit: cover;
-      display: block;
-    }
+    header { text-align: center; background-color: #000; }
+    header img { width: 100%; max-height: 250px; object-fit: cover; display: block; }
 
     main {
       flex: 1;
@@ -40,19 +31,9 @@
       align-items: flex-start;
     }
 
-    #content {
-      flex: 1;
-      max-width: 800px;
-      position: relative;
-    }
+    #content { flex: 1; max-width: 800px; position: relative; }
 
-    #searchWrapper {
-      position: sticky;
-      top: 15px;
-      z-index: 10;
-      background-color: #111;
-      padding-bottom: 10px;
-    }
+    #searchWrapper { position: sticky; top: 15px; z-index: 10; background-color: #111; padding-bottom: 10px; }
 
     #searchBox {
       width: 100%;
@@ -66,13 +47,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     }
 
-    #viewingLabel {
-      text-align: center;
-      color: #e1c699;
-      font-weight: bold;
-      margin-bottom: 15px;
-      display: none;
-    }
+    #viewingLabel { text-align: center; color: #e1c699; font-weight: bold; margin-bottom: 15px; display: none; }
 
     article {
       background-color: #1b1b1b;
@@ -83,45 +58,14 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
-    article h2 {
-      margin-top: 0;
-      color: #e1c699;
-      font-size: 20px;
-      margin-bottom: 5px;
-    }
+    article h2 { margin-top: 0; color: #e1c699; font-size: 20px; margin-bottom: 5px; }
+    .post-date { color: #999; font-style: italic; font-size: 14px; margin-bottom: 10px; display: block; }
+    article h2 a { color: #e1c699; text-decoration: none; }
+    article h2 a:hover { text-decoration: underline; }
+    article p { color: #ddd; }
 
-    .post-date {
-      color: #999;
-      font-style: italic;
-      font-size: 14px;
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    article h2 a {
-      color: #e1c699;
-      text-decoration: none;
-    }
-
-    article h2 a:hover {
-      text-decoration: underline;
-    }
-
-    article p {
-      color: #ddd;
-    }
-
-    .read-more {
-      display: inline-block;
-      margin-top: 10px;
-      color: #e1c699;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .read-more:hover {
-      text-decoration: underline;
-    }
+    .read-more { display: inline-block; margin-top: 10px; color: #e1c699; text-decoration: none; font-weight: bold; }
+    .read-more:hover { text-decoration: underline; }
 
     #loadMore {
       display: block;
@@ -136,10 +80,7 @@
       font-weight: bold;
       width: fit-content;
     }
-
-    #loadMore:hover {
-      background-color: #333;
-    }
+    #loadMore:hover { background-color: #333; }
 
     aside {
       width: 220px;
@@ -163,17 +104,8 @@
       letter-spacing: 0.5px;
     }
 
-    aside a {
-      display: block;
-      color: #e1c699;
-      text-decoration: none;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-
-    aside a:hover {
-      text-decoration: underline;
-    }
+    aside a { display: block; color: #e1c699; text-decoration: none; margin-bottom: 8px; font-weight: bold; }
+    aside a:hover { text-decoration: underline; }
 
     .about-box {
       width: 220px;
@@ -184,21 +116,8 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     }
 
-    .about-title {
-      text-align: center;
-      color: #b33;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-
-    .about-text {
-      color: #ccc;
-      font-size: 14px;
-      line-height: 1.5;
-      text-align: justify;
-      margin: 0;
-    }
+    .about-title { text-align: center; color: #b33; font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 8px; }
+    .about-text { color: #ccc; font-size: 14px; line-height: 1.5; text-align: justify; margin: 0; }
 
     footer {
       display: flex;
@@ -210,90 +129,22 @@
       font-size: 14px;
       text-align: center;
     }
+    footer div { margin-left: 10px; }
+    footer img { height: 24px; }
 
-    footer div {
-      margin-left: 10px;
-    }
-
-    footer img {
-      height: 24px;
-    }
+    /* Visitors inline card removed, using simple rail stack */
+    .rail { width: 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+    .stats-inline { width: 220px; }
+    .stats-title { text-align: center; color: #b33; font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 6px; }
+    .stats-inline .row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-top: 1px solid #2a2a2a; }
+    .stats-inline .row:first-child { border-top: 0; }
+    .stats-inline span { color: #bbb; font-size: 13px; }
+    .stats-inline strong { color: #e1c699; font-size: 15px; }
 
     @media (max-width: 900px) {
-      main {
-        flex-direction: column;
-        align-items: center;
-      }
-      aside, .about-box {
-        width: 100%;
-        position: relative;
-      }
+      main { flex-direction: column; align-items: center; }
+      aside, .about-box, .rail, .stats-inline { width: 100%; position: relative; }
     }
-    .stats-box {
-  width: 220px;
-  background-color: #161616;
-  border: 1px solid #333;
-  border-radius: 6px;
-  padding: 12px;
-  margin-top: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
-.stats-title {
-  text-align: center;
-  color: #b33;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 12px;
-  margin-bottom: 10px;
-}
-.stats-rows > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 0;
-  border-top: 1px solid #2a2a2a;
-}
-.stats-rows > div:first-child { border-top: 0; }
-.stats-rows span { color: #bbb; font-size: 13px; }
-.stats-rows strong { color: #e1c699; font-size: 16px; }
-@media (max-width: 900px) {
-  .stats-box { width: 100%; }
-}
-    /* Right column container */
-.rail {
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px; /* spacing between sidebar, about, visitors */
-}
-
-/* Keep sidebar sticky; About and Visitors scroll normally */
-aside { position: sticky; top: 15px; }
-
-/* Visitors, inline not a box */
-.stats-inline { width: 220px; }
-.stats-title {
-  text-align: center;
-  color: #b33;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 12px;
-  margin-bottom: 6px;
-}
-.stats-inline .row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 0;
-  border-top: 1px solid #2a2a2a;
-}
-.stats-inline .row:first-child { border-top: 0; }
-.stats-inline span { color: #bbb; font-size: 13px; }
-.stats-inline strong { color: #e1c699; font-size: 15px; }
-
-/* Mobile */
-@media (max-width: 900px) {
-  .rail, .stats-inline { width: 100%; }
-}
   </style>
 </head>
 
@@ -364,34 +215,33 @@ aside { position: sticky; top: 15px; }
       <div id="loadMore">Older Posts</div>
     </section>
 
-   <div class="rail">
-  <aside>
-    <h3>Links</h3>
-    <a href="index.html">Home</a>
-    <a href="tools.html">Solo Tools</a>
-    <a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank">YouTube Channel</a>
-    <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
+    <div class="rail">
+      <aside>
+        <h3>Links</h3>
+        <a href="index.html">Home</a>
+        <a href="tools.html">Solo Tools</a>
+        <a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank">YouTube Channel</a>
+        <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
 
-    <h3>Solo Plays (Filters)</h3>
-    <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
-  </aside>
+        <h3>Solo Plays (Filters)</h3>
+        <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
+      </aside>
 
-  <div class="about-box">
-    <div class="about-title">ABOUT</div>
-    <p class="about-text">
-      Solo Quests Party of One is a space built for lone adventurers and storytellers.
-      Here you’ll find updates, behind the scenes notes, and tools to guide your journeys
-      through strange worlds, dark taverns, and forgotten dungeons.
-    </p>
-  </div>
+      <div class="about-box">
+        <div class="about-title">ABOUT</div>
+        <p class="about-text">
+          Solo Quests Party of One is a space built for lone adventurers and storytellers.
+          Here you’ll find updates, behind the scenes notes, and tools to guide your journeys
+          through strange worlds, dark taverns, and forgotten dungeons.
+        </p>
+      </div>
 
-  <!-- Visitors, simple inline style, not a box -->
-  <div class="stats-inline">
-    <div class="stats-title">VISITORS</div>
-    <div class="row"><span>Total Views</span><strong id="viewCount">—</strong></div>
-    <div class="row"><span>Unique Visitors</span><strong id="visitorCount">—</strong></div>
-  </div>
-</div>
+      <div class="stats-inline">
+        <div class="stats-title">VISITORS</div>
+        <div class="row"><span>Total Views</span><strong id="viewCount">—</strong></div>
+        <div class="row"><span>Unique Visitors</span><strong id="visitorCount">—</strong></div>
+      </div>
+    </div>
   </main>
 
   <footer>
@@ -403,6 +253,7 @@ aside { position: sticky; top: 15px; }
     </div>
   </footer>
 
+  <!-- Main page behavior -->
   <script>
     const posts = document.querySelectorAll('#postContainer article');
     const loadMore = document.getElementById('loadMore');
@@ -448,45 +299,49 @@ aside { position: sticky; top: 15px; }
       loadMore.style.display = 'none';
       viewingLabel.style.display = 'block';
     });
-    <script>
-  // Site counters: total views and unique visitors
-  (function() {
-    const NS = 'soloquests_site';          // change if you want a different namespace
-    const viewsKey = 'views_total';
-    const visitorsKey = 'visitors_total';
+  </script>
 
-    const viewOut = document.getElementById('viewCount');
-    const visitorOut = document.getElementById('visitorCount');
+  <!-- Visitor counters -->
+  <script>
+    (function() {
+      const NS = 'soloquests_site';
+      const viewsKey = 'views_total';
+      const visitorsKey = 'visitors_total';
 
-    function setText(el, val) {
-      if (el) el.textContent = Number(val).toLocaleString();
-    }
+      const viewOut = document.getElementById('viewCount');
+      const visitorOut = document.getElementById('visitorCount');
 
-    // Always increment total views
-    fetch(`https://api.countapi.xyz/hit/${NS}/${viewsKey}`)
-      .then(r => r.json())
-      .then(data => setText(viewOut, data.value))
-      .catch(() => setText(viewOut, '—'));
+      function setText(el, val) {
+        if (!el) return;
+        const n = Number(val);
+        el.textContent = Number.isFinite(n) ? n.toLocaleString() : '—';
+      }
 
-    // Increment unique visitors only once per browser
-    const SEEN_KEY = 'sq_unique_seen';
-    const seen = localStorage.getItem(SEEN_KEY);
-
-    if (!seen) {
-      fetch(`https://api.countapi.xyz/hit/${NS}/${visitorsKey}`)
+      // Total views: increment on every page load
+      fetch(`https://api.countapi.xyz/hit/${NS}/${viewsKey}`)
         .then(r => r.json())
-        .then(data => {
-          localStorage.setItem(SEEN_KEY, '1');
-          setText(visitorOut, data.value);
-        })
-        .catch(() => setText(visitorOut, '—'));
-    } else {
-      fetch(`https://api.countapi.xyz/get/${NS}/${visitorsKey}`)
-        .then(r => r.json())
-        .then(data => setText(visitorOut, data.value))
-        .catch(() => setText(visitorOut, '—'));
-    }
-  })();
+        .then(data => setText(viewOut, data && data.value))
+        .catch(() => setText(viewOut, null));
+
+      // Unique visitors: increment only once per browser
+      const SEEN_KEY = 'sq_unique_seen';
+      const seen = localStorage.getItem(SEEN_KEY);
+
+      if (!seen) {
+        fetch(`https://api.countapi.xyz/hit/${NS}/${visitorsKey}`)
+          .then(r => r.json())
+          .then(data => {
+            localStorage.setItem(SEEN_KEY, '1');
+            setText(visitorOut, data && data.value);
+          })
+          .catch(() => setText(visitorOut, null));
+      } else {
+        fetch(`https://api.countapi.xyz/get/${NS}/${visitorsKey}`)
+          .then(r => r.json())
+          .then(data => setText(visitorOut, data && data.value))
+          .catch(() => setText(visitorOut, null));
+      }
+    })();
   </script>
 </body>
 </html>
