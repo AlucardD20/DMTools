@@ -132,7 +132,6 @@
     footer div { margin-left: 10px; }
     footer img { height: 24px; }
 
-    /* Visitors inline card removed, using simple rail stack */
     .rail { width: 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
     .stats-inline { width: 220px; }
     .stats-title { text-align: center; color: #b33; font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 6px; }
@@ -165,21 +164,24 @@
         <article>
           <h2><a href="posts/2025-10-15.html">Punisher Takes on Gotham – Season 1, Episode 8</a></h2>
           <span class="post-date">October 15, 2025</span>
-          <p>Frank wakes to trouble at the safehouse, then follows a midnight summons to Gotham’s Legacy Bridge. A polite warning turns into steel and blood on a wet catwalk. Choices narrow. Blades circle. One way out remains..</p>
+          <p>Frank wakes to trouble at the safehouse, then follows a midnight summons to Gotham’s Legacy Bridge. A polite warning turns into steel and blood on a wet catwalk. Choices narrow. Blades circle. One way out remains.</p>
           <a class="read-more" href="posts/2025-10-15.html">Read More →</a>
         </article>
+
         <article>
           <h2><a href="posts/2025-10-03.html">Punisher Takes on Gotham – Season 1, Episode 7</a></h2>
           <span class="post-date">October 3, 2025</span>
           <p>A hard choice lands on the table. I talk about letting consequences breathe and why I sometimes accept failure to get better story.</p>
           <a class="read-more" href="posts/2025-10-03.html">Read More →</a>
         </article>
+
         <article>
-  <h2><a href="posts/2025-09-19.html">The GameMaster's Apprentice 2e: Base Deck Review!</a></h2>
-  <span class="post-date">September 19, 2025</span>
-  <p>Need a creative boost behind the GM screen? I review the GMA 2e base deck, show how it works, and explain why it earns a spot in my prep kit.</p>
-  <a class="read-more" href="posts/2025-09-19-gma2e.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-09-19.html">The GameMaster's Apprentice 2e: Base Deck Review!</a></h2>
+          <span class="post-date">September 19, 2025</span>
+          <p>Need a creative boost behind the GM screen? I review the GMA 2e base deck, show how it works, and explain why it earns a spot in my prep kit.</p>
+          <a class="read-more" href="posts/2025-09-19.html">Read More →</a>
+        </article>
+
         <article>
           <h2><a href="posts/2025-09-17.html">Punisher Takes on Gotham – Season 1, Episode 6</a></h2>
           <span class="post-date">September 17, 2025</span>
@@ -315,9 +317,10 @@
   <!-- Visitor counters -->
   <script>
     (function() {
-      const NS = 'soloquests_site';
-      const viewsKey = 'views_total';
-      const visitorsKey = 'visitors_total';
+      // Unique namespace derived from your domain
+      const NS = (location.hostname || 'soloquests').replace(/\W+/g, '_').toLowerCase(); // e.g. solodnd_com
+      const VIEWS_KEY = 'home_views_v1';
+      const VISITORS_KEY = 'home_visitors_v1';
 
       const viewOut = document.getElementById('viewCount');
       const visitorOut = document.getElementById('visitorCount');
@@ -328,29 +331,49 @@
         el.textContent = Number.isFinite(n) ? n.toLocaleString() : '—';
       }
 
-      // Total views: increment on every page load
-      fetch(`https://api.countapi.xyz/hit/${NS}/${viewsKey}`)
-        .then(r => r.json())
-        .then(data => setText(viewOut, data && data.value))
-        .catch(() => setText(viewOut, null));
+      async function getJSON(url) {
+        const r = await fetch(url, {
+          mode: 'cors',
+          cache: 'no-store',
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      }
 
-      // Unique visitors: increment only once per browser
-      const SEEN_KEY = 'sq_unique_seen';
+      // Local fallbacks if the API is blocked by extensions or privacy settings
+      function fallbackViews() {
+        const k = 'sq_local_views';
+        const n = (parseInt(localStorage.getItem(k), 10) || 0) + 1;
+        localStorage.setItem(k, String(n));
+        setText(viewOut, n);
+      }
+      function fallbackVisitors() {
+        const k = 'sq_local_unique';
+        if (!localStorage.getItem(k)) localStorage.setItem(k, '1');
+        setText(visitorOut, 1);
+      }
+
+      // Increment total views on each load
+      getJSON(`https://api.countapi.xyz/hit/${NS}/${VIEWS_KEY}`)
+        .then(data => setText(viewOut, data && data.value))
+        .catch(fallbackViews);
+
+      // Increment unique visitors once per browser
+      const SEEN_KEY = 'sq_unique_seen_' + NS;
       const seen = localStorage.getItem(SEEN_KEY);
 
       if (!seen) {
-        fetch(`https://api.countapi.xyz/hit/${NS}/${visitorsKey}`)
-          .then(r => r.json())
+        getJSON(`https://api.countapi.xyz/hit/${NS}/${VISITORS_KEY}`)
           .then(data => {
             localStorage.setItem(SEEN_KEY, '1');
             setText(visitorOut, data && data.value);
           })
-          .catch(() => setText(visitorOut, null));
+          .catch(fallbackVisitors);
       } else {
-        fetch(`https://api.countapi.xyz/get/${NS}/${visitorsKey}`)
-          .then(r => r.json())
+        getJSON(`https://api.countapi.xyz/get/${NS}/${VISITORS_KEY}`)
           .then(data => setText(visitorOut, data && data.value))
-          .catch(() => setText(visitorOut, null));
+          .catch(fallbackVisitors);
       }
     })();
   </script>
