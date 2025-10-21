@@ -351,33 +351,38 @@
       viewingLabel.style.display = 'none';
     });
 
-    const filterPunisher = document.getElementById('filterPunisher');
-    filterPunisher.addEventListener('click', (e) => {
-      e.preventDefault();
-      searchBox.value = '';
-      posts.forEach(post => {
-        const text = post.innerText.toLowerCase();
-        post.style.display = text.includes('punisher takes on gotham') ? 'block' : 'none';
-      });
-      loadMore.style.display = 'none';
-      viewingLabel.style.display = 'block';
-    });
-    // Ronin filter
-const filterRonin = document.getElementById('filterRonin');
-if (filterRonin) {
-  filterRonin.addEventListener('click', (e) => {
+  // Punisher filter
+  const filterPunisher = document.getElementById('filterPunisher');
+  filterPunisher.addEventListener('click', (e) => {
     e.preventDefault();
     searchBox.value = '';
     posts.forEach(post => {
-      const text = post.innerText.toLowerCase();
-      const match = text.includes("ronin: shin's vow of revenge".toLowerCase());
-      post.style.display = match ? 'block' : 'none';
+      const text = post.textContent.toLowerCase(); // was innerText
+      post.style.display = text.includes('punisher takes on gotham') ? 'block' : 'none';
     });
     loadMore.style.display = 'none';
     viewingLabel.style.display = 'block';
-    viewingLabel.textContent = "Now Viewing: Ronin: Shin's Vow of Revenge";
+    viewingLabel.textContent = 'Now Viewing: Punisher Takes on Gotham (Season 1)';
   });
-}
+
+  // Ronin filter
+  const filterRonin = document.getElementById('filterRonin');
+  if (filterRonin) {
+    filterRonin.addEventListener('click', (e) => {
+      e.preventDefault();
+      searchBox.value = '';
+      posts.forEach(post => {
+        const text = post.textContent.toLowerCase(); // was innerText
+        const match = text.includes("ronin: shin's vow of revenge");
+        post.style.display = match ? 'block' : 'none';
+      });
+      loadMore.style.display = 'none';
+      viewingLabel.style.display = 'block';
+      viewingLabel.textContent = "Now Viewing: Ronin: Shin's Vow of Revenge";
+    });
+  }
+</script>
+
   </script>
 
   <!-- Visitor counters -->
