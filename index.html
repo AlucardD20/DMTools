@@ -211,6 +211,55 @@
         </article>
 
         <article>
+  <h2><a href="posts/2025-07-15-ronin-006.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 006</a></h2>
+  <span class="post-date">July 15, 2025</span>
+  <p>Burn in hell, the message reads. Shin finally crosses paths with Sara, the hired killer determined to snuff out his vengeance before it can begin.</p>
+  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+  <a class="read-more" href="posts/2025-07-15-ronin-006.html">Read More →</a>
+</article>
+        
+        <article>
+  <h2><a href="posts/2025-07-14-ronin-005.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 005</a></h2>
+  <span class="post-date">July 14, 2025</span>
+  <p>Reputation leads to brawls. Shin’s name is whispered in every tavern, until a gang decides it is worth testing his blade. Brawls break out and tensions explode.</p>
+  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+  <a class="read-more" href="posts/2025-07-14-ronin-005.html">Read More →</a>
+</article>
+
+        <article>
+  <h2><a href="posts/2025-07-13-ronin-004.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 004</a></h2>
+  <span class="post-date">July 13, 2025</span>
+  <p>An old friend returns with dangerous news. Shin reunites with a figure from his past, uncovers a tragic roadside tale, and faces choices that will test his resolve.</p>
+  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+  <a class="read-more" href="posts/2025-07-13-ronin-004.html">Read More →</a>
+</article>
+
+        <article>
+  <h2><a href="posts/2025-07-12-ronin-003.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 003</a></h2>
+  <span class="post-date">July 12, 2025</span>
+  <p>A musician becomes an ally. This episode throws us into the Musicians Quest, forges a new friendship, and introduces NPCs who will shape Shin’s destiny.</p>
+  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+  <a class="read-more" href="posts/2025-07-12-ronin-003.html">Read More →</a>
+</article>
+
+
+        <article>
+  <h2><a href="posts/2025-07-11-ronin-002.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 002</a></h2>
+  <span class="post-date">July 11, 2025</span>
+  <p>Shin’s hidden past comes to light. I share the dramatic backstory I have crafted for Shin, rescue a clumsy ally from certain doom, and watch their fates intertwine.</p>
+  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+  <a class="read-more" href="posts/2025-07-11-ronin-002.html">Read More →</a>
+</article>
+        
+        <article>
+  <h2><a href="posts/2025-07-10-ronin-001.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 001</a></h2>
+  <span class="post-date">July 10, 2025</span>
+  <p>Shin’s path of vengeance begins. In this first installment you will see me build Shin from the ground up, learn the core Ronin rules, and trigger the first sparks of revenge.</p>
+  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+  <a class="read-more" href="posts/2025-07-10-ronin-001.html">Read More →</a>
+</article>
+        
+        <article>
           <h2><a href="posts/2025-07-10.html">Punisher Takes on Gotham – Season 1, Episode 2</a></h2>
           <span class="post-date">July 10, 2025</span>
           <p>Stakeouts and bad intel test my patience. I lean on reaction rolls, quick clocks, and tight scene goals to keep the pace sharp.</p>
@@ -238,6 +287,7 @@
 
         <h3>Solo Plays (Filters)</h3>
         <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
+        <a href="#" id="filterRonin">Ronin: Shin's Vow of Revenge</a>
       </aside>
 
       <div class="about-box">
@@ -312,6 +362,22 @@
       loadMore.style.display = 'none';
       viewingLabel.style.display = 'block';
     });
+    // Ronin filter
+const filterRonin = document.getElementById('filterRonin');
+if (filterRonin) {
+  filterRonin.addEventListener('click', (e) => {
+    e.preventDefault();
+    searchBox.value = '';
+    posts.forEach(post => {
+      const text = post.innerText.toLowerCase();
+      const match = text.includes("ronin: shin's vow of revenge".toLowerCase());
+      post.style.display = match ? 'block' : 'none';
+    });
+    loadMore.style.display = 'none';
+    viewingLabel.style.display = 'block';
+    viewingLabel.textContent = "Now Viewing: Ronin: Shin's Vow of Revenge";
+  });
+}
   </script>
 
   <!-- Visitor counters -->
