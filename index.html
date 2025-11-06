@@ -345,8 +345,10 @@
         <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
 
         <h3>Solo Plays (Filters)</h3>
-        <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
-        <a href="#" id="filterRonin">Ronin: Shin's Vow of Revenge</a>
+<a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
+<a href="#" id="filterRonin">Ronin: Shin's Vow of Revenge</a>
+<a href="#" id="filterStarWars">Star Wars Solo Adventures of Dex (Season 1)</a>
+<a href="#" id="filterCrown">Basic Fantasy 4e Land of the Crown (Season 1)</a>
       </aside>
 
       <div class="about-box">
@@ -440,6 +442,39 @@
       viewingLabel.style.display = 'block';
       viewingLabel.textContent = "Now Viewing: Ronin: Shin's Vow of Revenge";
     });
+    // Star Wars Solo Adventures of Dex (Season 1)
+const filterStarWars = document.getElementById('filterStarWars');
+if (filterStarWars) {
+  filterStarWars.addEventListener('click', (e) => {
+    e.preventDefault();
+    searchBox.value = '';
+    posts.forEach(post => {
+      const text = post.innerText.toLowerCase();
+      const match = text.includes("star wars solo") || text.includes("dex renford");
+      post.style.display = match ? 'block' : 'none';
+    });
+    loadMore.style.display = 'none';
+    viewingLabel.style.display = 'block';
+    viewingLabel.textContent = "Now Viewing: Star Wars Solo Adventures of Dex (Season 1)";
+  });
+}
+
+// Basic Fantasy 4e Land of the Crown (Season 1)
+const filterCrown = document.getElementById('filterCrown');
+if (filterCrown) {
+  filterCrown.addEventListener('click', (e) => {
+    e.preventDefault();
+    searchBox.value = '';
+    posts.forEach(post => {
+      const text = post.innerText.toLowerCase();
+      const match = text.includes("land of the crown") || text.includes("basic fantasy 4e");
+      post.style.display = match ? 'block' : 'none';
+    });
+    loadMore.style.display = 'none';
+    viewingLabel.style.display = 'block';
+    viewingLabel.textContent = "Now Viewing: Basic Fantasy 4e Land of the Crown (Season 1)";
+  });
+}
   }
 </script>
 
