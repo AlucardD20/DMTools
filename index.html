@@ -330,13 +330,14 @@
 
     <div class="rail">
       <!-- Solo Roleplayers Network Badge -->
-<div style="width:220px; background-color:#161616; border:1px solid #333; border-radius:6px; padding:10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.4); margin-bottom:15px;">
-  <a href="https://soloroleplayersnetwork.com/" target="_blank">
-    <img src="images/soloqn.jpg"
-         alt="Member of the Solo Roleplayers Network"
-         style="width:180px; border-radius:4px; display:block; margin:0 auto;">
-  </a>
-</div>
+      <div style="width:220px; background-color:#161616; border:1px solid #333; border-radius:6px; padding:10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.4); margin-bottom:15px;">
+        <a href="https://soloroleplayersnetwork.com/" target="_blank">
+          <img src="images/soloqn.jpg"
+               alt="Member of the Solo Roleplayers Network"
+               style="width:180px; border-radius:4px; display:block; margin:0 auto;">
+        </a>
+      </div>
+
       <aside>
         <h3>Links</h3>
         <a href="index.html">Home</a>
@@ -345,10 +346,10 @@
         <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
 
         <h3>Solo Plays (Filters)</h3>
-<a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
-<a href="#" id="filterRonin">Ronin: Shin's Vow of Revenge</a>
-<a href="#" id="filterStarWars">Star Wars Solo Adventures of Dex (Season 1)</a>
-<a href="#" id="filterCrown">Basic Fantasy 4e Land of the Crown (Season 1)</a>
+        <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
+        <a href="#" id="filterRonin">Ronin: Shin's Vow of Revenge</a>
+        <a href="#" id="filterStarWars">Star Wars Solo Adventures of Dex (Season 1)</a>
+        <a href="#" id="filterCrown">Basic Fantasy 4e Land of the Crown (Season 1)</a>
       </aside>
 
       <div class="about-box">
@@ -361,21 +362,22 @@
       </div>
 
       <div class="stats-inline">
-        <div class="stats-title">VISITORS</div>
+        <div class="stats-title">SITE STATS</div>
         <div class="row"><span>Total Views</span><strong id="viewCount">—</strong></div>
-        <div class="row"><span>Unique Visitors</span><strong id="visitorCount">—</strong></div>
       </div>
-  <div style="text-align:center; margin-top:10px;">
-  <a href="https://www.buymeacoffee.com/soloquests" target="_blank">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-         alt="Buy Me A Coffee" 
-         style="height:60px;width:217px;border-radius:4px;">
-  </a>
-</div>
+
+      <div style="text-align:center; margin-top:10px;">
+        <a href="https://www.buymeacoffee.com/soloquests" target="_blank">
+          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+               alt="Buy Me A Coffee" 
+               style="height:60px;width:217px;border-radius:4px;">
+        </a>
+      </div>
+    </div> <!-- end .rail -->
   </main>
 
   <footer>
-    <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games | This is a WIP Site, Please Paradon some mistakes.</span>
+    <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games | This is a WIP Site, Please Pardon some mistakes.</span>
   </footer>
 
   <!-- Main page behavior -->
@@ -405,7 +407,7 @@
     searchBox.addEventListener('input', function() {
       const query = this.value.toLowerCase();
       posts.forEach(post => {
-        const text = post.innerText.toLowerCase();
+        const text = post.textContent.toLowerCase();
         const matches = text.includes(query);
         post.style.display = matches ? 'block' : 'none';
       });
@@ -413,83 +415,80 @@
       viewingLabel.style.display = 'none';
     });
 
-  // Punisher filter
-  const filterPunisher = document.getElementById('filterPunisher');
-  filterPunisher.addEventListener('click', (e) => {
-    e.preventDefault();
-    searchBox.value = '';
-    posts.forEach(post => {
-      const text = post.textContent.toLowerCase(); // was innerText
-      post.style.display = text.includes('punisher takes on gotham') ? 'block' : 'none';
-    });
-    loadMore.style.display = 'none';
-    viewingLabel.style.display = 'block';
-    viewingLabel.textContent = 'Now Viewing: Punisher Takes on Gotham (Season 1)';
-  });
-
-  // Ronin filter
-  const filterRonin = document.getElementById('filterRonin');
-  if (filterRonin) {
-    filterRonin.addEventListener('click', (e) => {
-      e.preventDefault();
-      searchBox.value = '';
-      posts.forEach(post => {
-        const text = post.textContent.toLowerCase(); // was innerText
-        const match = text.includes("ronin: shin's vow of revenge");
-        post.style.display = match ? 'block' : 'none';
+    // Punisher filter
+    const filterPunisher = document.getElementById('filterPunisher');
+    if (filterPunisher) {
+      filterPunisher.addEventListener('click', (e) => {
+        e.preventDefault();
+        searchBox.value = '';
+        posts.forEach(post => {
+          const text = post.textContent.toLowerCase();
+          post.style.display = text.includes('punisher takes on gotham') ? 'block' : 'none';
+        });
+        loadMore.style.display = 'none';
+        viewingLabel.style.display = 'block';
+        viewingLabel.textContent = 'Now Viewing: Punisher Takes on Gotham (Season 1)';
       });
-      loadMore.style.display = 'none';
-      viewingLabel.style.display = 'block';
-      viewingLabel.textContent = "Now Viewing: Ronin: Shin's Vow of Revenge";
-    });
+    }
+
+    // Ronin filter
+    const filterRonin = document.getElementById('filterRonin');
+    if (filterRonin) {
+      filterRonin.addEventListener('click', (e) => {
+        e.preventDefault();
+        searchBox.value = '';
+        posts.forEach(post => {
+          const text = post.textContent.toLowerCase();
+          const match = text.includes("ronin: shin's vow of revenge");
+          post.style.display = match ? 'block' : 'none';
+        });
+        loadMore.style.display = 'none';
+        viewingLabel.style.display = 'block';
+        viewingLabel.textContent = "Now Viewing: Ronin: Shin's Vow of Revenge";
+      });
+    }
+
     // Star Wars Solo Adventures of Dex (Season 1)
-const filterStarWars = document.getElementById('filterStarWars');
-if (filterStarWars) {
-  filterStarWars.addEventListener('click', (e) => {
-    e.preventDefault();
-    searchBox.value = '';
-    posts.forEach(post => {
-      const text = post.innerText.toLowerCase();
-      const match = text.includes("star wars solo") || text.includes("dex renford");
-      post.style.display = match ? 'block' : 'none';
-    });
-    loadMore.style.display = 'none';
-    viewingLabel.style.display = 'block';
-    viewingLabel.textContent = "Now Viewing: Star Wars Solo Adventures of Dex (Season 1)";
-  });
-}
+    const filterStarWars = document.getElementById('filterStarWars');
+    if (filterStarWars) {
+      filterStarWars.addEventListener('click', (e) => {
+        e.preventDefault();
+        searchBox.value = '';
+        posts.forEach(post => {
+          const text = post.textContent.toLowerCase();
+          const match = text.includes("star wars solo") || text.includes("dex renford");
+          post.style.display = match ? 'block' : 'none';
+        });
+        loadMore.style.display = 'none';
+        viewingLabel.style.display = 'block';
+        viewingLabel.textContent = "Now Viewing: Star Wars Solo Adventures of Dex (Season 1)";
+      });
+    }
 
-// Basic Fantasy 4e Land of the Crown (Season 1)
-const filterCrown = document.getElementById('filterCrown');
-if (filterCrown) {
-  filterCrown.addEventListener('click', (e) => {
-    e.preventDefault();
-    searchBox.value = '';
-    posts.forEach(post => {
-      const text = post.innerText.toLowerCase();
-      const match = text.includes("land of the crown") || text.includes("basic fantasy 4e");
-      post.style.display = match ? 'block' : 'none';
-    });
-    loadMore.style.display = 'none';
-    viewingLabel.style.display = 'block';
-    viewingLabel.textContent = "Now Viewing: Basic Fantasy 4e Land of the Crown (Season 1)";
-  });
-}
-  }
-</script>
-
+    // Basic Fantasy 4e Land of the Crown (Season 1)
+    const filterCrown = document.getElementById('filterCrown');
+    if (filterCrown) {
+      filterCrown.addEventListener('click', (e) => {
+        e.preventDefault();
+        searchBox.value = '';
+        posts.forEach(post => {
+          const text = post.textContent.toLowerCase();
+          const match = text.includes("land of the crown") || text.includes("basic fantasy 4e");
+          post.style.display = match ? 'block' : 'none';
+        });
+        loadMore.style.display = 'none';
+        viewingLabel.style.display = 'block';
+        viewingLabel.textContent = "Now Viewing: Basic Fantasy 4e Land of the Crown (Season 1)";
+      });
+    }
   </script>
 
-  <!-- Visitor counters -->
+  <!-- Visitor counter (total views only) -->
   <script>
     (function() {
-      // Unique namespace derived from your domain
-      const NS = (location.hostname || 'soloquests').replace(/\W+/g, '_').toLowerCase(); // e.g. solodnd_com
-      const VIEWS_KEY = 'home_views_v1';
-      const VISITORS_KEY = 'home_visitors_v1';
-
+      const NS = (location.hostname || 'soloquests').replace(/\W+/g, '_').toLowerCase();
+      const VIEWS_KEY = 'home_views_v2';
       const viewOut = document.getElementById('viewCount');
-      const visitorOut = document.getElementById('visitorCount');
 
       function setText(el, val) {
         if (!el) return;
@@ -498,49 +497,21 @@ if (filterCrown) {
       }
 
       async function getJSON(url) {
-        const r = await fetch(url, {
-          mode: 'cors',
-          cache: 'no-store',
-          headers: { 'Accept': 'application/json' }
-        });
+        const r = await fetch(url, { mode: 'cors', cache: 'no-store', headers: { 'Accept': 'application/json' } });
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
       }
 
-      // Local fallbacks if the API is blocked by extensions or privacy settings
       function fallbackViews() {
         const k = 'sq_local_views';
         const n = (parseInt(localStorage.getItem(k), 10) || 0) + 1;
         localStorage.setItem(k, String(n));
         setText(viewOut, n);
       }
-      function fallbackVisitors() {
-        const k = 'sq_local_unique';
-        if (!localStorage.getItem(k)) localStorage.setItem(k, '1');
-        setText(visitorOut, 1);
-      }
 
-      // Increment total views on each load
       getJSON(`https://api.countapi.xyz/hit/${NS}/${VIEWS_KEY}`)
         .then(data => setText(viewOut, data && data.value))
         .catch(fallbackViews);
-
-      // Increment unique visitors once per browser
-      const SEEN_KEY = 'sq_unique_seen_' + NS;
-      const seen = localStorage.getItem(SEEN_KEY);
-
-      if (!seen) {
-        getJSON(`https://api.countapi.xyz/hit/${NS}/${VISITORS_KEY}`)
-          .then(data => {
-            localStorage.setItem(SEEN_KEY, '1');
-            setText(visitorOut, data && data.value);
-          })
-          .catch(fallbackVisitors);
-      } else {
-        getJSON(`https://api.countapi.xyz/get/${NS}/${VISITORS_KEY}`)
-          .then(data => setText(visitorOut, data && data.value))
-          .catch(fallbackVisitors);
-      }
     })();
   </script>
 </body>
