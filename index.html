@@ -82,6 +82,18 @@
     }
     #loadMore:hover { background-color: #333; }
 
+    /* Right rail sticky as a single unit */
+    .rail {
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      position: sticky;
+      top: 15px;
+      z-index: 5;
+    }
+
     aside {
       width: 220px;
       background-color: #1b1b1b;
@@ -89,8 +101,8 @@
       border-radius: 5px;
       padding: 15px;
       height: fit-content;
-      position: sticky;
-      top: 15px;
+      position: static;
+      z-index: 1;
     }
 
     aside h3 {
@@ -114,10 +126,19 @@
       border-radius: 6px;
       padding: 15px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      position: static;
+      z-index: 1;
     }
 
     .about-title { text-align: center; color: #b33; font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 8px; }
     .about-text { color: #ccc; font-size: 14px; line-height: 1.5; text-align: justify; margin: 0; }
+
+    .stats-inline { width: 220px; position: static; z-index: 1; }
+    .stats-title { text-align: center; color: #b33; font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 6px; }
+    .stats-inline .row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-top: 1px solid #2a2a2a; }
+    .stats-inline .row:first-child { border-top: 0; }
+    .stats-inline span { color: #bbb; font-size: 13px; }
+    .stats-inline strong { color: #e1c699; font-size: 15px; }
 
     footer {
       display: flex;
@@ -131,14 +152,6 @@
     }
     footer div { margin-left: 10px; }
     footer img { height: 24px; }
-
-    .rail { width: 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
-    .stats-inline { width: 220px; }
-    .stats-title { text-align: center; color: #b33; font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 6px; }
-    .stats-inline .row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-top: 1px solid #2a2a2a; }
-    .stats-inline .row:first-child { border-top: 0; }
-    .stats-inline span { color: #bbb; font-size: 13px; }
-    .stats-inline strong { color: #e1c699; font-size: 15px; }
 
     @media (max-width: 900px) {
       main { flex-direction: column; align-items: center; }
@@ -162,55 +175,62 @@
 
       <div id="postContainer">
         <article>
-  <h2><a href="posts/2025-11-05-dex-renford-naboo.html">Star Wars Solo | Dex Renford | The Naboo Run</a></h2>
-  <span class="post-date">November 5, 2025</span>
-  <p>Dex and Dr. Merch finally land on Naboo — but safety doesn’t last long. A quick dive into fast solo Star Wars play, with tense rolls and a sprint toward the research center.</p>
-  <a class="read-more" href="posts/2025-11-05-dex-renford-naboo.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-11-05-dex-renford-naboo.html">Star Wars Solo | Dex Renford | The Naboo Run</a></h2>
+          <span class="post-date">November 5, 2025</span>
+          <p>Dex and Dr. Merch finally land on Naboo, but safety doesn’t last long. A quick dive into fast solo Star Wars play, with tense rolls and a sprint toward the research center.</p>
+          <a class="read-more" href="posts/2025-11-05-dex-renford-naboo.html">Read More →</a>
+        </article>
+
         <article>
-  <h2><a href="posts/2025-11-04-dex-renford.html">Star Wars Solo | Dex Renford and the Jabiim Run</a></h2>
-  <span class="post-date">November 4, 2025</span>
-  <p>On the rain-soaked world of Jabiim, Dex Renford runs a daring escort mission for a hunted scientist — fast solo play with a dice-drop town map, d6 oracle, and no prep. Just action, timing, and guts.</p>
-  <a class="read-more" href="posts/2025-11-04-dex-renford.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-11-04-dex-renford.html">Star Wars Solo | Dex Renford and the Jabiim Run</a></h2>
+          <span class="post-date">November 4, 2025</span>
+          <p>On the rain-soaked world of Jabiim, Dex Renford runs a daring escort mission for a hunted scientist, fast solo play with a dice-drop town map, d6 oracle, and no prep. Just action, timing, and guts.</p>
+          <a class="read-more" href="posts/2025-11-04-dex-renford.html">Read More →</a>
+        </article>
+
         <article>
-  <h2><a href="posts/2025-10-30-land-of-the-crown.html">Basic Fantasy 4e Solo | Land of the Crown | Introductions</a></h2>
-  <span class="post-date">October 30, 2025</span>
-  <p>Starting a Basic Fantasy 4e solo campaign. Follow a Nightward in service to the Crown across the <em>Land of the Crown</em> — a kingdom map filled with cursed relics, old ruins, and the first mission that sets the tone for the hunt.</p>
-  <a class="read-more" href="posts/2025-10-30-land-of-the-crown.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-10-30-land-of-the-crown.html">Basic Fantasy 4e Solo | Land of the Crown | Introductions</a></h2>
+          <span class="post-date">October 30, 2025</span>
+          <p>Starting a Basic Fantasy 4e solo campaign. Follow a Nightward in service to the Crown across the <em>Land of the Crown</em>, a kingdom map filled with cursed relics, old ruins, and the first mission that sets the tone for the hunt.</p>
+          <a class="read-more" href="posts/2025-10-30-land-of-the-crown.html">Read More →</a>
+        </article>
+
         <article>
-  <h2><a href="posts/2025-10-29-onepage-mythic.html">The One Page Mythic Emulator Explained</a></h2>
-  <span class="post-date">October 30, 2025</span>
-  <p>A walkthrough of the One Page Mythic Emulator — clean yes/no oracle, no chaos factor, random events on doubles, and practical tweaks for different genres.</p>
-  <a class="read-more" href="posts/2025-10-29-onepage-mythic.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-10-29-onepage-mythic.html">The One Page Mythic Emulator Explained</a></h2>
+          <span class="post-date">October 30, 2025</span>
+          <p>A walkthrough of the One Page Mythic Emulator, clean yes or no oracle, no chaos factor, random events on doubles, and practical tweaks for different genres.</p>
+          <a class="read-more" href="posts/2025-10-29-onepage-mythic.html">Read More →</a>
+        </article>
+
         <article>
-  <h2><a href="posts/2025-10-28-mythic-noprep.html">Mythic Emulator No Prep Challenge</a></h2>
-  <span class="post-date">October 28, 2025</span>
-  <p>I take on the Mythic Emulator No Prep Challenge using the One Page Emulator — proving that all you really need is a few dice rolls, a spark of imagination, and a character concept.</p>
-  <a class="read-more" href="posts/2025-10-28-mythic-noprep.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-10-28-mythic-noprep.html">Mythic Emulator No Prep Challenge</a></h2>
+          <span class="post-date">October 28, 2025</span>
+          <p>I take on the Mythic Emulator No Prep Challenge using the One Page Emulator, proving that all you really need is a few dice rolls, a spark of imagination, and a character concept.</p>
+          <a class="read-more" href="posts/2025-10-28-mythic-noprep.html">Read More →</a>
+        </article>
+
         <article>
-  <h2><a href="posts/2025-10-27-3000views.html">3,000 Views Milestone</a></h2>
-  <span class="post-date">October 27, 2025</span>
-  <p>Thank you for helping the Solo Quests channel reach 3,000 views with 268 subscribers. Your comments, likes, and watch time keep this thing moving.</p>
-  <a class="read-more" href="posts/2025-10-27-3000views.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-10-27-3000views.html">3,000 Views Milestone</a></h2>
+          <span class="post-date">October 27, 2025</span>
+          <p>Thank you for helping the Solo Quests channel reach 3,000 views with 268 subscribers. Your comments, likes, and watch time keep this thing moving.</p>
+          <a class="read-more" href="posts/2025-10-27-3000views.html">Read More →</a>
+        </article>
+
         <article>
-  <h2><a href="posts/2025-10-26-ronin-008.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 008 – Final Villain?</a></h2>
-  <span class="post-date">October 26, 2025</span> <!-- change if you change the date -->
-  <p>Shin meets the final villain. After time at the inn and a quick repair of his weapons, he returns to the road and faces the question that has chased him from the start.</p>
-  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-  <a class="read-more" href="posts/2025-10-26-ronin-008.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-10-26-ronin-008.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 008 – Final Villain?</a></h2>
+          <span class="post-date">October 26, 2025</span>
+          <p>Shin meets the final villain. After time at the inn and a quick repair of his weapons, he returns to the road and faces the question that has chased him from the start.</p>
+          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+          <a class="read-more" href="posts/2025-10-26-ronin-008.html">Read More →</a>
+        </article>
+
         <article>
-  <h2><a href="posts/2025-10-21-ronin-007.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 007 – Villain #2!</a></h2>
-  <span class="post-date">October 21, 2025</span>
-  <p>In this episode, we continue the story. After recovering at the local inn and getting his weapons fixed up, Shin heads back on the road...</p>
-  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-  <a class="read-more" href="posts/2025-10-21-ronin-007.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-10-21-ronin-007.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 007 – Villain #2!</a></h2>
+          <span class="post-date">October 21, 2025</span>
+          <p>In this episode, we continue the story. After recovering at the local inn and getting his weapons fixed up, Shin heads back on the road...</p>
+          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+          <a class="read-more" href="posts/2025-10-21-ronin-007.html">Read More →</a>
+        </article>
 
         <article>
           <h2><a href="posts/2025-10-15.html">Punisher Takes on Gotham – Season 1, Episode 8</a></h2>
@@ -262,54 +282,53 @@
         </article>
 
         <article>
-  <h2><a href="posts/2025-07-15-ronin-006.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 006</a></h2>
-  <span class="post-date">July 15, 2025</span>
-  <p>Burn in hell, the message reads. Shin finally crosses paths with Sara, the hired killer determined to snuff out his vengeance before it can begin.</p>
-  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-  <a class="read-more" href="posts/2025-07-15-ronin-006.html">Read More →</a>
-</article>
-        
-        <article>
-  <h2><a href="posts/2025-07-14-ronin-005.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 005</a></h2>
-  <span class="post-date">July 14, 2025</span>
-  <p>Reputation leads to brawls. Shin’s name is whispered in every tavern, until a gang decides it is worth testing his blade. Brawls break out and tensions explode.</p>
-  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-  <a class="read-more" href="posts/2025-07-14-ronin-005.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-07-15-ronin-006.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 006</a></h2>
+          <span class="post-date">July 15, 2025</span>
+          <p>Burn in hell, the message reads. Shin finally crosses paths with Sara, the hired killer determined to snuff out his vengeance before it can begin.</p>
+          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+          <a class="read-more" href="posts/2025-07-15-ronin-006.html">Read More →</a>
+        </article>
 
         <article>
-  <h2><a href="posts/2025-07-13-ronin-004.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 004</a></h2>
-  <span class="post-date">July 13, 2025</span>
-  <p>An old friend returns with dangerous news. Shin reunites with a figure from his past, uncovers a tragic roadside tale, and faces choices that will test his resolve.</p>
-  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-  <a class="read-more" href="posts/2025-07-13-ronin-004.html">Read More →</a>
-</article>
+          <h2><a href="posts/2025-07-14-ronin-005.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 005</a></h2>
+          <span class="post-date">July 14, 2025</span>
+          <p>Reputation leads to brawls. Shin’s name is whispered in every tavern, until a gang decides it is worth testing his blade. Brawls break out and tensions explode.</p>
+          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+          <a class="read-more" href="posts/2025-07-14-ronin-005.html">Read More →</a>
+        </article>
 
         <article>
-  <h2><a href="posts/2025-07-12-ronin-003.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 003</a></h2>
-  <span class="post-date">July 12, 2025</span>
-  <p>A musician becomes an ally. This episode throws us into the Musicians Quest, forges a new friendship, and introduces NPCs who will shape Shin’s destiny.</p>
-  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-  <a class="read-more" href="posts/2025-07-12-ronin-003.html">Read More →</a>
-</article>
-
+          <h2><a href="posts/2025-07-13-ronin-004.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 004</a></h2>
+          <span class="post-date">July 13, 2025</span>
+          <p>An old friend returns with dangerous news. Shin reunites with a figure from his past, uncovers a tragic roadside tale, and faces choices that will test his resolve.</p>
+          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+          <a class="read-more" href="posts/2025-07-13-ronin-004.html">Read More →</a>
+        </article>
 
         <article>
-  <h2><a href="posts/2025-07-11-ronin-002.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 002</a></h2>
-  <span class="post-date">July 11, 2025</span>
-  <p>Shin’s hidden past comes to light. I share the dramatic backstory I have crafted for Shin, rescue a clumsy ally from certain doom, and watch their fates intertwine.</p>
-  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-  <a class="read-more" href="posts/2025-07-11-ronin-002.html">Read More →</a>
-</article>
-        
+          <h2><a href="posts/2025-07-12-ronin-003.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 003</a></h2>
+          <span class="post-date">July 12, 2025</span>
+          <p>A musician becomes an ally. This episode throws us into the Musicians Quest, forges a new friendship, and introduces NPCs who will shape Shin’s destiny.</p>
+          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+          <a class="read-more" href="posts/2025-07-12-ronin-003.html">Read More →</a>
+        </article>
+
         <article>
-  <h2><a href="posts/2025-07-10-ronin-001.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 001</a></h2>
-  <span class="post-date">July 10, 2025</span>
-  <p>Shin’s path of vengeance begins. In this first installment you will see me build Shin from the ground up, learn the core Ronin rules, and trigger the first sparks of revenge.</p>
-  <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-  <a class="read-more" href="posts/2025-07-10-ronin-001.html">Read More →</a>
-</article>
-        
+          <h2><a href="posts/2025-07-11-ronin-002.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 002</a></h2>
+          <span class="post-date">July 11, 2025</span>
+          <p>Shin’s hidden past comes to light. I share the dramatic backstory I have crafted for Shin, rescue a clumsy ally from certain doom, and watch their fates intertwine.</p>
+          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+          <a class="read-more" href="posts/2025-07-11-ronin-002.html">Read More →</a>
+        </article>
+
+        <article>
+          <h2><a href="posts/2025-07-10-ronin-001.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 001</a></h2>
+          <span class="post-date">July 10, 2025</span>
+          <p>Shin’s path of vengeance begins. In this first installment you will see me build Shin from the ground up, learn the core Ronin rules, and trigger the first sparks of revenge.</p>
+          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
+          <a class="read-more" href="posts/2025-07-10-ronin-001.html">Read More →</a>
+        </article>
+
         <article>
           <h2><a href="posts/2025-07-10.html">Punisher Takes on Gotham – Season 1, Episode 2</a></h2>
           <span class="post-date">July 10, 2025</span>
@@ -373,7 +392,7 @@
                style="height:60px;width:217px;border-radius:4px;">
         </a>
       </div>
-    </div> <!-- end .rail -->
+    </div>
   </main>
 
   <footer>
@@ -408,110 +427,71 @@
       const query = this.value.toLowerCase();
       posts.forEach(post => {
         const text = post.textContent.toLowerCase();
-        const matches = text.includes(query);
-        post.style.display = matches ? 'block' : 'none';
+        post.style.display = text.includes(query) ? 'block' : 'none';
       });
       loadMore.style.display = query ? 'none' : (currentCount < posts.length ? 'block' : 'none');
       viewingLabel.style.display = 'none';
     });
 
-    // Punisher filter
-    const filterPunisher = document.getElementById('filterPunisher');
-    if (filterPunisher) {
-      filterPunisher.addEventListener('click', (e) => {
-        e.preventDefault();
-        searchBox.value = '';
-        posts.forEach(post => {
-          const text = post.textContent.toLowerCase();
-          post.style.display = text.includes('punisher takes on gotham') ? 'block' : 'none';
-        });
-        loadMore.style.display = 'none';
-        viewingLabel.style.display = 'block';
-        viewingLabel.textContent = 'Now Viewing: Punisher Takes on Gotham (Season 1)';
+    // Filters
+    function applyFilter(matchFn, label) {
+      searchBox.value = '';
+      posts.forEach(post => {
+        const text = post.textContent.toLowerCase();
+        post.style.display = matchFn(text) ? 'block' : 'none';
       });
+      loadMore.style.display = 'none';
+      viewingLabel.style.display = 'block';
+      viewingLabel.textContent = 'Now Viewing: ' + label;
     }
 
-    // Ronin filter
-    const filterRonin = document.getElementById('filterRonin');
-    if (filterRonin) {
-      filterRonin.addEventListener('click', (e) => {
-        e.preventDefault();
-        searchBox.value = '';
-        posts.forEach(post => {
-          const text = post.textContent.toLowerCase();
-          const match = text.includes("ronin: shin's vow of revenge");
-          post.style.display = match ? 'block' : 'none';
-        });
-        loadMore.style.display = 'none';
-        viewingLabel.style.display = 'block';
-        viewingLabel.textContent = "Now Viewing: Ronin: Shin's Vow of Revenge";
-      });
-    }
+    document.getElementById('filterPunisher').addEventListener('click', e => {
+      e.preventDefault();
+      applyFilter(t => t.includes('punisher takes on gotham'), 'Punisher Takes on Gotham (Season 1)');
+    });
 
-    // Star Wars Solo Adventures of Dex (Season 1)
-    const filterStarWars = document.getElementById('filterStarWars');
-    if (filterStarWars) {
-      filterStarWars.addEventListener('click', (e) => {
-        e.preventDefault();
-        searchBox.value = '';
-        posts.forEach(post => {
-          const text = post.textContent.toLowerCase();
-          const match = text.includes("star wars solo") || text.includes("dex renford");
-          post.style.display = match ? 'block' : 'none';
-        });
-        loadMore.style.display = 'none';
-        viewingLabel.style.display = 'block';
-        viewingLabel.textContent = "Now Viewing: Star Wars Solo Adventures of Dex (Season 1)";
-      });
-    }
+    document.getElementById('filterRonin').addEventListener('click', e => {
+      e.preventDefault();
+      applyFilter(t => t.includes("ronin: shin's vow of revenge"), "Ronin: Shin's Vow of Revenge");
+    });
 
-    // Basic Fantasy 4e Land of the Crown (Season 1)
-    const filterCrown = document.getElementById('filterCrown');
-    if (filterCrown) {
-      filterCrown.addEventListener('click', (e) => {
-        e.preventDefault();
-        searchBox.value = '';
-        posts.forEach(post => {
-          const text = post.textContent.toLowerCase();
-          const match = text.includes("land of the crown") || text.includes("basic fantasy 4e");
-          post.style.display = match ? 'block' : 'none';
-        });
-        loadMore.style.display = 'none';
-        viewingLabel.style.display = 'block';
-        viewingLabel.textContent = "Now Viewing: Basic Fantasy 4e Land of the Crown (Season 1)";
-      });
-    }
+    document.getElementById('filterStarWars').addEventListener('click', e => {
+      e.preventDefault();
+      applyFilter(t => t.includes('star wars solo') || t.includes('dex renford'), 'Star Wars Solo Adventures of Dex (Season 1)');
+    });
+
+    document.getElementById('filterCrown').addEventListener('click', e => {
+      e.preventDefault();
+      applyFilter(t => t.includes('land of the crown') || t.includes('basic fantasy 4e'), 'Basic Fantasy 4e Land of the Crown (Season 1)');
+    });
   </script>
 
-  <!-- Visitor counter (total views only) -->
+  <!-- Total views counter only -->
   <script>
     (function() {
       const NS = (location.hostname || 'soloquests').replace(/\W+/g, '_').toLowerCase();
-      const VIEWS_KEY = 'home_views_v2';
+      const VIEWS_KEY = 'home_views_v1';
       const viewOut = document.getElementById('viewCount');
 
-      function setText(el, val) {
-        if (!el) return;
+      function setText(val) {
         const n = Number(val);
-        el.textContent = Number.isFinite(n) ? n.toLocaleString() : '—';
+        viewOut.textContent = Number.isFinite(n) ? n.toLocaleString() : '—';
       }
 
-      async function getJSON(url) {
-        const r = await fetch(url, { mode: 'cors', cache: 'no-store', headers: { 'Accept': 'application/json' } });
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      }
-
-      function fallbackViews() {
-        const k = 'sq_local_views';
-        const n = (parseInt(localStorage.getItem(k), 10) || 0) + 1;
-        localStorage.setItem(k, String(n));
-        setText(viewOut, n);
-      }
-
-      getJSON(`https://api.countapi.xyz/hit/${NS}/${VIEWS_KEY}`)
-        .then(data => setText(viewOut, data && data.value))
-        .catch(fallbackViews);
+      fetch(`https://api.countapi.xyz/hit/${NS}/${VIEWS_KEY}`, {
+        mode: 'cors',
+        cache: 'no-store',
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(r => r.json())
+        .then(data => setText(data && data.value))
+        .catch(() => {
+          // Local fallback
+          const k = 'sq_local_views';
+          const n = (parseInt(localStorage.getItem(k), 10) || 0) + 1;
+          localStorage.setItem(k, String(n));
+          setText(n);
+        });
     })();
   </script>
 </body>
