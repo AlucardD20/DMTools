@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Imperium in Revolt Character Generator</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #202734, #05060a);
+      color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .wrapper {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0 0 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #b0b8c6;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      background: rgba(5, 8, 15, 0.95);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px 18px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65);
+    }
+
+    .panel + .panel {
+      margin-top: 14px;
+    }
+
+    label {
+      font-size: 13px;
+      display: block;
+      margin-bottom: 4px;
+      color: #d9e0ee;
+    }
+
+    input[type="text"], select, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      background: #0b1020;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #f5f5f5;
+      padding: 6px 8px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #4ba6ff;
+      box-shadow: 0 0 0 1px rgba(75, 166, 255, 0.4);
+    }
+
+    textarea {
+      min-height: 48px;
+      resize: vertical;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 10px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px 10px;
+    }
+
+    .field-group {
+      margin-bottom: 10px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #3b82f6, #22c55e);
+      color: #ffffff;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    button.secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #d1d5db;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-weight: 500;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .sheet-layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .sheet-side {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .portrait-box {
+      background: #050712;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .portrait-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.15), transparent);
+      pointer-events: none;
+    }
+
+    .portrait-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .portrait-placeholder {
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .background-box {
+      background: #050712;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 180px;
+    }
+
+    .background-title {
+      font-size: 16px;
+      color: #e5e7eb;
+      text-align: left;
+      margin-bottom: 4px;
+    }
+
+    .background-text {
+      font-size: 12px;
+      color: #d1d5db;
+      line-height: 1.35;
+      white-space: pre-line;
+    }
+
+    .sheet-main {
+      min-width: 0;
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 8px;
+    }
+
+    .sheet-name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .sheet-quote {
+      font-size: 12px;
+      color: #9ca3af;
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    .sheet-meta {
+      text-align: right;
+      font-size: 11px;
+      color: #9ca3af;
+      white-space: nowrap;
+    }
+
+    .meta-world {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #bfdbfe;
+    }
+
+    .meta-sub {
+      font-size: 11px;
+      margin-top: 4px;
+      color: #e5e7eb;
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #e5e7eb;
+      margin-left: 4px;
+    }
+
+    .attributes-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .attr-card {
+      background: linear-gradient(140deg, rgba(59, 130, 246, 0.16), rgba(15, 23, 42, 0.95));
+      border-radius: 10px;
+      padding: 6px 8px;
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .attr-name {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #bfdbfe;
+    }
+
+    .attr-value {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .attr-bar {
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      margin-top: 4px;
+      overflow: hidden;
+    }
+
+    .attr-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .stat-card {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(15, 118, 110, 0.4));
+      border-radius: 10px;
+      padding: 6px 8px;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+    }
+
+    .stat-name {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a7f3d0;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+      margin: 10px 0 4px;
+    }
+
+    .section-divider {
+      border-top: 1px solid rgba(148, 163, 184, 0.16);
+      margin: 8px 0;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 2px 12px;
+      font-size: 12px;
+    }
+
+    .skill-line {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .skill-name {
+      color: #d1d5db;
+    }
+
+    .skill-dice {
+      color: #93c5fd;
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 11px;
+    }
+
+    .pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(252, 211, 77, 0.6);
+      color: #fef3c7;
+      background: rgba(120, 53, 15, 0.35);
+    }
+
+    .pill.complication {
+      border-color: rgba(248, 113, 113, 0.7);
+      background: rgba(127, 29, 29, 0.35);
+      color: #fee2e2;
+    }
+
+    .placeholder {
+      font-size: 12px;
+      color: #9ca3af;
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    .details-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .detail-tag {
+      display: inline-flex;
+      align-items: baseline;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 11px;
+    }
+
+    .detail-label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 10px;
+      color: #9ca3af;
+      margin-right: 4px;
+    }
+
+    .detail-value {
+      color: #e5e7eb;
+      font-size: 11px;
+    }
+
+    .equipment-block {
+      font-size: 12px;
+      color: #e5e7eb;
+      white-space: pre-line;
+    }
+
+    @media (max-width: 960px) {
+      .sheet-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .wrapper {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div>
+      <h1>Imperium in Revolt</h1>
+      <div class="subtitle">
+        Fill in the blanks you care about, then hit Randomize for a full rebel hero.
+      </div>
+
+      <div class="panel">
+        <div class="field-group">
+          <label for="name">Character Name</label>
+          <input id="name" type="text" placeholder="Type a name or leave blank for random">
+        </div>
+
+        <div class="field-group">
+          <label for="quote">Quote</label>
+          <input id="quote" type="text" placeholder="&quot;Freedom is worth the risk.&quot;">
+        </div>
+
+        <div class="field-group">
+          <label for="portraitUrl">Portrait Path or URL</label>
+          <input id="portraitUrl" type="text" placeholder="images/hero.png or https://...">
+        </div>
+
+        <div class="field-group">
+          <label for="portraitFile">Upload Portrait (local image)</label>
+          <input id="portraitFile" type="file" accept="image/*">
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label for="appearance">Appearance</label>
+            <textarea id="appearance" placeholder="Coat, armor, scars, rank marks, posture. Short visual notes."></textarea>
+          </div>
+          <div class="field-group">
+            <label for="backgroundText">Background</label>
+            <textarea id="backgroundText" placeholder="History, service record, ties to the Imperium, why they fight."></textarea>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="equipment">Equipment</label>
+          <textarea id="equipment" placeholder="Leave blank for random rebel kit, or type exact gear here. One item per line if you enter your own."></textarea>
+        </div>
+
+        <div class="grid-4">
+          <div class="field-group">
+            <label for="age">Age</label>
+            <input id="age" type="text" placeholder="Random if blank">
+          </div>
+          <div class="field-group">
+            <label for="sex">Sex</label>
+            <select id="sex">
+              <option value="">Random</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="height">Height</label>
+            <input id="height" type="text" placeholder="Random if blank">
+          </div>
+          <div class="field-group">
+            <label for="weight">Weight</label>
+            <input id="weight" type="text" placeholder="Random if blank">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="race">Race</label>
+          <select id="race">
+            <option value="">Random (defaults to Human)</option>
+            <option value="Human" selected>Human</option>
+            <option value="Avari">Avari</option>
+            <option value="Kaishee">Kaishee</option>
+            <option value="Telmek">Telmek</option>
+            <option value="Cyborg">Cyborg</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="alliance">Alliance / Order</label>
+          <select id="alliance">
+            <option value="">Random</option>
+            <option value="Order of the Star Paladins">Order of the Star Paladins</option>
+            <option value="Imperial Order">Imperial Order</option>
+            <option value="Independent">Independent</option>
+            <option value="Imperial Loyalist">Imperial Loyalist</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button id="generateBtn">Randomize Character</button>
+          <button type="button" class="secondary" id="clearBtn">Clear Notes Only</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <strong style="font-size:13px;">How it works</strong>
+        <div style="font-size:12px;color:#d1d5db;margin-top:4px;line-height:1.4;">
+          • Uses 12D in attributes, from 1D to 4D in each.  
+          • Spends 7D in skills from the Imperium in Revolt list.  
+          • Race is picked from Human, Avari, Kaishee, Telmek, or Cyborg, Human if nothing else.  
+          • Non Human races act as your main perk and use their setting write up.  
+          • If you join the Order of the Star Paladins or the Imperial Order, you gain Sorcerer as your perk instead of a random generic perk.  
+          • Perks and complications pull from the core Mini Six list plus Imperium in Revolt options like Hunted, Large Debt, and Total Pacifist.  
+          • Dodge, Block, Parry, and Soak are calculated using the Fast Static rules, Telmek hide is baked into Soak.  
+          • Body Points use the optional Body Points rule, Might roll plus 20.  
+          • Age, sex, height, weight, race, alliance, and gear are filled in if you leave them blank, with sex and race shaping height and weight.  
+          • The Age complication forces a very young or very old age.  
+          • Background and appearance text show in the left background box.  
+          • Portrait can come from a path, a full URL, or a local upload.  
+          • You can overwrite anything at the table.
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" id="sheetPanel">
+      <div class="placeholder">
+        Your Imperium in Revolt hero will appear here after you click "Randomize Character".
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function choose(array) {
+      return array[randInt(0, array.length - 1)];
+    }
+
+    function shuffle(array) {
+      const arr = array.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    const maleNames = [
+      "Ryn Kestrel", "Jax Mora", "Dax Halvern", "Taran Cole", "Garrin Holt",
+      "Kerris Vale", "Bren Malloch", "Cael Vorran", "Joren Thane", "Marek Vos",
+      "Tal Ordan", "Verric Dane"
+    ];
+
+    const femaleNames = [
+      "Lysa Thorn", "Seren Vale", "Nyra Flint", "Isha Venn", "Kara Vorn",
+      "Alia Dorne", "Mira Fen", "Tessa Kade", "Riala Merch", "Hanna Cross",
+      "Vexa Trin", "Sera Jandis"
+    ];
+
+    const neutralNames = [
+      "Quinn Rho", "Rin Tal", "Sage Merrow", "Ari Sol", "Rowan Pike"
+    ];
+
+    const ALLIANCE_OPTIONS = [
+      "Order of the Star Paladins",
+      "Imperial Order",
+      "Independent",
+      "Imperial Loyalist"
+    ];
+
+    function randomSex() {
+      return Math.random() < 0.5 ? "Male" : "Female";
+    }
+
+    function randomName(sex) {
+      if (sex === "Male") return choose(maleNames);
+      if (sex === "Female") return choose(femaleNames);
+      const all = maleNames.concat(femaleNames).concat(neutralNames);
+      return choose(all);
+    }
+
+    const genericPerks = [
+      "Daredevil: Once per session you pull a reckless stunt and take less harm for a brief moment.",
+      "Destiny: Once per session you reroll a failed roll that feels important to your fate.",
+      "Favors: Once per session you call in a favor for gear, information, or cover.",
+      "Lucky: Once per session you reroll any one roll and keep the better result.",
+      "Perceptive: Once per session you can ask the GM for a clue others miss.",
+      "Recall: When you try to remember something you witnessed, the GM gives you clear facts.",
+      "Sidekick: You have a loyal supporting character who travels with you.",
+      "Energy Blast: You fire bolts of energy using Throwing that deal about 4D damage.",
+      "ESP: You read thoughts and surface feelings, resisted by Charm against your Wit.",
+      "Flying: You can fly at about twice your normal move.",
+      "Regeneration: You heal up from wounds faster than normal.",
+      "Sorcerer: You can cast simple spells as allowed in the setting.",
+      "Telekinesis: You move objects at range using Wit as Lift.",
+      "X Ray Vision: You can see through walls and similar barriers of modest thickness."
+    ];
+
+    const SORCERER_ORDER_TEXT =
+      "Sorcerer: Trained in order rites. You can cast simple powers as the setting allows, tied to the Star Paladins or Imperial Order.";
+
+    const genericComplications = [
+      "Age: You are very young or very old and it causes social or physical trouble.",
+      "Crazy: You have mental issues that flare up under stress.",
+      "Enemies: A serious enemy or rival keeps crossing your path.",
+      "Gremlins: Machines hate you and fail at bad times.",
+      "Personal Code: You follow a strict creed you will not break.",
+      "Obligation: You owe time or duty to a group or patron.",
+      "Wanted: The authorities keep you on a watch list.",
+      "Addiction: You rely on a habit that can drag the group down."
+    ];
+
+    const IMPERIUM_COMP = [
+      "Hunted: The Imperium tracks you with active bounties. You earn extra points when this blows up a mission.",
+      "Large Debt: You owe someone serious credits. Most spare money goes to payments and jobs often tie to your creditor.",
+      "Total Pacifist: You refuse lethal force and avoid harm even when it makes things harder in action scenes."
+    ];
+
+    const SKILLS_IMPERIUM = {
+      Might: [
+        "Athletics", "Brawling", "Lift", "Melee",
+        "Plasma Sword", "Stamina", "Swimming"
+      ],
+      Agility: [
+        "BFG", "Dodge", "Drive", "Pilot",
+        "Pistol", "Rifle", "Stealth", "Throwing"
+      ],
+      Wit: [
+        "Computers/Androids", "Cultures", "Demolitions",
+        "Gunnery", "Languages", "History", "Magic",
+        "Medicine", "Navigation", "Repair", "Science",
+        "Search", "Security", "Star Systems", "Tracking"
+      ],
+      Charm: [
+        "Command", "Courage", "Diplomacy",
+        "Gambling", "Seduce", "Streetwise"
+      ]
+    };
+
+    const RACE_PERK_TEXT = {
+      Avari: "Avari (1): Natives of Varos. Short, white haired, pale skinned, and disciplined. They keep their heads under fire and can take two actions with no multi action penalty, but their Might is limited to 3D.",
+      Cyborg: "Cyborg (2): Much of your body is artificial. You need half rations, ignore 1D of wound penalties at Wounded or worse, but all healing rolls against you have +5 target number.",
+      Kaishee: "Kaishee (1): Tall hairless natives of Kalavel. They gain +2 on Navigation, Search, and Tracking and see better in the dark, but their maximum Wit is 3D and maximum Agility is 3D+1.",
+      Telmek: "Telmek (2): Reptilian natives of Telmera. Their tough hide gives +2 armor and they need little sleep, but their strong appetites and alien habits cause social friction."
+    };
+
+    const RACES_IMPERIUM = ["Human", "Avari", "Kaishee", "Telmek", "Cyborg"];
+
+    const EQUIPMENT_IMPERIUM = [
+      "Blaster pistol with spare power pack",
+      "Heavy blaster rifle",
+      "Plasma sword",
+      "Vibroknife",
+      "Light body armor (+4)",
+      "Pilot flight suit",
+      "Encrypted commlink",
+      "Pocket datapad",
+      "Tool kit and diagnostic scanner",
+      "Field medpac",
+      "Credit chip with a few hundred credits",
+      "Rations for three days",
+      "Glowrod and locator beacon",
+      "Grapple line and mag clamps",
+      "Forged ident papers"
+    ];
+
+    function randomRace() {
+      return choose(RACES_IMPERIUM);
+    }
+
+    function randomAlliance() {
+      return choose(ALLIANCE_OPTIONS);
+    }
+
+    function randomAge(race) {
+      switch ((race || "Human").toLowerCase()) {
+        case "avari":
+          return randInt(18, 90);
+        case "kaishee":
+          return randInt(20, 90);
+        case "telmek":
+          return randInt(20, 80);
+        case "cyborg":
+          return randInt(20, 80);
+        default:
+          return randInt(18, 60);
+      }
+    }
+
+    function randomExtremeAge(race) {
+      const lowYoung = [10, 16];
+      const lowTeen = [14, 18];
+      const highOld = [65, 90];
+      const rollOld = Math.random() < 0.5;
+
+      function rangeToString(r) {
+        return String(randInt(r[0], r[1]));
+      }
+
+      switch ((race || "Human").toLowerCase()) {
+        case "avari":
+          return rollOld ? rangeToString(highOld) : rangeToString(lowTeen);
+        case "kaishee":
+          return rollOld ? rangeToString([70, 100]) : rangeToString(lowTeen);
+        case "telmek":
+          return rollOld ? rangeToString([60, 85]) : rangeToString(lowTeen);
+        case "cyborg":
+          return rollOld ? rangeToString([70, 110]) : rangeToString(lowYoung);
+        default:
+          return rollOld ? rangeToString(highOld) : rangeToString(lowYoung);
+      }
+    }
+
+    function randomHeight(race, sex) {
+      const s = (sex || "Male").toLowerCase();
+      let inches;
+
+      function range(mMin, mMax, fMin, fMax) {
+        return s === "female" ? randInt(fMin, fMax) : randInt(mMin, mMax);
+      }
+
+      switch ((race || "Human").toLowerCase()) {
+        case "avari":
+          inches = range(64, 70, 60, 66);
+          break;
+        case "kaishee":
+          inches = range(82, 90, 78, 86);
+          break;
+        case "telmek":
+          inches = range(70, 78, 66, 74);
+          break;
+        case "cyborg":
+          inches = range(68, 80, 64, 76);
+          break;
+        default:
+          inches = range(68, 76, 60, 70);
+      }
+      const feet = Math.floor(inches / 12);
+      const rest = inches % 12;
+      return feet + "'" + rest + '"';
+    }
+
+    function randomWeight(race, sex) {
+      const s = (sex || "Male").toLowerCase();
+      function w(mMin, mMax, fMin, fMax) {
+        return (s === "female" ? randInt(fMin, fMax) : randInt(mMin, mMax)) + " lb";
+      }
+
+      switch ((race || "Human").toLowerCase()) {
+        case "avari":
+          return w(140, 180, 110, 150);
+        case "kaishee":
+          return w(250, 340, 220, 300);
+        case "telmek":
+          return w(210, 280, 180, 240);
+        case "cyborg":
+          return w(190, 280, 160, 240);
+        default:
+          return w(170, 240, 120, 190);
+      }
+    }
+
+    function generateAttributes(totalDice) {
+      const attrs = { Might: 1, Agility: 1, Wit: 1, Charm: 1 };
+      const startDice = totalDice || 12;
+      let remaining = startDice - 4;
+      const keys = Object.keys(attrs);
+      while (remaining > 0) {
+        const key = choose(keys);
+        if (attrs[key] < 4) {
+          attrs[key] += 1;
+          remaining -= 1;
+        }
+      }
+      return attrs;
+    }
+
+    function pipsToCode(pips) {
+      const dice = Math.floor(pips / 3);
+      const rem = pips % 3;
+      let code = dice + "D";
+      if (rem === 1) code += "+1";
+      if (rem === 2) code += "+2";
+      return code;
+    }
+
+    function buildSkillList() {
+      const skillDef = SKILLS_IMPERIUM;
+      const skills = [];
+      Object.keys(skillDef).forEach(attr => {
+        skillDef[attr].forEach(name => {
+          skills.push({ name, attr, extraPips: 0 });
+        });
+      });
+      return skills;
+    }
+
+    function generateSkills(attrs) {
+      const skills = buildSkillList();
+      let remainingPips = 21;
+      while (remainingPips > 0 && skills.length > 0) {
+        const skill = choose(skills);
+        if (skill.extraPips < 6) {
+          skill.extraPips += 1;
+          remainingPips -= 1;
+        }
+      }
+
+      const result = skills.map(skill => {
+        const basePips = attrs[skill.attr] * 3;
+        const totalPips = basePips + skill.extraPips;
+        return {
+          name: skill.name,
+          attr: skill.attr,
+          code: pipsToCode(totalPips),
+          extraCode: skill.extraPips > 0 ? "+" + pipsToCode(skill.extraPips) : ""
+        };
+      });
+
+      return result.sort((a, b) => {
+        if (a.attr === b.attr) return a.name.localeCompare(b.name);
+        return a.attr.localeCompare(b.attr);
+      });
+    }
+
+    function generatePerks(raceVal, allianceVal) {
+      const perks = [];
+      if (raceVal && raceVal !== "Human" && RACE_PERK_TEXT[raceVal]) {
+        perks.push(RACE_PERK_TEXT[raceVal]);
+      }
+
+      const isOrder =
+        allianceVal === "Order of the Star Paladins" ||
+        allianceVal === "Imperial Order";
+
+      if (isOrder) {
+        perks.push(SORCERER_ORDER_TEXT);
+      } else {
+        const pool = genericPerks.slice();
+        if (pool.length) {
+          perks.push(choose(pool));
+        }
+      }
+      return perks;
+    }
+
+    function generateComplications() {
+      const pool = genericComplications.concat(IMPERIUM_COMP);
+      let count = randInt(0, 2);
+      if (count === 0 || pool.length === 0) {
+        return [];
+      }
+      const picked = shuffle(pool).slice(0, count);
+      return picked;
+    }
+
+    function generateEquipment(equipmentText) {
+      if (equipmentText) {
+        const items = equipmentText.split(/\n+/).map(s => s.trim()).filter(Boolean);
+        if (items.length) return items;
+      }
+      const numItems = randInt(3, 5);
+      return shuffle(EQUIPMENT_IMPERIUM).slice(0, numItems);
+    }
+
+    function parseDiceCode(code) {
+      const m = code.match(/(\d+)D(?:\+([12]))?/);
+      if (!m) {
+        return { dice: 0, pips: 0 };
+      }
+      const dice = parseInt(m[1], 10);
+      const pips = m[2] ? parseInt(m[2], 10) : 0;
+      return { dice, pips };
+    }
+
+    function findSkill(skills, name) {
+      return skills.find(s => s.name.toLowerCase() === name.toLowerCase()) || null;
+    }
+
+    function calcArmorBonus(equipList, raceVal) {
+      let bonus = 0;
+      equipList.forEach(item => {
+        const m = item.match(/\(\+(\d+)\)/);
+        if (m) {
+          const v = parseInt(m[1], 10);
+          if (v > bonus) bonus = v;
+        } else if (/armor/i.test(item) && bonus === 0) {
+          bonus = 4;
+        }
+      });
+      if (raceVal === "Telmek") {
+        bonus += 2;
+      }
+      return bonus;
+    }
+
+    function rollBodyPoints(mightDice) {
+      let total = 20;
+      for (let i = 0; i < mightDice; i++) {
+        total += randInt(1, 6);
+      }
+      return total;
+    }
+
+    function calcStatics(attrs, skills, equipment, raceVal) {
+      const dodgeSkill = findSkill(skills, "Dodge");
+      const brawlSkill = findSkill(skills, "Brawling");
+      const meleeSkill = findSkill(skills, "Melee");
+      const plasmaSkill = findSkill(skills, "Plasma Sword");
+
+      function staticFromSkill(skill) {
+        if (!skill) return 0;
+        const parsed = parseDiceCode(skill.code);
+        return parsed.dice * 3 + parsed.pips;
+      }
+
+      const dodge = staticFromSkill(dodgeSkill);
+      const block = staticFromSkill(brawlSkill);
+
+      let parrySkill = plasmaSkill || meleeSkill || brawlSkill;
+      const parry = staticFromSkill(parrySkill);
+
+      const armorBonus = calcArmorBonus(equipment, raceVal);
+      const soak = attrs.Might * 3 + armorBonus;
+
+      const bodyPoints = rollBodyPoints(attrs.Might);
+
+      return { dodge, block, parry, soak, bodyPoints };
+    }
+
+    let uploadedPortraitDataUrl = "";
+
+    const portraitFileInput = document.getElementById("portraitFile");
+    portraitFileInput.addEventListener("change", function () {
+      const file = this.files && this.files[0];
+      if (!file) {
+        uploadedPortraitDataUrl = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        uploadedPortraitDataUrl = evt.target.result || "";
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function buildSheetHTML(character) {
+      function barStyle(dice) {
+        let width;
+        let bg;
+        if (dice <= 1) {
+          width = "25%";
+          bg = "#22c55e";
+        } else if (dice === 2) {
+          width = "50%";
+          bg = "linear-gradient(90deg,#22c55e,#16a34a)";
+        } else if (dice === 3) {
+          width = "75%";
+          bg = "linear-gradient(90deg,#22c55e,#eab308)";
+        } else {
+          width = "100%";
+          bg = "linear-gradient(90deg,#22c55e,#eab308,#ef4444)";
+        }
+        return "width:" + width + ";background:" + bg + ";";
+      }
+
+      const skillsLeft = [];
+      const skillsRight = [];
+      character.skills.forEach((s, idx) => {
+        if (idx % 2 === 0) skillsLeft.push(s);
+        else skillsRight.push(s);
+      });
+
+      const perksHTML = character.perks.length
+        ? character.perks.map(p => "<span class=\"pill\">" + p + "</span>").join("")
+        : "<span style=\"font-size:11px;color:#9ca3af;\">None yet.</span>";
+
+      const compsHTML = character.complications.length
+        ? character.complications.map(c => "<span class=\"pill complication\">" + c + "</span>").join("")
+        : "<span style=\"font-size:11px;color:#9ca3af;\">None selected.</span>";
+
+      const detailTags = [];
+      if (character.race) detailTags.push({ label: "Race", value: character.race });
+      if (character.alliance) detailTags.push({ label: "Alliance", value: character.alliance });
+      if (character.age) detailTags.push({ label: "Age", value: character.age });
+      if (character.sex) detailTags.push({ label: "Sex", value: character.sex });
+      if (character.height) detailTags.push({ label: "Height", value: character.height });
+      if (character.weight) detailTags.push({ label: "Weight", value: character.weight });
+
+      const detailsHTML = detailTags.length
+        ? "<div class=\"details-row\">" +
+            detailTags.map(t =>
+              "<div class=\"detail-tag\">" +
+                "<span class=\"detail-label\">" + t.label + "</span>" +
+                "<span class=\"detail-value\">" + t.value + "</span>" +
+              "</div>"
+            ).join("") +
+          "</div>"
+        : "<div style=\"margin-top:6px;font-size:11px;color:#9ca3af;\">Details: Not recorded yet.</div>";
+
+      const equipmentLines = character.equipment && character.equipment.length
+        ? "• " + character.equipment.join("\n• ")
+        : "• Standard clothes and a sidearm.";
+
+      const stats = character.statics;
+
+      const bgParts = [];
+      if (character.appearance) bgParts.push("Appearance: " + character.appearance);
+      if (character.background) bgParts.push(character.background);
+      const bgText = bgParts.join("\n\n") || "No background recorded yet, you can fill this in at the table.";
+
+      const portraitHTML = character.portrait
+        ? "<img src=\"" + character.portrait + "\" alt=\"Portrait\" class=\"portrait-img\">"
+        : "<div class=\"portrait-placeholder\">Portrait</div>";
+
+      return (
+        "<div class=\"sheet-layout\">" +
+          "<div class=\"sheet-side\">" +
+            "<div class=\"portrait-box\">" +
+              portraitHTML +
+            "</div>" +
+            "<div class=\"background-box\">" +
+              "<div class=\"background-title\">Background</div>" +
+              "<div class=\"background-text\">" + bgText + "</div>" +
+            "</div>" +
+          "</div>" +
+          "<div class=\"sheet-main\">" +
+            "<div class=\"sheet-header\">" +
+              "<div>" +
+                "<div class=\"sheet-name\">" + (character.name || "Unnamed Rebel") + "</div>" +
+                (character.quote ? "<div class=\"sheet-quote\">“" + character.quote + "”</div>" : "") +
+              "</div>" +
+              "<div class=\"sheet-meta\">" +
+                "<div class=\"meta-world\">Imperium in Revolt</div>" +
+                "<div class=\"meta-sub\">Heroic PC<span class=\"tag-pill\">Auto-built</span></div>" +
+              "</div>" +
+            "</div>" +
+
+            "<div class=\"attributes-row\">" +
+              ["Might", "Agility", "Wit", "Charm"].map(attr =>
+                "<div class=\"attr-card\">" +
+                  "<div class=\"attr-name\">" + attr + "</div>" +
+                  "<div class=\"attr-value\">" + character.attributes[attr] + "D</div>" +
+                  "<div class=\"attr-bar\">" +
+                    "<div class=\"attr-bar-fill\" style=\"" + barStyle(character.attributes[attr]) + "\"></div>" +
+                  "</div>" +
+                "</div>"
+              ).join("") +
+            "</div>" +
+
+            "<div class=\"stats-row\">" +
+              "<div class=\"stat-card\">" +
+                "<div class=\"stat-name\">Dodge</div>" +
+                "<div class=\"stat-value\">" + stats.dodge + "</div>" +
+              "</div>" +
+              "<div class=\"stat-card\">" +
+                "<div class=\"stat-name\">Block</div>" +
+                "<div class=\"stat-value\">" + stats.block + "</div>" +
+              "</div>" +
+              "<div class=\"stat-card\">" +
+                "<div class=\"stat-name\">Parry</div>" +
+                "<div class=\"stat-value\">" + stats.parry + "</div>" +
+              "</div>" +
+              "<div class=\"stat-card\">" +
+                "<div class=\"stat-name\">Soak</div>" +
+                "<div class=\"stat-value\">" + stats.soak + "</div>" +
+              "</div>" +
+              "<div class=\"stat-card\">" +
+                "<div class=\"stat-name\">Body Points</div>" +
+                "<div class=\"stat-value\">" + stats.bodyPoints + "</div>" +
+              "</div>" +
+            "</div>" +
+
+            "<div class=\"section-divider\"></div>" +
+
+            "<div class=\"two-col\">" +
+              "<div>" +
+                "<div class=\"section-title\">Profile</div>" +
+                detailsHTML +
+
+                "<div class=\"section-title\">Equipment</div>" +
+                "<div class=\"equipment-block\">" +
+                  equipmentLines +
+                "</div>" +
+
+                "<div class=\"section-title\">Perks</div>" +
+                "<div class=\"pill-list\">" +
+                  perksHTML +
+                "</div>" +
+
+                "<div class=\"section-title\">Complications</div>" +
+                "<div class=\"pill-list\">" +
+                  compsHTML +
+                "</div>" +
+              "</div>" +
+
+              "<div>" +
+                "<div class=\"section-title\">Skills</div>" +
+                "<div class=\"skills-grid\">" +
+                  "<div>" +
+                    skillsLeft.map(s =>
+                      "<div class=\"skill-line\">" +
+                        "<span class=\"skill-name\">" + s.name + " <span style=\"font-size:10px;color:#9ca3af;\">(" + s.attr + ")</span></span>" +
+                        "<span class=\"skill-dice\">" + s.code + "</span>" +
+                      "</div>"
+                    ).join("") +
+                  "</div>" +
+                  "<div>" +
+                    skillsRight.map(s =>
+                      "<div class=\"skill-line\">" +
+                        "<span class=\"skill-name\">" + s.name + " <span style=\"font-size:10px;color:#9ca3af;\">(" + s.attr + ")</span></span>" +
+                        "<span class=\"skill-dice\">" + s.code + "</span>" +
+                      "</div>"
+                    ).join("") +
+                  "</div>" +
+                "</div>" +
+              "</div>" +
+            "</div>" +
+
+            "<div class=\"section-divider\"></div>" +
+            "<div style=\"font-size:11px;color:#6b7280;margin-top:4px;\">" +
+              "Static defenses use the Fast Static Combat rules. Skill codes already include the attribute dice and creation bonuses." +
+            "</div>" +
+          "</div>" +
+        "</div>"
+      );
+    }
+
+    function generateCharacter() {
+      const nameInput = document.getElementById("name");
+      const quoteInput = document.getElementById("quote");
+      const portraitUrlInput = document.getElementById("portraitUrl");
+      const appearanceInput = document.getElementById("appearance");
+      const backgroundInput = document.getElementById("backgroundText");
+      const equipmentInput = document.getElementById("equipment");
+      const ageInput = document.getElementById("age");
+      const sexInput = document.getElementById("sex");
+      const heightInput = document.getElementById("height");
+      const weightInput = document.getElementById("weight");
+      const raceSelect = document.getElementById("race");
+      const allianceSelect = document.getElementById("alliance");
+
+      let raceVal = raceSelect.value;
+      if (!raceVal) {
+        raceVal = randomRace() || "Human";
+      }
+
+      let allianceVal = allianceSelect.value;
+      if (!allianceVal) {
+        allianceVal = randomAlliance();
+      }
+
+      let sexVal = sexInput.value;
+      if (!sexVal) {
+        sexVal = randomSex();
+      }
+
+      let ageVal = ageInput.value.trim();
+      if (!ageVal) {
+        ageVal = String(randomAge(raceVal));
+      }
+
+      let heightVal = heightInput.value.trim();
+      if (!heightVal) {
+        heightVal = randomHeight(raceVal, sexVal);
+      }
+
+      let weightVal = weightInput.value.trim();
+      if (!weightVal) {
+        weightVal = randomWeight(raceVal, sexVal);
+      }
+
+      const attrs = generateAttributes(12);
+      const skills = generateSkills(attrs);
+      const equipmentList = generateEquipment(equipmentInput.value.trim());
+
+      const compList = generateComplications();
+
+      if (compList.some(c => c.startsWith("Age:"))) {
+        ageVal = randomExtremeAge(raceVal);
+      }
+
+      const statics = calcStatics(attrs, skills, equipmentList, raceVal);
+      const perkList = generatePerks(raceVal, allianceVal);
+
+      const finalName = nameInput.value.trim() || randomName(sexVal);
+
+      let portraitValue = "";
+      if (uploadedPortraitDataUrl) {
+        portraitValue = uploadedPortraitDataUrl;
+      } else if (portraitUrlInput.value.trim()) {
+        portraitValue = portraitUrlInput.value.trim();
+      }
+
+      const character = {
+        name: finalName,
+        quote: quoteInput.value.trim(),
+        portrait: portraitValue,
+        appearance: appearanceInput.value.trim(),
+        background: backgroundInput.value.trim(),
+        age: ageVal,
+        sex: sexVal,
+        height: heightVal,
+        weight: weightVal,
+        race: raceVal || "Human",
+        alliance: allianceVal,
+        attributes: attrs,
+        skills,
+        perks: perkList,
+        complications: compList,
+        equipment: equipmentList,
+        statics
+      };
+
+      const sheetPanel = document.getElementById("sheetPanel");
+      sheetPanel.innerHTML = buildSheetHTML(character);
+    }
+
+    function clearNotes() {
+      document.getElementById("name").value = "";
+      document.getElementById("quote").value = "";
+      document.getElementById("portraitUrl").value = "";
+      document.getElementById("portraitFile").value = "";
+      uploadedPortraitDataUrl = "";
+      document.getElementById("appearance").value = "";
+      document.getElementById("backgroundText").value = "";
+      document.getElementById("equipment").value = "";
+      document.getElementById("age").value = "";
+      document.getElementById("sex").value = "";
+      document.getElementById("height").value = "";
+      document.getElementById("weight").value = "";
+      document.getElementById("race").value = "Human";
+      document.getElementById("alliance").value = "";
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", generateCharacter);
+    document.getElementById("clearBtn").addEventListener("click", clearNotes);
+  </script>
+</body>
+</html>
