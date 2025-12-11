@@ -140,6 +140,46 @@
     .stats-inline span { color: #bbb; font-size: 13px; }
     .stats-inline strong { color: #e1c699; font-size: 15px; }
 
+    /* Contact box */
+    .contact-box {
+      width: 220px;
+      background-color: #161616;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 12px 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      position: static;
+      z-index: 1;
+    }
+
+    .contact-title {
+      text-align: center;
+      color: #b33;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .contact-row img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .contact-row span {
+      color: #ccc;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
     footer {
       display: flex;
       align-items: center;
@@ -155,7 +195,7 @@
 
     @media (max-width: 900px) {
       main { flex-direction: column; align-items: center; }
-      aside, .about-box, .rail, .stats-inline { width: 100%; position: relative; }
+      aside, .about-box, .rail, .stats-inline, .contact-box { width: 100%; position: relative; }
     }
   </style>
 </head>
@@ -174,28 +214,28 @@
       <div id="viewingLabel">Now Viewing: Punisher Takes on Gotham (Season 1)</div>
 
       <div id="postContainer">
-           <article>
-  <h2><a href="posts/2025-12-11-december-2025-updates.html">December 2025 Updates, Long Read?</a></h2>
-  <span class="post-date">December 11, 2025</span>
-  <p>A long-form channel update about Land of the Crown plans, being sick and slammed with work, video style choices, possible Traveller and Western solos, a D8 Anywhere showcase, and a bit of real life and tacos.</p>
-  <a class="read-more" href="posts/2025-12-11-december-2025-updates.html">Read More →</a>
-</article>
+        <article>
+          <h2><a href="posts/2025-12-11-december-2025-updates.html">December 2025 Updates, Long Read?</a></h2>
+          <span class="post-date">December 11, 2025</span>
+          <p>A long-form channel update about Land of the Crown plans, being sick and slammed with work, video style choices, possible Traveller and Western solos, a D8 Anywhere showcase, and a bit of real life and tacos.</p>
+          <a class="read-more" href="posts/2025-12-11-december-2025-updates.html">Read More →</a>
+        </article>
 
-<article>
-  <h2><a href="posts/2025-12-09-punisher-s2e2.html">Punisher Takes On Gotham (Solo FASERIP) - S2, E2 - Micro is in trouble?</a></h2>
-  <span class="post-date">December 9, 2025</span>
-  <p>Frank wakes in an empty motel room, calls Microchip, and gets a strange coded message that makes it clear Micro is in serious trouble.</p>
-  <a class="read-more" href="posts/2025-11-22-punisher-s2e2.html">Read More →</a>
-</article>
+        <article>
+          <h2><a href="posts/2025-12-09-punisher-s2e2.html">Punisher Takes On Gotham (Solo FASERIP) - S2, E2 - Micro is in trouble?</a></h2>
+          <span class="post-date">December 9, 2025</span>
+          <p>Frank wakes in an empty motel room, calls Microchip, and gets a strange coded message that makes it clear Micro is in serious trouble.</p>
+          <a class="read-more" href="posts/2025-11-22-punisher-s2e2.html">Read More →</a>
+        </article>
 
-<article>
-  <h2><a href="posts/2025-11-21-punisher-s2e1.html">Punisher Takes On Gotham (Solo FASERIP) - S2, E1 Waking up in a warehouse?</a></h2>
-  <span class="post-date">November 21, 2025</span>
-  <p>Season two opens with Frank coming to in an abandoned warehouse, wounded and boxed in, and trying to fight or sneak his way out.</p>
-  <a class="read-more" href="posts/2025-11-21-punisher-s2e1.html">Read More →</a>
-</article>
+        <article>
+          <h2><a href="posts/2025-11-21-punisher-s2e1.html">Punisher Takes On Gotham (Solo FASERIP) - S2, E1 Waking up in a warehouse?</a></h2>
+          <span class="post-date">November 21, 2025</span>
+          <p>Season two opens with Frank coming to in an abandoned warehouse, wounded and boxed in, and trying to fight or sneak his way out.</p>
+          <a class="read-more" href="posts/2025-11-21-punisher-s2e1.html">Read More →</a>
+        </article>
 
-           <article>
+        <article>
           <h2><a href="posts/2025-11-17-dex-renford-droid-hunt.html">Star Wars Solo | Dex Renford | Droid Hunt on Naboo</a></h2>
           <span class="post-date">November 17, 2025</span>
           <p>Dex and Dr. Riala Merch hide behind a Naboo port building while a commando droid and B1 squads sweep the docks. He maps a route with a dice-drop layout and a yes or no d6, trying to reach the medical facility alive.</p>
@@ -408,6 +448,18 @@
         </p>
       </div>
 
+      <div class="contact-box">
+        <div class="contact-title">CONTACT ME</div>
+        <div class="contact-row">
+          <img src="images/x.png" alt="X profile">
+          <span>@soloquestsrpg</span>
+        </div>
+        <div class="contact-row">
+          <img src="images/emailicon.png" alt="Email">
+          <span>soloquests(at)solodnd.com</span>
+        </div>
+      </div>
+
       <div class="stats-inline">
         <div class="stats-title">SITE STATS</div>
         <div class="row"><span>Total Views</span><strong id="viewCount">—</strong></div>
@@ -514,7 +566,6 @@
         .then(r => r.json())
         .then(data => setText(data && data.value))
         .catch(() => {
-          // Local fallback
           const k = 'sq_local_views';
           const n = (parseInt(localStorage.getItem(k), 10) || 0) + 1;
           localStorage.setItem(k, String(n));
