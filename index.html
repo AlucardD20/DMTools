@@ -1,577 +1,841 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Solo Quests | Party of One</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <meta name="description" content="Solo roleplaying campaign logs, tools, reviews, and updates from Solo Quests | Party of One." />
   <style>
+    :root {
+      --bg: #0a0a0c;
+      --panel: #121216;
+      --panel-2: #18181f;
+      --line: #2a2a33;
+      --text: #f2f1eb;
+      --muted: #b3b1a7;
+      --soft: #8f8b80;
+      --gold: #d8b15a;
+      --gold-2: #a47e2b;
+      --danger: #672727;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --radius: 18px;
+      --radius-lg: 28px;
+      --max: 1240px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      background-color: #111;
-      color: #f5f5f5;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top right, rgba(216, 177, 90, 0.08), transparent 28%),
+        linear-gradient(180deg, #0a0a0c 0%, #0d0d11 100%);
+      color: var(--text);
       line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
     }
 
-    header { text-align: center; background-color: #000; }
-    header img { width: 100%; max-height: 250px; object-fit: cover; display: block; }
-
-    main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 20px;
-      gap: 20px;
-      align-items: flex-start;
-    }
-
-    #content { flex: 1; max-width: 800px; position: relative; }
-
-    #searchWrapper { position: sticky; top: 15px; z-index: 10; background-color: #111; padding-bottom: 10px; }
-
-    #searchBox {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 10px;
-      border: 1px solid #333;
-      border-radius: 4px;
-      background-color: #1b1b1b;
-      color: #f5f5f5;
-      font-size: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    }
-
-    #viewingLabel { text-align: center; color: #e1c699; font-weight: bold; margin-bottom: 15px; display: none; }
-
-    article {
-      background-color: #1b1b1b;
-      border: 1px solid #333;
-      border-radius: 5px;
-      margin-top: 25px;
-      padding: 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-
-    article h2 { margin-top: 0; color: #e1c699; font-size: 20px; margin-bottom: 5px; }
-    .post-date { color: #999; font-style: italic; font-size: 14px; margin-bottom: 10px; display: block; }
-    article h2 a { color: #e1c699; text-decoration: none; }
-    article h2 a:hover { text-decoration: underline; }
-    article p { color: #ddd; }
-
-    .read-more { display: inline-block; margin-top: 10px; color: #e1c699; text-decoration: none; font-weight: bold; }
-    .read-more:hover { text-decoration: underline; }
-
-    #loadMore {
+    img {
+      max-width: 100%;
       display: block;
-      margin: 30px auto;
-      padding: 10px 20px;
-      background-color: #1e1e1e;
-      color: #e1c699;
-      border: 1px solid #333;
-      border-radius: 4px;
-      text-align: center;
-      cursor: pointer;
-      font-weight: bold;
-      width: fit-content;
     }
-    #loadMore:hover { background-color: #333; }
 
-    /* Right rail sticky as a single unit */
-    .rail {
-      width: 220px;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: rgba(10, 10, 12, 0.85);
+      border-bottom: 1px solid rgba(216, 177, 90, 0.12);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 74px;
+    }
+
+    .brand {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 20px;
-      position: sticky;
-      top: 15px;
-      z-index: 5;
+      gap: 2px;
     }
 
-    aside {
-      width: 220px;
-      background-color: #1b1b1b;
-      border: 1px solid #333;
-      border-radius: 5px;
-      padding: 15px;
-      height: fit-content;
-      position: static;
-      z-index: 1;
+    .brand-kicker {
+      color: var(--gold);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: bold;
     }
 
-    aside h3 {
-      color: #b33;
-      margin-top: 15px;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 4px;
-      font-size: 15px;
-      font-family: 'Press Start 2P', cursive;
-      letter-spacing: 0.5px;
+    .brand-title {
+      font-size: 1.2rem;
+      font-weight: bold;
     }
 
-    aside a { display: block; color: #e1c699; text-decoration: none; margin-bottom: 8px; font-weight: bold; }
-    aside a:hover { text-decoration: underline; }
-
-    .about-box {
-      width: 220px;
-      background-color: #161616;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-      position: static;
-      z-index: 1;
-    }
-
-    .about-title { text-align: center; color: #b33; font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 8px; }
-    .about-text { color: #ccc; font-size: 14px; line-height: 1.5; text-align: justify; margin: 0; }
-
-    .stats-inline { width: 220px; position: static; z-index: 1; }
-    .stats-title { text-align: center; color: #b33; font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 6px; }
-    .stats-inline .row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-top: 1px solid #2a2a2a; }
-    .stats-inline .row:first-child { border-top: 0; }
-    .stats-inline span { color: #bbb; font-size: 13px; }
-    .stats-inline strong { color: #e1c699; font-size: 15px; }
-
-    /* Contact box */
-    .contact-box {
-      width: 220px;
-      background-color: #161616;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 12px 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-      position: static;
-      z-index: 1;
-    }
-
-    .contact-title {
-      text-align: center;
-      color: #b33;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-
-    .contact-row {
+    .site-nav {
       display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .site-nav a {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus {
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 34px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-main,
+    .hero-side,
+    .card,
+    .mini-card,
+    .section-shell {
+      background: linear-gradient(180deg, rgba(24,24,31,0.96), rgba(18,18,22,0.96));
+      border: 1px solid rgba(216, 177, 90, 0.13);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .banner-wrap {
+      border-bottom: 1px solid rgba(216, 177, 90, 0.12);
+      background: #070709;
+    }
+
+    .banner-wrap img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1200 / 300;
+      object-fit: cover;
+    }
+
+    .hero-copy {
+      padding: 30px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 6px;
+      border: 1px solid rgba(216, 177, 90, 0.2);
+      background: rgba(216, 177, 90, 0.08);
+      color: var(--gold);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: bold;
     }
 
-    .contact-row img {
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
-      display: block;
+    h1, h2, h3, h4, p {
+      margin: 0;
     }
 
-    .contact-row span {
-      color: #ccc;
-      font-size: 14px;
-      word-break: break-all;
+    .hero-copy h1 {
+      margin-top: 18px;
+      font-size: clamp(2rem, 4vw, 4.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
     }
 
-    footer {
+    .hero-copy p {
+      margin-top: 16px;
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .cta-row {
       display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
-      background-color: #1e1e1e;
-      color: #f5f5f5;
-      font-size: 14px;
-      text-align: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      font-weight: bold;
+      font-size: 0.95rem;
+      transition: 0.2s ease;
     }
-    footer div { margin-left: 10px; }
-    footer img { height: 24px; }
 
-    @media (max-width: 900px) {
-      main { flex-direction: column; align-items: center; }
-      aside, .about-box, .rail, .stats-inline, .contact-box { width: 100%; position: relative; }
+    .btn-primary {
+      background: var(--gold);
+      color: #16120a;
+      border-color: var(--gold);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background: #e5c16c;
+      border-color: #e5c16c;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+      border-color: rgba(216, 177, 90, 0.5);
+      color: var(--gold);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .stat-box {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(216, 177, 90, 0.1);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .stat-box strong {
+      display: block;
+      font-size: 1.3rem;
+      color: var(--gold);
+    }
+
+    .stat-box span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .hero-side {
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .side-title {
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--soft);
+      font-weight: bold;
+    }
+
+    .quick-links,
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill,
+    .quick-link {
+      border-radius: 999px;
+      border: 1px solid rgba(216, 177, 90, 0.14);
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      padding: 10px 14px;
+      font-size: 0.88rem;
+    }
+
+    .quick-link:hover,
+    .pill:hover {
+      border-color: rgba(216, 177, 90, 0.4);
+      color: var(--text);
+    }
+
+    .side-note {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(216, 177, 90, 0.12);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .side-note p {
+      color: var(--muted);
+      margin-top: 10px;
+      font-size: 0.96rem;
+    }
+
+    section {
+      padding: 24px 0 34px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.7rem, 3vw, 2.7rem);
+      line-height: 1.1;
+      margin-top: 8px;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      max-width: 760px;
+      margin-top: 10px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .card-image {
+      height: 180px;
+      background:
+        linear-gradient(135deg, rgba(216,177,90,0.18), rgba(216,177,90,0.04)),
+        linear-gradient(180deg, #16161d, #0d0d11);
+      border-bottom: 1px solid rgba(216,177,90,0.1);
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    .tag {
+      display: inline-block;
+      color: var(--gold);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: bold;
+    }
+
+    .meta {
+      color: var(--soft);
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    .card h3 {
+      margin-top: 10px;
+      font-size: 1.5rem;
+      line-height: 1.15;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin-top: 14px;
+      font-size: 1rem;
+    }
+
+    .text-link {
+      display: inline-block;
+      margin-top: 16px;
+      color: var(--gold);
+      font-weight: bold;
+      font-size: 0.94rem;
+    }
+
+    .posts-wrap {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+    }
+
+    .post-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .mini-card {
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .mini-card .post-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      align-items: center;
+    }
+
+    .post-date {
+      color: var(--soft);
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(216,177,90,0.09);
+      border: 1px solid rgba(216,177,90,0.14);
+      color: var(--gold);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: bold;
+    }
+
+    .mini-card h3 {
+      margin-top: 12px;
+      font-size: 1.55rem;
+      line-height: 1.15;
+    }
+
+    .mini-card p {
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .section-shell {
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .section-shell p,
+    .section-shell li {
+      color: var(--muted);
+    }
+
+    .section-shell ul {
+      padding-left: 18px;
+      margin: 14px 0 0;
+    }
+
+    .two-up {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .footer {
+      border-top: 1px solid rgba(216,177,90,0.12);
+      margin-top: 24px;
+      padding: 32px 0 42px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr 1fr;
+      gap: 24px;
+    }
+
+    .footer small,
+    .footer p,
+    .footer li {
+      color: var(--muted);
+    }
+
+    .footer h3 {
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+      margin-bottom: 12px;
+    }
+
+    .footer-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .copyright {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(216,177,90,0.08);
+      font-size: 0.92rem;
+      color: var(--soft);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .posts-wrap,
+      .footer-grid,
+      .two-up,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .header-inner {
+        min-height: auto;
+        padding: 14px 0;
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .site-nav {
+        gap: 14px;
+      }
+
+      .hero-copy,
+      .hero-side,
+      .card-body,
+      .mini-card,
+      .section-shell {
+        padding: 18px;
+      }
+
+      .hero-copy h1 {
+        font-size: 2.2rem;
+      }
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <img src="images/soloquests1.jpg" alt="Solo Quests Banner">
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-kicker">SoloDND.com</span>
+        <span class="brand-title">Solo Quests | Party of One</span>
+      </div>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#latest">Latest</a>
+        <a href="#series">Series</a>
+        <a href="#tools">Tools</a>
+        <a href="#about">About</a>
+        <a href="/archive.html">Archive</a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Spotify</a>
+      </nav>
+    </div>
   </header>
 
   <main>
-    <section id="content">
-      <div id="searchWrapper">
-        <input type="text" id="searchBox" placeholder="Search posts...">
+    <section class="hero">
+      <div class="container hero-grid">
+        <article class="hero-main">
+          <div class="banner-wrap">
+            <img src="images/soloquests1.jpg" alt="Solo Quests Party of One banner" />
+          </div>
+          <div class="hero-copy">
+            <span class="eyebrow">Now Viewing, Punisher Takes on Gotham</span>
+            <h1>Solo campaign logs, sharp reviews, and practical tools for people who play alone.</h1>
+            <p>
+              This front page is built to tell visitors what the site is fast. You run solo actual play, talk about what works, and share tools people can use right away. That should be obvious in the first screen, not buried twenty posts down.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="#latest">Read Latest Posts</a>
+              <a class="btn btn-secondary" href="#series">Browse Main Series</a>
+            </div>
+            <div class="hero-stats" aria-label="Site highlights">
+              <div class="stat-box">
+                <strong>4</strong>
+                <span>Main content lanes</span>
+              </div>
+              <div class="stat-box">
+                <strong>Clear</strong>
+                <span>Series organization</span>
+              </div>
+              <div class="stat-box">
+                <strong>Fast</strong>
+                <span>Front page scan</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <aside class="hero-side">
+          <div>
+            <div class="side-title">Quick Access</div>
+            <div class="quick-links" style="margin-top: 12px;">
+              <a class="quick-link" href="#latest">Latest Posts</a>
+              <a class="quick-link" href="#series">Featured Series</a>
+              <a class="quick-link" href="#tools">Tools & Reviews</a>
+              <a class="quick-link" href="/archive.html">Archive</a>
+            </div>
+          </div>
+
+          <div>
+            <div class="side-title">Main Filters</div>
+            <div class="filter-pills" style="margin-top: 12px;">
+              <span class="pill">Punisher in Gotham</span>
+              <span class="pill">Ronin</span>
+              <span class="pill">Star Wars Solo</span>
+              <span class="pill">Basic Fantasy 4e</span>
+            </div>
+          </div>
+
+          <div class="side-note">
+            <div class="side-title">Why this works better</div>
+            <p>
+              Your current site has good material, but the front page reads like a raw feed. This layout gives each type of content its own place, so new readers know where to go in seconds.
+            </p>
+          </div>
+        </aside>
       </div>
-
-      <div id="viewingLabel">Now Viewing: Punisher Takes on Gotham (Season 1)</div>
-
-      <div id="postContainer">
-        <article>
-          <h2><a href="posts/2025-12-11-december-2025-updates.html">December 2025 Updates, Long Read?</a></h2>
-          <span class="post-date">December 11, 2025</span>
-          <p>A long-form channel update about Land of the Crown plans, being sick and slammed with work, video style choices, possible Traveller and Western solos, a D8 Anywhere showcase, and a bit of real life and tacos.</p>
-          <a class="read-more" href="posts/2025-12-11-december-2025-updates.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-12-09-punisher-s2e2.html">Punisher Takes On Gotham (Solo FASERIP) - S2, E2 - Micro is in trouble?</a></h2>
-          <span class="post-date">December 9, 2025</span>
-          <p>Frank wakes in an empty motel room, calls Microchip, and gets a strange coded message that makes it clear Micro is in serious trouble.</p>
-          <a class="read-more" href="posts/2025-11-22-punisher-s2e2.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-11-21-punisher-s2e1.html">Punisher Takes On Gotham (Solo FASERIP) - S2, E1 Waking up in a warehouse?</a></h2>
-          <span class="post-date">November 21, 2025</span>
-          <p>Season two opens with Frank coming to in an abandoned warehouse, wounded and boxed in, and trying to fight or sneak his way out.</p>
-          <a class="read-more" href="posts/2025-11-21-punisher-s2e1.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-11-17-dex-renford-droid-hunt.html">Star Wars Solo | Dex Renford | Droid Hunt on Naboo</a></h2>
-          <span class="post-date">November 17, 2025</span>
-          <p>Dex and Dr. Riala Merch hide behind a Naboo port building while a commando droid and B1 squads sweep the docks. He maps a route with a dice-drop layout and a yes or no d6, trying to reach the medical facility alive.</p>
-          <a class="read-more" href="posts/2025-11-17-dex-renford-droid-hunt.html">Read More →</a>
-        </article>
-        
-        <article>
-          <h2><a href="posts/2025-11-05-dex-renford-naboo.html">Star Wars Solo | Dex Renford | The Naboo Run</a></h2>
-          <span class="post-date">November 5, 2025</span>
-          <p>Dex and Dr. Merch finally land on Naboo, but safety doesn’t last long. A quick dive into fast solo Star Wars play, with tense rolls and a sprint toward the research center.</p>
-          <a class="read-more" href="posts/2025-11-05-dex-renford-naboo.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-11-04-dex-renford.html">Star Wars Solo | Dex Renford and the Jabiim Run</a></h2>
-          <span class="post-date">November 4, 2025</span>
-          <p>On the rain-soaked world of Jabiim, Dex Renford runs a daring escort mission for a hunted scientist, fast solo play with a dice-drop town map, d6 oracle, and no prep. Just action, timing, and guts.</p>
-          <a class="read-more" href="posts/2025-11-04-dex-renford.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-10-30-land-of-the-crown.html">Basic Fantasy 4e Solo | Land of the Crown | Introductions</a></h2>
-          <span class="post-date">October 30, 2025</span>
-          <p>Starting a Basic Fantasy 4e solo campaign. Follow a Nightward in service to the Crown across the <em>Land of the Crown</em>, a kingdom map filled with cursed relics, old ruins, and the first mission that sets the tone for the hunt.</p>
-          <a class="read-more" href="posts/2025-10-30-land-of-the-crown.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-10-29-onepage-mythic.html">The One Page Mythic Emulator Explained</a></h2>
-          <span class="post-date">October 30, 2025</span>
-          <p>A walkthrough of the One Page Mythic Emulator, clean yes or no oracle, no chaos factor, random events on doubles, and practical tweaks for different genres.</p>
-          <a class="read-more" href="posts/2025-10-29-onepage-mythic.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-10-28-mythic-noprep.html">Mythic Emulator No Prep Challenge</a></h2>
-          <span class="post-date">October 28, 2025</span>
-          <p>I take on the Mythic Emulator No Prep Challenge using the One Page Emulator, proving that all you really need is a few dice rolls, a spark of imagination, and a character concept.</p>
-          <a class="read-more" href="posts/2025-10-28-mythic-noprep.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-10-27-3000views.html">3,000 Views Milestone</a></h2>
-          <span class="post-date">October 27, 2025</span>
-          <p>Thank you for helping the Solo Quests channel reach 3,000 views with 268 subscribers. Your comments, likes, and watch time keep this thing moving.</p>
-          <a class="read-more" href="posts/2025-10-27-3000views.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-10-26-ronin-008.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 008 – Final Villain?</a></h2>
-          <span class="post-date">October 26, 2025</span>
-          <p>Shin meets the final villain. After time at the inn and a quick repair of his weapons, he returns to the road and faces the question that has chased him from the start.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-10-26-ronin-008.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-10-21-ronin-007.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 007 – Villain #2!</a></h2>
-          <span class="post-date">October 21, 2025</span>
-          <p>In this episode, we continue the story. After recovering at the local inn and getting his weapons fixed up, Shin heads back on the road...</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-10-21-ronin-007.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-10-15.html">Punisher Takes on Gotham – Season 1, Episode 8</a></h2>
-          <span class="post-date">October 15, 2025</span>
-          <p>Frank wakes to trouble at the safehouse, then follows a midnight summons to Gotham’s Legacy Bridge. A polite warning turns into steel and blood on a wet catwalk. Choices narrow. Blades circle. One way out remains.</p>
-          <a class="read-more" href="posts/2025-10-15.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-10-03.html">Punisher Takes on Gotham – Season 1, Episode 7</a></h2>
-          <span class="post-date">October 3, 2025</span>
-          <p>A hard choice lands on the table. I talk about letting consequences breathe and why I sometimes accept failure to get better story.</p>
-          <a class="read-more" href="posts/2025-10-03.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-09-19.html">The GameMaster's Apprentice 2e: Base Deck Review!</a></h2>
-          <span class="post-date">September 19, 2025</span>
-          <p>Need a creative boost behind the GM screen? I review the GMA 2e base deck, show how it works, and explain why it earns a spot in my prep kit.</p>
-          <a class="read-more" href="posts/2025-09-19.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-09-17.html">Punisher Takes on Gotham – Season 1, Episode 6</a></h2>
-          <span class="post-date">September 17, 2025</span>
-          <p>Ambush, recovery, escalation. I show how I pace injuries and gear checks without stalling momentum in solo play.</p>
-          <a class="read-more" href="posts/2025-09-17.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-09-11.html">Punisher Takes on Gotham – Season 1, Episode 5</a></h2>
-          <span class="post-date">September 11, 2025</span>
-          <p>Frank digs into the network behind the club. I use simple clues, heat clocks, and a rolling suspicion track to pressure every scene.</p>
-          <a class="read-more" href="posts/2025-09-11.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-08-11.html">Punisher Takes on Gotham – Season 1, Episode 4</a></h2>
-          <span class="post-date">August 11, 2025</span>
-          <p>Heat rises in Gotham. I adjust oracles, tighten consequences, and let a single clue shift the next target.</p>
-          <a class="read-more" href="posts/2025-08-11.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-07-17.html">Punisher Takes on Gotham – Season 1, Episode 3</a></h2>
-          <span class="post-date">July 17, 2025</span>
-          <p>A rooftop shadow forces a risky choice. I show how I interpret mixed results and keep Frank moving without telegraphing outcomes.</p>
-          <a class="read-more" href="posts/2025-07-17.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-07-15-ronin-006.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 006</a></h2>
-          <span class="post-date">July 15, 2025</span>
-          <p>Burn in hell, the message reads. Shin finally crosses paths with Sara, the hired killer determined to snuff out his vengeance before it can begin.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-15-ronin-006.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-07-14-ronin-005.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 005</a></h2>
-          <span class="post-date">July 14, 2025</span>
-          <p>Reputation leads to brawls. Shin’s name is whispered in every tavern, until a gang decides it is worth testing his blade. Brawls break out and tensions explode.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-14-ronin-005.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-07-13-ronin-004.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 004</a></h2>
-          <span class="post-date">July 13, 2025</span>
-          <p>An old friend returns with dangerous news. Shin reunites with a figure from his past, uncovers a tragic roadside tale, and faces choices that will test his resolve.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-13-ronin-004.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-07-12-ronin-003.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 003</a></h2>
-          <span class="post-date">July 12, 2025</span>
-          <p>A musician becomes an ally. This episode throws us into the Musicians Quest, forges a new friendship, and introduces NPCs who will shape Shin’s destiny.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-12-ronin-003.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-07-11-ronin-002.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 002</a></h2>
-          <span class="post-date">July 11, 2025</span>
-          <p>Shin’s hidden past comes to light. I share the dramatic backstory I have crafted for Shin, rescue a clumsy ally from certain doom, and watch their fates intertwine.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-11-ronin-002.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-07-10-ronin-001.html">SoloRPG Ronin | Story: Shin’s Vow of Revenge | 001</a></h2>
-          <span class="post-date">July 10, 2025</span>
-          <p>Shin’s path of vengeance begins. In this first installment you will see me build Shin from the ground up, learn the core Ronin rules, and trigger the first sparks of revenge.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-10-ronin-001.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-07-10.html">Punisher Takes on Gotham – Season 1, Episode 2</a></h2>
-          <span class="post-date">July 10, 2025</span>
-          <p>Stakeouts and bad intel test my patience. I lean on reaction rolls, quick clocks, and tight scene goals to keep the pace sharp.</p>
-          <a class="read-more" href="posts/2025-07-10.html">Read More →</a>
-        </article>
-
-        <article>
-          <h2><a href="posts/2025-07-08.html">Punisher Takes on Gotham – Season 1, Episode 1</a></h2>
-          <span class="post-date">July 8, 2025</span>
-          <p>Frank arrives in Gotham and the city pushes back. I walk through the setup, the ground rules I use for solo play, and the first decisions that shape his path.</p>
-          <a class="read-more" href="posts/2025-07-08.html">Read More →</a>
-        </article>
-      </div>
-
-      <div id="loadMore">Older Posts</div>
     </section>
 
-    <div class="rail">
-      <!-- Solo Roleplayers Network Badge -->
-      <div style="width:220px; background-color:#161616; border:1px solid #333; border-radius:6px; padding:10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.4); margin-bottom:15px;">
-        <a href="https://soloroleplayersnetwork.com/" target="_blank">
-          <img src="images/soloqn.jpg"
-               alt="Member of the Solo Roleplayers Network"
-               style="width:180px; border-radius:4px; display:block; margin:0 auto;">
-        </a>
-      </div>
-
-      <aside>
-        <h3>Links</h3>
-        <a href="index.html">Home</a>
-        <a href="archive.html">Archive</a>
-        <a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank">YouTube Channel</a>
-        <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
-
-        <h3>Solo Plays (Filters)</h3>
-        <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
-        <a href="#" id="filterRonin">Ronin: Shin's Vow of Revenge</a>
-        <a href="#" id="filterStarWars">Star Wars Solo Adventures of Dex (Season 1)</a>
-        <a href="#" id="filterCrown">Basic Fantasy 4e Land of the Crown (Season 1)</a>
-      </aside>
-
-      <div class="about-box">
-        <div class="about-title">ABOUT</div>
-        <p class="about-text">
-          Solo Quests Party of One hosted by Lu Capu Finali, is a space built for lone adventurers and storytellers.
-          Here you’ll find updates, behind the scenes notes, and tools to guide your journeys
-          through strange worlds, dark taverns, and forgotten dungeons.
-        </p>
-      </div>
-
-      <div class="contact-box">
-        <div class="contact-title">CONTACT ME</div>
-        <div class="contact-row">
-          <img src="images/x.png" alt="X profile">
-          <span>@soloquestsrpg</span>
+    <section id="series">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Featured Series</span>
+            <h2>Give your main campaigns their own space</h2>
+            <p class="section-copy">
+              These cards can link to tag pages, archive pages, or hand-built landing pages for each campaign. That alone would make the site easier to use.
+            </p>
+          </div>
         </div>
-        <div class="contact-row">
-          <img src="images/emailicon.png" alt="Email">
-          <span>soloquests(at)solodnd.com</span>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="card-image"></div>
+            <div class="card-body">
+              <span class="tag">Featured Series</span>
+              <h3>Punisher Takes on Gotham</h3>
+              <div class="meta">Solo FASERIP</div>
+              <p>
+                Frank Castle in Gotham, pressure on every scene, hard choices, and consequences that stay in play.
+              </p>
+              <a class="text-link" href="#latest">Open Series</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-image"></div>
+            <div class="card-body">
+              <span class="tag">Campaign Log</span>
+              <h3>Land of the Crown</h3>
+              <div class="meta">Basic Fantasy 4e</div>
+              <p>
+                A dangerous road campaign with relics, ruins, missions, and strong old-school solo pacing.
+              </p>
+              <a class="text-link" href="#latest">Open Series</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-image"></div>
+            <div class="card-body">
+              <span class="tag">Archive Favorite</span>
+              <h3>Shin's Vow of Revenge</h3>
+              <div class="meta">SoloRPG Ronin</div>
+              <p>
+                A revenge story told in clean episodes, with travel, pressure, and personal stakes carrying the whole run.
+              </p>
+              <a class="text-link" href="#latest">Open Series</a>
+            </div>
+          </article>
         </div>
       </div>
+    </section>
 
-      <div class="stats-inline">
-        <div class="stats-title">SITE STATS</div>
-        <div class="row"><span>Total Views</span><strong id="viewCount">—</strong></div>
-      </div>
+    <section id="latest">
+      <div class="container posts-wrap">
+        <div>
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">Latest Posts</span>
+              <h2>A homepage that feels edited</h2>
+              <p class="section-copy">
+                The latest feed still matters, but it should support the site structure, not be the structure.
+              </p>
+            </div>
+          </div>
 
-      <div style="text-align:center; margin-top:10px;">
-        <a href="https://www.buymeacoffee.com/soloquests" target="_blank">
-          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-               alt="Buy Me A Coffee" 
-               style="height:60px;width:217px;border-radius:4px;">
-        </a>
+          <div class="post-list">
+            <article class="mini-card">
+              <div class="post-top">
+                <span class="badge">Update</span>
+                <span class="post-date">December 11, 2025</span>
+              </div>
+              <h3><a href="https://solodnd.com/2025/12/december-2025-updates-long-read.html">December 2025 Updates, Long Read?</a></h3>
+              <p>
+                A long-form channel update about Land of the Crown plans, being sick and slammed with work, video style choices, possible Traveller and Western solos, a D8 Anywhere showcase, and a bit of real life and tacos.
+              </p>
+              <a class="text-link" href="https://solodnd.com/2025/12/december-2025-updates-long-read.html">Read Post</a>
+            </article>
+
+            <article class="mini-card">
+              <div class="post-top">
+                <span class="badge">Campaign Log</span>
+                <span class="post-date">December 9, 2025</span>
+              </div>
+              <h3><a href="https://solodnd.com/2025/12/punisher-takes-on-gotham-solo-faserip.html">Punisher Takes On Gotham, S2 E2, Micro is in trouble?</a></h3>
+              <p>
+                Frank wakes in an empty motel room, calls Microchip, and gets a strange coded message that makes it clear Micro is in serious trouble.
+              </p>
+              <a class="text-link" href="https://solodnd.com/2025/12/punisher-takes-on-gotham-solo-faserip.html">Read Post</a>
+            </article>
+
+            <article class="mini-card">
+              <div class="post-top">
+                <span class="badge">Solo Play</span>
+                <span class="post-date">November 17, 2025</span>
+              </div>
+              <h3><a href="https://solodnd.com/2025/11/star-wars-solo-dex-renford-droid-hunt.html">Star Wars Solo, Dex Renford, Droid Hunt on Naboo</a></h3>
+              <p>
+                A fast solo episode built on route planning, dice-drop layout, and just enough pressure to keep each move mattering.
+              </p>
+              <a class="text-link" href="https://solodnd.com/2025/11/star-wars-solo-dex-renford-droid-hunt.html">Read Post</a>
+            </article>
+
+            <article class="mini-card">
+              <div class="post-top">
+                <span class="badge">Tool Review</span>
+                <span class="post-date">October 30, 2025</span>
+              </div>
+              <h3><a href="https://solodnd.com/2025/10/the-one-page-mythic-emulator-explained.html">The One Page Mythic Emulator Explained</a></h3>
+              <p>
+                A practical look at the oracle, how it works, where it speeds up play, and how to use it without dragging the session down.
+              </p>
+              <a class="text-link" href="https://solodnd.com/2025/10/the-one-page-mythic-emulator-explained.html">Read Post</a>
+            </article>
+          </div>
+        </div>
+
+        <aside class="side-stack">
+          <section class="section-shell">
+            <div class="side-title">About the Site</div>
+            <p style="margin-top: 12px;">
+              Solo Quests | Party of One is a site for solo roleplaying reports, reviews, tools, and notes. The main goal is to show what solo play actually looks like at the table, without fluff and without hiding the process.
+            </p>
+          </section>
+
+          <section class="section-shell">
+            <div class="side-title">Suggested Content Buckets</div>
+            <ul>
+              <li>Campaign Logs</li>
+              <li>Solo Tool Reviews</li>
+              <li>How I Run Solo Play</li>
+              <li>Channel and Site Updates</li>
+            </ul>
+          </section>
+
+          <section class="section-shell">
+            <div class="side-title">Current Site Note</div>
+            <p style="margin-top: 12px;">
+              Replace the old unfinished stats line with a real number when you have it, or remove it. Leaving “Total Views—” hanging hurts the page.
+            </p>
+          </section>
+        </aside>
       </div>
-    </div>
+    </section>
+
+    <section id="tools">
+      <div class="container two-up">
+        <section class="section-shell">
+          <span class="eyebrow">Tools and Reviews</span>
+          <h2 style="margin-top: 14px;">Pull the useful stuff forward</h2>
+          <p style="margin-top: 14px;">
+            Reviews and solo tools deserve their own lane. Right now they blend into the same stream as every episode. A separate section tells readers you offer more than session logs.
+          </p>
+        </section>
+
+        <section class="section-shell">
+          <span class="eyebrow">Visual Direction</span>
+          <h2 style="margin-top: 14px;">Keep your tone, fix the layout</h2>
+          <p style="margin-top: 14px;">
+            Dark background. Gold accent. Cleaner spacing. Bigger headings. Better card structure. The site can still feel like your brand, just sharper and more current.
+          </p>
+        </section>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games | This is a WIP Site, Please Pardon some mistakes.</span>
+  <footer id="about" class="footer">
+    <div class="container footer-grid">
+      <section>
+        <h3>Solo Quests | Party of One</h3>
+        <p>
+          Solo roleplaying campaign logs, practical reviews, and tools that help you get a game moving fast.
+        </p>
+      </section>
+
+      <section>
+        <h3>Main Links</h3>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/archive.html">Archive</a></li>
+          <li><a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank" rel="noopener noreferrer">YouTube Channel</a></li>
+          <li><a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank" rel="noopener noreferrer">Spotify Channel</a></li>
+          <li><a href="https://www.buymeacoffee.com/soloquests" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Contact</h3>
+        <ul class="footer-links">
+          <li><a href="https://x.com/soloquestsrpg" target="_blank" rel="noopener noreferrer">@soloquestsrpg</a></li>
+          <li><a href="mailto:soloquests@solodnd.com">soloquests(at)solodnd.com</a></li>
+          <li>Total Views: Add real count here</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="container copyright">
+      © 2025 SoloDND.com | All generators inspired by a needed basis for my games | This is a WIP Site, Please Pardon some mistakes.
+    </div>
   </footer>
-
-  <!-- Main page behavior -->
-  <script>
-    const posts = document.querySelectorAll('#postContainer article');
-    const loadMore = document.getElementById('loadMore');
-    const postsPerPage = 10;
-    let currentCount = postsPerPage;
-
-    function showPosts(count) {
-      posts.forEach((post, i) => {
-        post.style.display = i < count ? 'block' : 'none';
-      });
-    }
-
-    showPosts(currentCount);
-
-    loadMore.addEventListener('click', () => {
-      currentCount += postsPerPage;
-      showPosts(currentCount);
-      if (currentCount >= posts.length) loadMore.style.display = 'none';
-    });
-
-    const searchBox = document.getElementById('searchBox');
-    const viewingLabel = document.getElementById('viewingLabel');
-
-    searchBox.addEventListener('input', function() {
-      const query = this.value.toLowerCase();
-      posts.forEach(post => {
-        const text = post.textContent.toLowerCase();
-        post.style.display = text.includes(query) ? 'block' : 'none';
-      });
-      loadMore.style.display = query ? 'none' : (currentCount < posts.length ? 'block' : 'none');
-      viewingLabel.style.display = 'none';
-    });
-
-    // Filters
-    function applyFilter(matchFn, label) {
-      searchBox.value = '';
-      posts.forEach(post => {
-        const text = post.textContent.toLowerCase();
-        post.style.display = matchFn(text) ? 'block' : 'none';
-      });
-      loadMore.style.display = 'none';
-      viewingLabel.style.display = 'block';
-      viewingLabel.textContent = 'Now Viewing: ' + label;
-    }
-
-    document.getElementById('filterPunisher').addEventListener('click', e => {
-      e.preventDefault();
-      applyFilter(t => t.includes('punisher takes on gotham'), 'Punisher Takes on Gotham (Season 1)');
-    });
-
-    document.getElementById('filterRonin').addEventListener('click', e => {
-      e.preventDefault();
-      applyFilter(t => t.includes("ronin: shin's vow of revenge"), "Ronin: Shin's Vow of Revenge");
-    });
-
-    document.getElementById('filterStarWars').addEventListener('click', e => {
-      e.preventDefault();
-      applyFilter(t => t.includes('star wars solo') || t.includes('dex renford'), 'Star Wars Solo Adventures of Dex (Season 1)');
-    });
-
-    document.getElementById('filterCrown').addEventListener('click', e => {
-      e.preventDefault();
-      applyFilter(t => t.includes('land of the crown') || t.includes('basic fantasy 4e'), 'Basic Fantasy 4e Land of the Crown (Season 1)');
-    });
-  </script>
-
-  <!-- Total views counter only -->
-  <script>
-    (function() {
-      const NS = (location.hostname || 'soloquests').replace(/\W+/g, '_').toLowerCase();
-      const VIEWS_KEY = 'home_views_v1';
-      const viewOut = document.getElementById('viewCount');
-
-      function setText(val) {
-        const n = Number(val);
-        viewOut.textContent = Number.isFinite(n) ? n.toLocaleString() : '—';
-      }
-
-      fetch(`https://api.countapi.xyz/hit/${NS}/${VIEWS_KEY}`, {
-        mode: 'cors',
-        cache: 'no-store',
-        headers: { 'Accept': 'application/json' }
-      })
-        .then(r => r.json())
-        .then(data => setText(data && data.value))
-        .catch(() => {
-          const k = 'sq_local_views';
-          const n = (parseInt(localStorage.getItem(k), 10) || 0) + 1;
-          localStorage.setItem(k, String(n));
-          setText(n);
-        });
-    })();
-  </script>
 </body>
 </html>
