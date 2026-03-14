@@ -4,20 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Solo Quests | Party of One</title>
-  <meta name="description" content="Solo roleplaying campaign logs, tools, reviews, and updates from Solo Quests | Party of One." />
+  <meta name="description" content="Solo roleplaying campaign logs, reviews, and practical tools from Solo Quests | Party of One." />
   <style>
     :root {
       --bg: #0a0a0c;
-      --panel: #121216;
-      --panel-2: #18181f;
-      --line: #2a2a33;
-      --text: #f2f1eb;
-      --muted: #b3b1a7;
-      --soft: #8f8b80;
+      --bg-2: #101015;
+      --panel: #15151c;
+      --panel-2: #1c1c25;
+      --line: rgba(216, 177, 90, 0.14);
+      --line-2: rgba(255, 255, 255, 0.08);
+      --text: #f4f1e8;
+      --muted: #c4beae;
+      --soft: #938d80;
       --gold: #d8b15a;
-      --gold-2: #a47e2b;
-      --danger: #672727;
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --gold-2: #f0cf84;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
       --radius: 18px;
       --radius-lg: 28px;
       --max: 1240px;
@@ -34,16 +35,16 @@
     body {
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
-      background:
-        radial-gradient(circle at top right, rgba(216, 177, 90, 0.08), transparent 28%),
-        linear-gradient(180deg, #0a0a0c 0%, #0d0d11 100%);
       color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(216, 177, 90, 0.09), transparent 24%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
       line-height: 1.6;
     }
 
     img {
-      max-width: 100%;
       display: block;
+      max-width: 100%;
     }
 
     a {
@@ -60,30 +61,30 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      backdrop-filter: blur(14px);
-      background: rgba(10, 10, 12, 0.85);
-      border-bottom: 1px solid rgba(216, 177, 90, 0.12);
+      backdrop-filter: blur(12px);
+      background: rgba(10, 10, 12, 0.86);
+      border-bottom: 1px solid var(--line);
     }
 
     .header-inner {
+      min-height: 74px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      min-height: 74px;
+      gap: 18px;
     }
 
     .brand {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
     }
 
     .brand-kicker {
-      color: var(--gold);
       font-size: 0.72rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      color: var(--gold);
       font-weight: bold;
     }
 
@@ -94,9 +95,9 @@
 
     .site-nav {
       display: flex;
-      align-items: center;
-      gap: 22px;
       flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
     }
 
     .site-nav a {
@@ -110,23 +111,18 @@
     }
 
     .hero {
-      padding: 34px 0 28px;
+      padding: 30px 0 24px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.35fr 0.65fr;
+      grid-template-columns: 1.3fr 0.7fr;
       gap: 24px;
-      align-items: stretch;
     }
 
-    .hero-main,
-    .hero-side,
-    .card,
-    .mini-card,
-    .section-shell {
-      background: linear-gradient(180deg, rgba(24,24,31,0.96), rgba(18,18,22,0.96));
-      border: 1px solid rgba(216, 177, 90, 0.13);
+    .shell {
+      background: linear-gradient(180deg, rgba(28,28,37,0.96), rgba(18,18,24,0.96));
+      border: 1px solid var(--line);
       box-shadow: var(--shadow);
     }
 
@@ -136,13 +132,12 @@
     }
 
     .banner-wrap {
-      border-bottom: 1px solid rgba(216, 177, 90, 0.12);
       background: #070709;
+      border-bottom: 1px solid var(--line);
     }
 
     .banner-wrap img {
       width: 100%;
-      height: auto;
       aspect-ratio: 1200 / 300;
       object-fit: cover;
     }
@@ -155,12 +150,12 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border: 1px solid rgba(216, 177, 90, 0.2);
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(216, 177, 90, 0.22);
       background: rgba(216, 177, 90, 0.08);
       color: var(--gold);
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       font-weight: bold;
@@ -172,9 +167,10 @@
 
     .hero-copy h1 {
       margin-top: 18px;
-      font-size: clamp(2rem, 4vw, 4.25rem);
-      line-height: 1.05;
+      font-size: clamp(2.2rem, 4vw, 4.2rem);
+      line-height: 1.04;
       letter-spacing: -0.03em;
+      max-width: 860px;
     }
 
     .hero-copy p {
@@ -186,65 +182,60 @@
 
     .cta-row {
       display: flex;
-      gap: 14px;
       flex-wrap: wrap;
-      margin-top: 24px;
+      gap: 14px;
+      margin-top: 26px;
     }
 
     .btn {
+      min-height: 48px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 46px;
       padding: 0 18px;
       border-radius: 14px;
-      border: 1px solid var(--line);
-      font-weight: bold;
+      border: 1px solid var(--line-2);
       font-size: 0.95rem;
+      font-weight: bold;
       transition: 0.2s ease;
     }
 
     .btn-primary {
       background: var(--gold);
-      color: #16120a;
+      color: #191208;
       border-color: var(--gold);
     }
 
     .btn-primary:hover,
     .btn-primary:focus {
-      background: #e5c16c;
-      border-color: #e5c16c;
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
+      background: var(--gold-2);
+      border-color: var(--gold-2);
     }
 
     .btn-secondary:hover,
     .btn-secondary:focus {
-      border-color: rgba(216, 177, 90, 0.5);
+      border-color: rgba(216, 177, 90, 0.4);
       color: var(--gold);
     }
 
     .hero-stats {
+      margin-top: 28px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
-      margin-top: 26px;
     }
 
     .stat-box {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(216, 177, 90, 0.1);
-      border-radius: 16px;
       padding: 16px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(216, 177, 90, 0.1);
     }
 
     .stat-box strong {
       display: block;
-      font-size: 1.3rem;
       color: var(--gold);
+      font-size: 1.28rem;
     }
 
     .stat-box span {
@@ -255,52 +246,54 @@
     .hero-side {
       border-radius: var(--radius-lg);
       padding: 24px;
-      display: flex;
-      flex-direction: column;
+      display: grid;
       gap: 18px;
+      align-content: start;
     }
 
     .side-title {
+      color: var(--soft);
       font-size: 0.8rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--soft);
       font-weight: bold;
     }
 
-    .quick-links,
-    .filter-pills {
+    .quick-grid,
+    .filter-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      margin-top: 12px;
     }
 
-    .pill,
-    .quick-link {
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(216, 177, 90, 0.14);
+      border: 1px solid var(--line);
       background: rgba(255,255,255,0.02);
       color: var(--muted);
-      padding: 10px 14px;
       font-size: 0.88rem;
     }
 
-    .quick-link:hover,
-    .pill:hover {
-      border-color: rgba(216, 177, 90, 0.4);
+    a.chip:hover,
+    a.chip:focus {
+      border-color: rgba(216, 177, 90, 0.36);
       color: var(--text);
     }
 
-    .side-note {
-      background: rgba(0, 0, 0, 0.22);
-      border: 1px solid rgba(216, 177, 90, 0.12);
-      border-radius: 18px;
+    .note-box {
       padding: 18px;
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid var(--line);
     }
 
-    .side-note p {
-      color: var(--muted);
+    .note-box p {
       margin-top: 10px;
+      color: var(--muted);
       font-size: 0.96rem;
     }
 
@@ -310,73 +303,100 @@
 
     .section-head {
       display: flex;
-      align-items: end;
       justify-content: space-between;
+      align-items: end;
       gap: 20px;
       flex-wrap: wrap;
       margin-bottom: 20px;
     }
 
     .section-head h2 {
-      font-size: clamp(1.7rem, 3vw, 2.7rem);
-      line-height: 1.1;
-      margin-top: 8px;
+      margin-top: 10px;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      line-height: 1.08;
     }
 
     .section-copy {
+      margin-top: 10px;
       color: var(--muted);
       max-width: 760px;
-      margin-top: 10px;
     }
 
-    .grid-3 {
+    .series-grid,
+    .info-grid,
+    .footer-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
 
-    .card {
+    .series-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .posts-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+    }
+
+    .post-list,
+    .side-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .card,
+    .panel {
       border-radius: 22px;
       overflow: hidden;
     }
 
-    .card-image {
-      height: 180px;
-      background:
-        linear-gradient(135deg, rgba(216,177,90,0.18), rgba(216,177,90,0.04)),
-        linear-gradient(180deg, #16161d, #0d0d11);
-      border-bottom: 1px solid rgba(216,177,90,0.1);
+    .card,
+    .panel {
+      background: linear-gradient(180deg, rgba(25,25,34,0.96), rgba(17,17,23,0.96));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
     }
 
-    .card-body {
+    .card-art {
+      height: 180px;
+      background:
+        linear-gradient(135deg, rgba(216, 177, 90, 0.18), rgba(216, 177, 90, 0.04)),
+        linear-gradient(180deg, #16161d, #0d0d11);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .card-body,
+    .panel-body {
       padding: 22px;
     }
 
     .tag {
-      display: inline-block;
       color: var(--gold);
       font-size: 0.72rem;
-      text-transform: uppercase;
       letter-spacing: 0.16em;
+      text-transform: uppercase;
       font-weight: bold;
     }
 
     .meta {
+      margin-top: 8px;
       color: var(--soft);
       font-size: 0.9rem;
-      margin-top: 8px;
     }
 
-    .card h3 {
+    .card h3,
+    .panel h3 {
       margin-top: 10px;
-      font-size: 1.5rem;
+      font-size: 1.48rem;
       line-height: 1.15;
     }
 
-    .card p {
-      color: var(--muted);
+    .card p,
+    .panel p,
+    .panel li {
       margin-top: 14px;
-      font-size: 1rem;
+      color: var(--muted);
     }
 
     .text-link {
@@ -387,27 +407,24 @@
       font-size: 0.94rem;
     }
 
-    .posts-wrap {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 24px;
-    }
-
-    .post-list {
-      display: grid;
-      gap: 16px;
-    }
-
-    .mini-card {
-      border-radius: 20px;
-      padding: 22px;
-    }
-
-    .mini-card .post-top {
+    .post-top {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px 12px;
       align-items: center;
+      gap: 10px 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(216, 177, 90, 0.09);
+      border: 1px solid rgba(216, 177, 90, 0.14);
+      color: var(--gold);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: bold;
     }
 
     .post-date {
@@ -415,80 +432,37 @@
       font-size: 0.9rem;
     }
 
-    .badge {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(216,177,90,0.09);
-      border: 1px solid rgba(216,177,90,0.14);
-      color: var(--gold);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: bold;
-    }
-
-    .mini-card h3 {
-      margin-top: 12px;
-      font-size: 1.55rem;
-      line-height: 1.15;
-    }
-
-    .mini-card p {
-      color: var(--muted);
-      margin-top: 12px;
-    }
-
-    .side-stack {
-      display: grid;
-      gap: 16px;
-    }
-
-    .section-shell {
-      border-radius: 20px;
-      padding: 22px;
-    }
-
-    .section-shell p,
-    .section-shell li {
-      color: var(--muted);
-    }
-
-    .section-shell ul {
-      padding-left: 18px;
+    .panel ul {
       margin: 14px 0 0;
+      padding-left: 18px;
     }
 
-    .two-up {
-      display: grid;
+    .info-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
     }
 
     .footer {
-      border-top: 1px solid rgba(216,177,90,0.12);
       margin-top: 24px;
-      padding: 32px 0 42px;
+      padding: 30px 0 42px;
+      border-top: 1px solid var(--line);
     }
 
     .footer-grid {
-      display: grid;
       grid-template-columns: 1.1fr 0.9fr 1fr;
-      gap: 24px;
-    }
-
-    .footer small,
-    .footer p,
-    .footer li {
-      color: var(--muted);
     }
 
     .footer h3 {
+      margin-bottom: 12px;
+      color: var(--soft);
       font-size: 1rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--soft);
-      margin-bottom: 12px;
+    }
+
+    .footer p,
+    .footer li,
+    .footer small {
+      color: var(--muted);
     }
 
     .footer-links {
@@ -499,24 +473,25 @@
       gap: 8px;
     }
 
-    .footer-links a:hover {
+    .footer-links a:hover,
+    .footer-links a:focus {
       color: var(--gold);
     }
 
     .copyright {
       margin-top: 20px;
       padding-top: 18px;
-      border-top: 1px solid rgba(216,177,90,0.08);
-      font-size: 0.92rem;
+      border-top: 1px solid rgba(216, 177, 90, 0.08);
       color: var(--soft);
+      font-size: 0.92rem;
     }
 
     @media (max-width: 1024px) {
       .hero-grid,
-      .posts-wrap,
-      .footer-grid,
-      .two-up,
-      .grid-3 {
+      .series-grid,
+      .posts-layout,
+      .info-grid,
+      .footer-grid {
         grid-template-columns: 1fr;
       }
 
@@ -529,24 +504,19 @@
       .header-inner {
         min-height: auto;
         padding: 14px 0;
-        align-items: start;
         flex-direction: column;
+        align-items: start;
       }
 
       .site-nav {
-        gap: 14px;
+        gap: 12px 16px;
       }
 
       .hero-copy,
       .hero-side,
       .card-body,
-      .mini-card,
-      .section-shell {
+      .panel-body {
         padding: 18px;
-      }
-
-      .hero-copy h1 {
-        font-size: 2.2rem;
       }
     }
   </style>
@@ -562,10 +532,9 @@
         <a href="#latest">Latest</a>
         <a href="#series">Series</a>
         <a href="#tools">Tools</a>
-        <a href="#about">About</a>
         <a href="/archive.html">Archive</a>
-        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">YouTube</a>
-        <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Spotify</a>
+        <a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank" rel="noopener noreferrer">Spotify</a>
       </nav>
     </div>
   </header>
@@ -573,62 +542,62 @@
   <main>
     <section class="hero">
       <div class="container hero-grid">
-        <article class="hero-main">
+        <article class="hero-main shell">
           <div class="banner-wrap">
-            <img src="images/soloquests1.jpg" alt="Solo Quests Party of One banner" />
+            <img src="https://solodnd.com/images/soloquests1.jpg" alt="Solo Quests Party of One banner" />
           </div>
           <div class="hero-copy">
             <span class="eyebrow">Now Viewing, Punisher Takes on Gotham</span>
-            <h1>Solo campaign logs, sharp reviews, and practical tools for people who play alone.</h1>
+            <h1>Solo campaign logs, useful reviews, and straight-to-the-point tools for people who actually play solo.</h1>
             <p>
-              This front page is built to tell visitors what the site is fast. You run solo actual play, talk about what works, and share tools people can use right away. That should be obvious in the first screen, not buried twenty posts down.
+              Solo Quests | Party of One is where you track live campaign progress, read what worked at the table, and grab ideas you can use in your own solo games. The front page should show that fast, so this version puts your main series, recent posts, and useful content right up front.
             </p>
             <div class="cta-row">
               <a class="btn btn-primary" href="#latest">Read Latest Posts</a>
-              <a class="btn btn-secondary" href="#series">Browse Main Series</a>
+              <a class="btn btn-secondary" href="/archive.html">Open Archive</a>
             </div>
             <div class="hero-stats" aria-label="Site highlights">
               <div class="stat-box">
-                <strong>4</strong>
-                <span>Main content lanes</span>
+                <strong>Solo Play</strong>
+                <span>Campaign logs across multiple systems</span>
               </div>
               <div class="stat-box">
-                <strong>Clear</strong>
-                <span>Series organization</span>
+                <strong>Reviews</strong>
+                <span>Useful tools and table-tested takes</span>
               </div>
               <div class="stat-box">
-                <strong>Fast</strong>
-                <span>Front page scan</span>
+                <strong>Updates</strong>
+                <span>Channel notes and what is coming next</span>
               </div>
             </div>
           </div>
         </article>
 
-        <aside class="hero-side">
+        <aside class="hero-side shell">
           <div>
             <div class="side-title">Quick Access</div>
-            <div class="quick-links" style="margin-top: 12px;">
-              <a class="quick-link" href="#latest">Latest Posts</a>
-              <a class="quick-link" href="#series">Featured Series</a>
-              <a class="quick-link" href="#tools">Tools & Reviews</a>
-              <a class="quick-link" href="/archive.html">Archive</a>
+            <div class="quick-grid">
+              <a class="chip" href="https://solodnd.com/posts/2025-12-09-punisher-s2e2.html">Current Episode</a>
+              <a class="chip" href="https://solodnd.com/posts/2025-10-30-the-one-page-mythic-emulator-explained.html">Featured Review</a>
+              <a class="chip" href="/archive.html">Full Archive</a>
+              <a class="chip" href="https://buymeacoffee.com/soloquests" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>
             </div>
           </div>
 
           <div>
-            <div class="side-title">Main Filters</div>
-            <div class="filter-pills" style="margin-top: 12px;">
-              <span class="pill">Punisher in Gotham</span>
-              <span class="pill">Ronin</span>
-              <span class="pill">Star Wars Solo</span>
-              <span class="pill">Basic Fantasy 4e</span>
+            <div class="side-title">Main Series</div>
+            <div class="filter-grid">
+              <a class="chip" href="https://solodnd.com/posts/2025-12-09-punisher-s2e2.html">Punisher in Gotham</a>
+              <a class="chip" href="https://solodnd.com/posts/2025-10-26-ronin-008-final-villain.html">Ronin</a>
+              <a class="chip" href="https://solodnd.com/posts/2025-11-17-star-wars-droid-hunt-on-naboo.html">Star Wars Solo</a>
+              <a class="chip" href="https://solodnd.com/posts/2025-10-30-land-of-the-crown.html">Land of the Crown</a>
             </div>
           </div>
 
-          <div class="side-note">
-            <div class="side-title">Why this works better</div>
+          <div class="note-box">
+            <div class="side-title">About the Site</div>
             <p>
-              Your current site has good material, but the front page reads like a raw feed. This layout gives each type of content its own place, so new readers know where to go in seconds.
+              Solo Quests Party of One is a space built for lone adventurers and storytellers. Here you will find updates, notes, and tools for running your own solo campaigns across different systems and settings.
             </p>
           </div>
         </aside>
@@ -640,50 +609,50 @@
         <div class="section-head">
           <div>
             <span class="eyebrow">Featured Series</span>
-            <h2>Give your main campaigns their own space</h2>
+            <h2>Your main campaigns deserve front-page space</h2>
             <p class="section-copy">
-              These cards can link to tag pages, archive pages, or hand-built landing pages for each campaign. That alone would make the site easier to use.
+              These are the lanes people should spot fast when they hit the site. Each card points to a real post in that series, so the page is usable the second you upload it.
             </p>
           </div>
         </div>
 
-        <div class="grid-3">
+        <div class="series-grid">
           <article class="card">
-            <div class="card-image"></div>
+            <div class="card-art"></div>
             <div class="card-body">
               <span class="tag">Featured Series</span>
               <h3>Punisher Takes on Gotham</h3>
               <div class="meta">Solo FASERIP</div>
               <p>
-                Frank Castle in Gotham, pressure on every scene, hard choices, and consequences that stay in play.
+                Frank Castle in Gotham, with hard choices, coded messages, pressure on every scene, and the city pushing back every time he moves.
               </p>
-              <a class="text-link" href="#latest">Open Series</a>
+              <a class="text-link" href="https://solodnd.com/posts/2025-12-09-punisher-s2e2.html">Read Current Episode</a>
             </div>
           </article>
 
           <article class="card">
-            <div class="card-image"></div>
+            <div class="card-art"></div>
             <div class="card-body">
               <span class="tag">Campaign Log</span>
               <h3>Land of the Crown</h3>
               <div class="meta">Basic Fantasy 4e</div>
               <p>
-                A dangerous road campaign with relics, ruins, missions, and strong old-school solo pacing.
+                A solo fantasy campaign built around cursed relics, old ruins, and a Nightward sent out by the Crown to hunt what should have stayed buried.
               </p>
-              <a class="text-link" href="#latest">Open Series</a>
+              <a class="text-link" href="https://solodnd.com/posts/2025-10-30-land-of-the-crown.html">Read First Entry</a>
             </div>
           </article>
 
           <article class="card">
-            <div class="card-image"></div>
+            <div class="card-art"></div>
             <div class="card-body">
               <span class="tag">Archive Favorite</span>
               <h3>Shin's Vow of Revenge</h3>
               <div class="meta">SoloRPG Ronin</div>
               <p>
-                A revenge story told in clean episodes, with travel, pressure, and personal stakes carrying the whole run.
+                A revenge story told in clean solo episodes, with road danger, personal stakes, and a final villain waiting at the end of a long trail.
               </p>
-              <a class="text-link" href="#latest">Open Series</a>
+              <a class="text-link" href="https://solodnd.com/posts/2025-10-26-ronin-008-final-villain.html">Read Final Episode</a>
             </div>
           </article>
         </div>
@@ -691,119 +660,142 @@
     </section>
 
     <section id="latest">
-      <div class="container posts-wrap">
+      <div class="container posts-layout">
         <div>
           <div class="section-head">
             <div>
               <span class="eyebrow">Latest Posts</span>
-              <h2>A homepage that feels edited</h2>
+              <h2>The newest stuff stays easy to find</h2>
               <p class="section-copy">
-                The latest feed still matters, but it should support the site structure, not be the structure.
+                This keeps the blog feed alive, but it no longer buries everything else on the page.
               </p>
             </div>
           </div>
 
           <div class="post-list">
-            <article class="mini-card">
-              <div class="post-top">
-                <span class="badge">Update</span>
-                <span class="post-date">December 11, 2025</span>
+            <article class="panel">
+              <div class="panel-body">
+                <div class="post-top">
+                  <span class="badge">Update</span>
+                  <span class="post-date">December 11, 2025</span>
+                </div>
+                <h3><a href="https://solodnd.com/posts/2025-12-11-december-2025-updates.html">December 2025 Updates, Long Read?</a></h3>
+                <p>
+                  Land of the Crown plans, being sick and slammed with work, video format choices, possible Traveller and Western solo play, a D8 Anywhere video, and some real-life talk mixed in.
+                </p>
+                <a class="text-link" href="https://solodnd.com/posts/2025-12-11-december-2025-updates.html">Read Post</a>
               </div>
-              <h3><a href="https://solodnd.com/2025/12/december-2025-updates-long-read.html">December 2025 Updates, Long Read?</a></h3>
-              <p>
-                A long-form channel update about Land of the Crown plans, being sick and slammed with work, video style choices, possible Traveller and Western solos, a D8 Anywhere showcase, and a bit of real life and tacos.
-              </p>
-              <a class="text-link" href="https://solodnd.com/2025/12/december-2025-updates-long-read.html">Read Post</a>
             </article>
 
-            <article class="mini-card">
-              <div class="post-top">
-                <span class="badge">Campaign Log</span>
-                <span class="post-date">December 9, 2025</span>
+            <article class="panel">
+              <div class="panel-body">
+                <div class="post-top">
+                  <span class="badge">Campaign Log</span>
+                  <span class="post-date">December 9, 2025</span>
+                </div>
+                <h3><a href="https://solodnd.com/posts/2025-12-09-punisher-s2e2.html">Punisher Takes On Gotham, S2 E2, Micro is in trouble?</a></h3>
+                <p>
+                  Frank wakes in an empty motel room, calls Microchip, and gets a coded message that makes it clear Micro is in trouble.
+                </p>
+                <a class="text-link" href="https://solodnd.com/posts/2025-12-09-punisher-s2e2.html">Read Post</a>
               </div>
-              <h3><a href="https://solodnd.com/2025/12/punisher-takes-on-gotham-solo-faserip.html">Punisher Takes On Gotham, S2 E2, Micro is in trouble?</a></h3>
-              <p>
-                Frank wakes in an empty motel room, calls Microchip, and gets a strange coded message that makes it clear Micro is in serious trouble.
-              </p>
-              <a class="text-link" href="https://solodnd.com/2025/12/punisher-takes-on-gotham-solo-faserip.html">Read Post</a>
             </article>
 
-            <article class="mini-card">
-              <div class="post-top">
-                <span class="badge">Solo Play</span>
-                <span class="post-date">November 17, 2025</span>
+            <article class="panel">
+              <div class="panel-body">
+                <div class="post-top">
+                  <span class="badge">Solo Play</span>
+                  <span class="post-date">November 17, 2025</span>
+                </div>
+                <h3><a href="https://solodnd.com/posts/2025-11-17-star-wars-droid-hunt-on-naboo.html">Star Wars Solo, Dex Renford, Droid Hunt on Naboo</a></h3>
+                <p>
+                  Dex and Dr. Riala Merch move through a Naboo port under pressure, using a dice-drop route and quick solo rulings to stay alive.
+                </p>
+                <a class="text-link" href="https://solodnd.com/posts/2025-11-17-star-wars-droid-hunt-on-naboo.html">Read Post</a>
               </div>
-              <h3><a href="https://solodnd.com/2025/11/star-wars-solo-dex-renford-droid-hunt.html">Star Wars Solo, Dex Renford, Droid Hunt on Naboo</a></h3>
-              <p>
-                A fast solo episode built on route planning, dice-drop layout, and just enough pressure to keep each move mattering.
-              </p>
-              <a class="text-link" href="https://solodnd.com/2025/11/star-wars-solo-dex-renford-droid-hunt.html">Read Post</a>
             </article>
 
-            <article class="mini-card">
-              <div class="post-top">
-                <span class="badge">Tool Review</span>
-                <span class="post-date">October 30, 2025</span>
+            <article class="panel">
+              <div class="panel-body">
+                <div class="post-top">
+                  <span class="badge">Tool Review</span>
+                  <span class="post-date">October 30, 2025</span>
+                </div>
+                <h3><a href="https://solodnd.com/posts/2025-10-30-the-one-page-mythic-emulator-explained.html">The One Page Mythic Emulator Explained</a></h3>
+                <p>
+                  A clean walkthrough of the One Page Mythic Emulator, how it handles yes or no questions, doubles, and table speed.
+                </p>
+                <a class="text-link" href="https://solodnd.com/posts/2025-10-30-the-one-page-mythic-emulator-explained.html">Read Post</a>
               </div>
-              <h3><a href="https://solodnd.com/2025/10/the-one-page-mythic-emulator-explained.html">The One Page Mythic Emulator Explained</a></h3>
-              <p>
-                A practical look at the oracle, how it works, where it speeds up play, and how to use it without dragging the session down.
-              </p>
-              <a class="text-link" href="https://solodnd.com/2025/10/the-one-page-mythic-emulator-explained.html">Read Post</a>
             </article>
           </div>
         </div>
 
         <aside class="side-stack">
-          <section class="section-shell">
-            <div class="side-title">About the Site</div>
-            <p style="margin-top: 12px;">
-              Solo Quests | Party of One is a site for solo roleplaying reports, reviews, tools, and notes. The main goal is to show what solo play actually looks like at the table, without fluff and without hiding the process.
-            </p>
+          <section class="panel">
+            <div class="panel-body">
+              <div class="side-title">Useful Links</div>
+              <div class="quick-grid">
+                <a class="chip" href="/">Home</a>
+                <a class="chip" href="/archive.html">Archive</a>
+                <a class="chip" href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank" rel="noopener noreferrer">YouTube Channel</a>
+                <a class="chip" href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank" rel="noopener noreferrer">Spotify Channel</a>
+              </div>
+            </div>
           </section>
 
-          <section class="section-shell">
-            <div class="side-title">Suggested Content Buckets</div>
-            <ul>
-              <li>Campaign Logs</li>
-              <li>Solo Tool Reviews</li>
-              <li>How I Run Solo Play</li>
-              <li>Channel and Site Updates</li>
-            </ul>
+          <section class="panel">
+            <div class="panel-body">
+              <div class="side-title">Content Buckets</div>
+              <ul>
+                <li>Campaign logs</li>
+                <li>Solo tool reviews</li>
+                <li>How I run solo play</li>
+                <li>Channel and site updates</li>
+              </ul>
+            </div>
           </section>
 
-          <section class="section-shell">
-            <div class="side-title">Current Site Note</div>
-            <p style="margin-top: 12px;">
-              Replace the old unfinished stats line with a real number when you have it, or remove it. Leaving “Total Views—” hanging hurts the page.
-            </p>
+          <section class="panel">
+            <div class="panel-body">
+              <div class="side-title">Follow</div>
+              <p>
+                X: <a href="https://x.com/soloquestsrpg" target="_blank" rel="noopener noreferrer">@soloquestsrpg</a><br />
+                Email: <a href="mailto:soloquests@solodnd.com">soloquests(at)solodnd.com</a>
+              </p>
+            </div>
           </section>
         </aside>
       </div>
     </section>
 
     <section id="tools">
-      <div class="container two-up">
-        <section class="section-shell">
-          <span class="eyebrow">Tools and Reviews</span>
-          <h2 style="margin-top: 14px;">Pull the useful stuff forward</h2>
-          <p style="margin-top: 14px;">
-            Reviews and solo tools deserve their own lane. Right now they blend into the same stream as every episode. A separate section tells readers you offer more than session logs.
-          </p>
+      <div class="container info-grid">
+        <section class="panel">
+          <div class="panel-body">
+            <span class="eyebrow">Tools and Reviews</span>
+            <h2 style="margin-top: 14px;">Useful content gets its own lane</h2>
+            <p>
+              Reviews and utility posts should stand apart from session reports. This section makes that obvious and gives people a clean path to the practical side of the site.
+            </p>
+            <a class="text-link" href="https://solodnd.com/posts/2025-10-30-the-one-page-mythic-emulator-explained.html">Read the Mythic review</a>
+          </div>
         </section>
 
-        <section class="section-shell">
-          <span class="eyebrow">Visual Direction</span>
-          <h2 style="margin-top: 14px;">Keep your tone, fix the layout</h2>
-          <p style="margin-top: 14px;">
-            Dark background. Gold accent. Cleaner spacing. Bigger headings. Better card structure. The site can still feel like your brand, just sharper and more current.
-          </p>
+        <section class="panel">
+          <div class="panel-body">
+            <span class="eyebrow">Current Direction</span>
+            <h2 style="margin-top: 14px;">Same tone, cleaner layout</h2>
+            <p>
+              The dark look stays. The banner stays. The site keeps your current voice, but the layout does a better job showing visitors where to go and what the site is actually about.
+            </p>
+          </div>
         </section>
       </div>
     </section>
   </main>
 
-  <footer id="about" class="footer">
+  <footer class="footer">
     <div class="container footer-grid">
       <section>
         <h3>Solo Quests | Party of One</h3>
@@ -819,7 +811,7 @@
           <li><a href="/archive.html">Archive</a></li>
           <li><a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank" rel="noopener noreferrer">YouTube Channel</a></li>
           <li><a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank" rel="noopener noreferrer">Spotify Channel</a></li>
-          <li><a href="https://www.buymeacoffee.com/soloquests" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a></li>
+          <li><a href="https://buymeacoffee.com/soloquests" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a></li>
         </ul>
       </section>
 
@@ -828,7 +820,7 @@
         <ul class="footer-links">
           <li><a href="https://x.com/soloquestsrpg" target="_blank" rel="noopener noreferrer">@soloquestsrpg</a></li>
           <li><a href="mailto:soloquests@solodnd.com">soloquests(at)solodnd.com</a></li>
-          <li>Total Views: Add real count here</li>
+          <li>This is a WIP Site, Please Pardon some mistakes.</li>
         </ul>
       </section>
     </div>
