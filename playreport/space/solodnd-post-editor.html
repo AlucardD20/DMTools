@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoloDND Post Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #111;
+      --panel: #1b1b1b;
+      --panel-2: #151515;
+      --border: #333;
+      --text: #f5f5f5;
+      --muted: #aaa;
+      --accent: #e1c699;
+      --danger: #b33;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+    }
+    header {
+      padding: 16px 20px;
+      background: #000;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 18px;
+      color: var(--accent);
+    }
+    header p {
+      margin: 8px 0 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 80vh;
+    }
+    .panel-head {
+      padding: 12px 16px;
+      background: var(--panel-2);
+      border-bottom: 1px solid var(--border);
+      font-weight: bold;
+      color: var(--accent);
+    }
+    .panel-body {
+      padding: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .grid-1 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #101010;
+      color: var(--text);
+      font: inherit;
+    }
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    button {
+      border: 1px solid var(--border);
+      background: #222;
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+    }
+    button:hover { background: #2a2a2a; }
+    .color-red { background: #4a1717; }
+    .color-blue { background: #162848; }
+    .color-green { background: #18361d; }
+    .color-gold { background: #4a3b12; }
+    .color-purple { background: #35204a; }
+    .color-gray { background: #303030; }
+    .editor {
+      min-height: 340px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #0f0f0f;
+      padding: 12px;
+      line-height: 1.6;
+      outline: none;
+    }
+    .editor:focus { border-color: #666; }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .output {
+      width: 100%;
+      min-height: 340px;
+      background: #0d0d0d;
+      color: #d9f7d9;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+    }
+    iframe {
+      width: 100%;
+      min-height: 420px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: white;
+    }
+    .section-title {
+      margin: 16px 0 8px;
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    @media (max-width: 1100px) {
+      .wrap { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SoloDND Local Post Editor</h1>
+    <p>Write on the left. Finished HTML appears on the right.</p>
+  </header>
+
+  <div class="wrap">
+    <section class="panel">
+      <div class="panel-head">Post Builder</div>
+      <div class="panel-body">
+        <div class="grid">
+          <div>
+            <label for="pageTitle">Post Title</label>
+            <input id="pageTitle" type="text" value="Your Post Title" />
+          </div>
+          <div>
+            <label for="postDate">Post Date</label>
+            <input id="postDate" type="date" />
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:12px;">
+          <div>
+            <label for="bannerSrc">Banner Image Path</label>
+            <input id="bannerSrc" type="text" value="../images/soloquests1.jpg" />
+          </div>
+          <div>
+            <label for="postImageSrc">Top Post Image Path</label>
+            <input id="postImageSrc" type="text" value="../images/your-image.png" />
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:12px;">
+          <div>
+            <label for="homeLink">Home Link</label>
+            <input id="homeLink" type="text" value="../index.html" />
+          </div>
+          <div>
+            <label for="archiveLink">Archive Link</label>
+            <input id="archiveLink" type="text" value="../archive.html" />
+          </div>
+        </div>
+
+        <div class="grid-1" style="margin-top:12px;">
+          <div>
+            <label for="aboutText">Sidebar About Text</label>
+            <textarea id="aboutText">Solo Quests Party of One is a space built for lone adventurers and storytellers.
+Here you will find updates, notes, and tools for running your own solo campaigns across different systems and settings.</textarea>
+          </div>
+        </div>
+
+        <div class="grid-1" style="margin-top:12px;">
+          <div>
+            <label for="closingText">Closing Text</label>
+            <textarea id="closingText">I'll say no more, except, enjoy!
+Email me if you have any questions!</textarea>
+          </div>
+        </div>
+
+        <div class="section-title">Post Content</div>
+        <div class="toolbar">
+          <button type="button" data-cmd="bold">Bold</button>
+          <button type="button" data-cmd="italic">Italic</button>
+          <button type="button" data-cmd="insertUnorderedList">Bullets</button>
+          <button type="button" data-cmd="insertOrderedList">Numbers</button>
+          <button type="button" id="linkBtn">Link</button>
+          <button type="button" id="imgBtn">Image</button>
+          <button type="button" id="ytBtn">YouTube Embed</button>
+          <button type="button" class="color-red" data-callout="red">Red Callout</button>
+          <button type="button" class="color-blue" data-callout="blue">Blue Callout</button>
+          <button type="button" class="color-green" data-callout="green">Green Callout</button>
+          <button type="button" class="color-gold" data-callout="gold">Gold Callout</button>
+          <button type="button" class="color-purple" data-callout="purple">Purple Callout</button>
+          <button type="button" class="color-gray" data-callout="gray">Gray Callout</button>
+        </div>
+
+        <div id="editor" class="editor" contenteditable="true">
+          <p>Write your blog post here.</p>
+          <p>You can add paragraphs, lists, images, links, and callouts.</p>
+        </div>
+        <div class="hint">Tip: Select text first, then click a callout button to wrap it in a colored box.</div>
+
+        <div class="actions">
+          <button type="button" id="buildBtn">Build HTML</button>
+          <button type="button" id="copyBtn">Copy HTML</button>
+          <button type="button" id="downloadBtn">Download HTML File</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">Generated HTML and Preview</div>
+      <div class="panel-body">
+        <label for="output">HTML Output</label>
+        <textarea id="output" class="output"></textarea>
+
+        <div class="section-title">Preview</div>
+        <iframe id="preview"></iframe>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const pageTitle = document.getElementById('pageTitle');
+    const postDate = document.getElementById('postDate');
+    const bannerSrc = document.getElementById('bannerSrc');
+    const postImageSrc = document.getElementById('postImageSrc');
+    const homeLink = document.getElementById('homeLink');
+    const archiveLink = document.getElementById('archiveLink');
+    const aboutText = document.getElementById('aboutText');
+    const closingText = document.getElementById('closingText');
+    const editor = document.getElementById('editor');
+    const output = document.getElementById('output');
+    const preview = document.getElementById('preview');
+
+    const today = new Date();
+    postDate.value = today.toISOString().slice(0, 10);
+
+    function escAttr(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function prettyDate(dateStr) {
+      if (!dateStr) return '';
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      const [y, m, d] = parts;
+      const date = new Date(Number(y), Number(m) - 1, Number(d));
+      const month = date.toLocaleString('en-US', { month: 'long' });
+      return month + ' ' + Number(d) + ', ' + y;
+    }
+
+    function slugify(str) {
+      return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'post';
+    }
+
+    function exec(cmd) {
+      document.execCommand(cmd, false, null);
+      editor.focus();
+    }
+
+    document.querySelectorAll('[data-cmd]').forEach(btn => {
+      btn.addEventListener('click', () => exec(btn.dataset.cmd));
+    });
+
+    document.getElementById('linkBtn').addEventListener('click', () => {
+      const url = prompt('Enter the link URL');
+      if (!url) return;
+      document.execCommand('createLink', false, url);
+      editor.focus();
+    });
+
+    document.getElementById('imgBtn').addEventListener('click', () => {
+      const url = prompt('Enter image path or URL');
+      if (!url) return;
+      document.execCommand('insertImage', false, url);
+      editor.focus();
+    });
+
+    document.getElementById('ytBtn').addEventListener('click', () => {
+      const url = prompt('Paste YouTube watch URL or embed URL');
+      if (!url) return;
+      let embed = url.trim();
+      const watchMatch = embed.match(/[?&]v=([^&]+)/);
+      const shortMatch = embed.match(/youtu\.be\/([^?&]+)/);
+      if (watchMatch) embed = 'https://www.youtube.com/embed/' + watchMatch[1];
+      else if (shortMatch) embed = 'https://www.youtube.com/embed/' + shortMatch[1];
+      const html = '<div class="embed"><iframe width="560" height="315" src="' + escAttr(embed) + '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>';
+      document.execCommand('insertHTML', false, html);
+      editor.focus();
+    });
+
+    document.querySelectorAll('[data-callout]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const color = btn.dataset.callout;
+        const selection = window.getSelection();
+        if (!selection.rangeCount || selection.isCollapsed) {
+          alert('Select text first for a callout.');
+          return;
+        }
+        const selected = selection.toString();
+        const html = '<div class="callout callout-' + color + '"><strong>Note:</strong> ' + escHtml(selected) + '</div>';
+        document.execCommand('insertHTML', false, html);
+        editor.focus();
+      });
+    });
+
+    function buildHtml() {
+      const title = pageTitle.value || 'Untitled Post';
+      const date = prettyDate(postDate.value);
+      const articleHtml = editor.innerHTML;
+      const closingHtml = closingText.value.split('\n').map(line => escHtml(line)).join('<br>');
+      const aboutHtml = escHtml(aboutText.value).replace(/\n/g, '<br>');
+
+      const fullHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escHtml(title)}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background-color: #111; color: #f5f5f5; font-family: Arial, Helvetica, sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+    header { text-align: center; background-color: #000; }
+    header img { width: 100%; max-height: 250px; object-fit: cover; display: block; }
+    main { flex: 1; display: flex; justify-content: center; max-width: 1100px; margin: 40px auto; padding: 0 20px; gap: 20px; align-items: flex-start; }
+    #content { flex: 1; max-width: 800px; }
+    article { background-color: #1b1b1b; border: 1px solid #333; border-radius: 5px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    h1 { color: #e1c699; margin: 0 0 10px 0; font-size: 24px; }
+    .meta { color: #aaa; font-size: 14px; margin-bottom: 15px; font-style: italic; }
+    .home-link { display: inline-block; margin-bottom: 15px; color: #e1c699; text-decoration: none; font-weight: bold; }
+    .home-link:hover { text-decoration: underline; }
+    .post-image { margin-bottom: 20px; text-align: center; }
+    .post-image img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid #333; }
+    article p, article li { color: #ddd; }
+    .closing { margin-top: 20px; color: #ddd; }
+    .embed { margin: 20px 0; text-align: center; }
+    .embed iframe { max-width: 100%; }
+    .callout { margin: 18px 0; padding: 14px 16px; border-left: 4px solid #777; border-radius: 4px; }
+    .callout-red { background: #3b1919; border-left-color: #d55; color: #f7d7d7; }
+    .callout-blue { background: #18273f; border-left-color: #6aa3ff; color: #dceaff; }
+    .callout-green { background: #17301c; border-left-color: #62c779; color: #d9f3de; }
+    .callout-gold { background: #3e3212; border-left-color: #e1c699; color: #f6ebc9; }
+    .callout-purple { background: #2e1b3f; border-left-color: #b48cff; color: #eadcff; }
+    .callout-gray { background: #2a2a2a; border-left-color: #999; color: #e6e6e6; }
+    aside { width: 220px; background-color: #1b1b1b; border: 1px solid #333; border-radius: 5px; padding: 15px; height: fit-content; position: sticky; top: 15px; }
+    aside h3 { color: #b33; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 4px; font-size: 15px; font-family: 'Press Start 2P', cursive; letter-spacing: 0.5px; }
+    aside a { display: block; color: #e1c699; text-decoration: none; margin-bottom: 8px; font-weight: bold; }
+    aside a:hover { text-decoration: underline; }
+    .about-title { text-align: center; color: #b33; font-family: 'Press Start 2P', cursive; font-size: 12px; margin-top: 20px; margin-bottom: 10px; }
+    .about-text { color: #ccc; font-size: 14px; line-height: 1.5; text-align: justify; }
+    footer { display: flex; align-items: center; justify-content: center; padding: 10px; background-color: #1e1e1e; color: #f5f5f5; font-size: 14px; text-align: center; gap: 10px; flex-wrap: wrap; }
+    @media (max-width: 900px) { main { flex-direction: column; align-items: center; } aside { width: 100%; position: static; } #content { max-width: 100%; } }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="${escAttr(bannerSrc.value)}" alt="Solo Quests Banner">
+  </header>
+  <main>
+    <section id="content">
+      <article>
+        <a href="${escAttr(homeLink.value)}" class="home-link">← Home</a>
+        <h1>${escHtml(title)}</h1>
+        <div class="meta">${escHtml(date)}</div>
+        <div class="post-image">
+          <img src="${escAttr(postImageSrc.value)}" alt="">
+        </div>
+        ${articleHtml}
+        <p class="closing">${closingHtml}</p>
+      </article>
+    </section>
+    <aside>
+      <h3>Navigation</h3>
+      <a href="${escAttr(homeLink.value)}">Home</a>
+      <a href="${escAttr(archiveLink.value)}">Archive</a>
+      <a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank">YouTube Channel</a>
+      <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
+      <div class="about-title">ABOUT</div>
+      <p class="about-text">${aboutHtml}</p>
+    </aside>
+  </main>
+  <footer>
+    <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games | This is a WIP Site, Please Paradon some mistakes.</span>
+    <div>
+      <a href="https://www.buymeacoffee.com/soloquests" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height:30px;width:108px;border-radius:4px;">
+      </a>
+    </div>
+  </footer>
+</body>
+</html>`;
+
+      output.value = fullHtml;
+      preview.srcdoc = fullHtml;
+      return fullHtml;
+    }
+
+    document.getElementById('buildBtn').addEventListener('click', buildHtml);
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const html = buildHtml();
+      try {
+        await navigator.clipboard.writeText(html);
+        alert('HTML copied.');
+      } catch (e) {
+        alert('Clipboard copy failed. Copy from the box on the right.');
+      }
+    });
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const html = buildHtml();
+      const blob = new Blob([html], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = slugify(pageTitle.value || 'post') + '.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(a.href);
+    });
+
+    ['input', 'change'].forEach(evt => {
+      [pageTitle, postDate, bannerSrc, postImageSrc, homeLink, archiveLink, aboutText, closingText].forEach(el => el.addEventListener(evt, buildHtml));
+    });
+    editor.addEventListener('input', buildHtml);
+    buildHtml();
+  </script>
+</body>
+</html>
