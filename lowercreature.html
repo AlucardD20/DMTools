@@ -3,130 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lower Planes Creature Generator</title>
+    <title>Abyssal Entity Forge</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&display=swap');
+        
         /* General Page Styling */
         body {
             font-family: 'Georgia', serif;
-            background-color: #1a0c0c; /* Deep black-red background */
-            color: #ffffff; /* White text for contrast */
+            background: radial-gradient(ellipse at bottom, #0d001a 0%, #000000 100%);
+            color: #e0e0e0;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #8b0000, transparent),
+                radial-gradient(2px 2px at 40px 70px, #ff4500, transparent),
+                radial-gradient(2px 2px at 50px 160px, #8b0000, transparent),
+                radial-gradient(2px 2px at 90px 40px, #ff4500, transparent),
+                radial-gradient(2px 2px at 130px 80px, #8b0000, transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.15;
+            animation: embers 8s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes embers {
+            0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+            100% { background-position: 0 200px, 0 200px, 0 200px, 0 200px, 0 200px; }
         }
 
         /* Container Styling */
         .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #2e1a1a; /* Dark red container background */
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); /* Intense shadow for depth */
-            border: 2px solid #8b0000; /* Blood-red border for the container */
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px;
+            background: linear-gradient(145deg, #1a0a0a, #2d1212);
+            border-radius: 15px;
+            box-shadow: 
+                0 0 20px rgba(139, 0, 0, 0.7),
+                0 0 40px rgba(255, 69, 0, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.9);
+            border: 3px solid #8b0000;
+            position: relative;
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            border-radius: 18px;
+            padding: 3px;
+            background: linear-gradient(45deg, #8b0000, #ff4500, #8b0000, #4b0000);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: borderGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; box-shadow: 0 0 25px rgba(255, 69, 0, 0.9); }
         }
 
         /* Header Styling */
         h1 {
+            font-family: 'Cinzel', serif;
             text-align: center;
-            color: #ff4500; /* Fiery orange for the main header */
-            font-size: 36px;
-            text-shadow: 3px 3px 6px #000000; /* Glow effect */
-            margin-bottom: 20px;
+            color: #ff4500;
+            font-size: 42px;
+            text-shadow: 
+                0 0 10px #ff4500,
+                0 0 20px #8b0000,
+                3px 3px 6px #000000;
+            margin: 10px 0 30px;
+            letter-spacing: 2px;
+            animation: titlePulse 4s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { text-shadow: 0 0 10px #ff4500, 0 0 20px #8b0000; }
+            50% { text-shadow: 0 0 15px #ff4500, 0 0 30px #ff0000, 0 0 40px #8b0000; }
         }
 
         /* Name Display Styling */
         #name-display {
+            font-family: 'UnifrakturMaguntia', cursive;
             text-align: center;
-            color: #ff4500; /* Fiery orange for demonic effect */
-            font-size: 36px; /* Larger font for emphasis */
-            margin: 20px 0; /* Add spacing around the name */
+            color: #ff6b6b;
+            font-size: 40px;
+            margin: 25px 0;
             font-weight: bold;
-            text-shadow: 3px 3px 6px #000000; /* Glow effect for text */
+            text-shadow: 
+                0 0 10px #ff0000,
+                2px 2px 4px #000000;
+            min-height: 60px;
+            animation: nameReveal 1s ease-out;
+        }
+
+        @keyframes nameReveal {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Output Section Styling */
         .output {
-            background-color: #2e1a1a; /* Dark red background */
-            padding: 15px;
-            border-radius: 5px;
-            color: #ffffff; /* White text for contrast */
-            font-size: 14px;
-            box-shadow: inset 0 0 10px #8b0000; /* Inner red glow for a demonic vibe */
-            margin-top: 20px;
+            background: linear-gradient(135deg, #1e0f0f, #2a1515);
+            padding: 20px;
+            border-radius: 8px;
+            color: #f0f0f0;
+            font-size: 15px;
+            box-shadow: 
+                inset 0 0 15px #8b0000,
+                0 5px 15px rgba(0,0,0,0.6);
+            margin: 25px 0;
+            border: 2px solid #6b0000;
         }
 
         .output table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0 8px;
             margin: 0 auto;
-            background-color: #2e1a1a; /* Same background as the container */
-            border: 2px solid #8b0000; /* Matching border */
         }
 
         .output th, .output td {
-            padding: 10px;
+            padding: 12px 15px;
             text-align: left;
             color: #ffffff;
             font-family: 'Georgia', serif;
-            text-shadow: 1px 1px 2px #8b0000; /* Subtle red glow */
+            text-shadow: 1px 1px 2px #000000;
         }
 
         .output th {
-            background-color: #8b0000; /* Dark red for header rows */
-            font-size: 18px;
+            background: linear-gradient(90deg, #8b0000, #6b0000);
+            font-family: 'Cinzel', serif;
+            font-size: 17px;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 5px 0 0 5px;
         }
 
-        .output td {
-            background-color: #4b1e1e; /* Slightly lighter red */
-            font-size: 16px;
+        .output td:first-child {
+            border-radius: 5px 0 0 5px;
+            background-color: #3d1a1a;
+            font-weight: bold;
+            color: #ff9999;
+            border-right: 1px solid #5a0000;
+        }
+
+        .output td:last-child {
+            border-radius: 0 5px 5px 0;
+            background-color: #2e1414;
+            border-left: 1px solid #5a0000;
+        }
+
+        .output tr {
+            transition: all 0.2s ease;
+        }
+
+        .output tr:hover {
+            transform: translateX(5px);
+            box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
         }
 
         /* Description Box */
         .description {
-            font-size: 16px;
+            font-family: 'Georgia', serif;
+            font-size: 17px;
             font-style: italic;
-            line-height: 1.5;
-            border: 2px solid #8b0000;
-            padding: 10px;
+            line-height: 1.7;
+            border: 2px solid #6b0000;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a0d0d, #251212);
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: inset 0 0 20px rgba(139, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .description::before {
+            content: "❝";
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            font-size: 40px;
+            color: #8b0000;
+            font-family: serif;
         }
 
         /* Button Styling */
+        .button-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+
         button {
-            background-color: #8b0000; /* Blood-red button */
-            color: #ffffff; /* White text */
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
+            font-family: 'Cinzel', serif;
+            background: linear-gradient(145deg, #8b0000, #6b0000);
+            color: #ffffff;
+            border: 2px solid #ff4500;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 18px;
             cursor: pointer;
-            text-shadow: 1px 1px 2px #000000; /* Subtle shadow for depth */
+            text-shadow: 1px 1px 3px #000000;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         button:hover {
-            background-color: #ff4500; /* Fiery orange on hover */
+            background: linear-gradient(145deg, #ff4500, #cc3700);
+            box-shadow: 
+                0 0 15px #ff4500,
+                0 0 30px rgba(255, 69, 0, 0.6);
+            transform: translateY(-2px);
+            border-color: #ff6b35;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        /* Section styling */
+        .section {
+            margin: 20px 0;
+        }
+
+        /* Footer removal note - clean minimal footer */
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #666;
+            font-size: 13px;
+            margin-top: 30px;
+            border-top: 1px solid #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 32px; }
+            #name-display { font-size: 32px; }
+            button { padding: 12px 24px; font-size: 16px; }
+            .container { margin: 15px; padding: 20px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Lower Planes Creature Generator</h1>
-        <center><div class="section">
-            <button onclick="generateCreature()">Generate Random Creature</button>
-            <button onclick="location.href='/'" style="margin-top: 20px;">Home</button>
-        </div></center>
+        <h1>⚠ Abyssal Entity Forge ⚠</h1>
+        
+        <div class="button-container">
+            <button onclick="generateCreature()">Summon Entity</button>
+            <button onclick="location.href='/'">Return to Mortal Realm</button>
+        </div>
+        
         <div id="name-display"></div>
+        
         <div class="section">
             <div id="output" class="output">
                 <table id="creatureTable">
-                    <tr><th>Feature</th><th>Description</th></tr>
+                    <tr><th>Aspect</th><th>Manifestation</th></tr>
                 </table>
             </div>
             <div id="description" class="description">
-                <p>The creature description will appear here after generation.</p>
+                <p>Invoke the forge to conjure a denizen of the Lower Planes. Beware: each entity carries the weight of eternal malice.</p>
             </div>
         </div>
     </div>
+
+    <footer>
+        <span>© 2025 Abyssal Archives | Entities forged for the worthy</span>
+    </footer>
 
     <script>
         // Helper Function: Roll Dice
@@ -134,61 +310,216 @@
             return Math.floor(Math.random() * sides) + 1;
         }
 
-        // Data Arrays
-        const names = ["Malzorath", "Vexmoth", "Kragulon", "Tharzax", "Grendok"];
-        const descriptors = ["The Scourge of Souls", "The Flame of Torment", "The Dark Whisperer"];
-        const skinTypes = ["furred/smooth", "scaled", "slimy"];
-        const colors = ["bluish", "greenish", "reddish"];
-        const backTypes = ["humped", "spiked", "normal"];
-        const wings = ["bat-like", "bird-like", "insect-like"];
-        const arms = ["human-like", "animal-like", "tentacles"];
-        const hands = ["clawed", "pincered", "taloned"];
-        const legsFeet = ["clawed", "hooved", "taloned"];
-        const specialAttacks = ["ability drain", "spell use", "summon/area"];
-        const specialDefenses = ["acid immunity", "fire immunity", "regeneration"];
+        // Expanded Data Arrays - Demonic/Evil Theme
+        const names = [
+            "Malzorath", "Vexmoth", "Kragulon", "Tharzax", "Grendok",
+            "Nyxara", "Zalthor", "Morgathul", "Belzareth", "Xyphos",
+            "Vorlag", "Syraxis", "Dreadmaw", "Netherion", "Gloomrend",
+            "Ashmire", "Voidclaw", "Soulrender", "Blightspawn", "Carrionus"
+        ];
+        
+        const titles = [
+            "The Scourge of Souls", "The Flame of Torment", "The Dark Whisperer",
+            "Devourer of Hope", "Herald of the Void", "Archon of Agony",
+            "The Soulflayer", "Bringer of Eternal Night", "The Crimson Maw",
+            "Whisperer in Darkness", "The Unbound Curse", "Lord of Shattered Vows",
+            "The Weeping Tyrant", "Eater of Memories", "The Final Sigh"
+        ];
+        
+        const origins = [
+            "The Abyssal Pits", "The Nine Hells", "Pandemonium's Winds",
+            "Carceri's Chains", "The Gray Waste", "Acheron's Battlefield",
+            "Gehenna's Volcanoes", "The Shadowfell", "A Forgotten Plane",
+            "Between Realms"
+        ];
+        
+        const hierarchies = [
+            "Lesser Imp", "Quasit Servant", "Barbed Devil", "Chain Devil",
+            "Bone Devil", "Horned Devil", "Pit Fiend", "Balor General",
+            "Demigod Spawn", "Primordial Fragment", "Elder Evil Seed",
+            "Cursed Soul Manifest", "Void-Touched Aberration"
+        ];
+        
+        const skinTypes = [
+            "cracked obsidian", "oozing tar-like", "scaled with ember-glow",
+            "furred with writhing shadows", "translucent revealing screaming faces",
+            "crystalline with internal fire", "rotting yet animated", "metallic and jagged",
+            "smoke-wreathed flesh", "bone-plated", "slimy with acidic sheen",
+            "feathered with razor-edged quills", "chitinous and clicking"
+        ];
+        
+        const colors = [
+            "blood-crimson", "void-black with star-like specks", "sickly phosphorescent green",
+            "ashen gray with ember veins", "deep violet that drinks light",
+            "pulsing arterial red", "bone-white stained with old blood",
+            "shifting iridescent corruption", "charcoal with glowing fissures",
+            "pale necrotic blue", "molten gold-tinged black"
+        ];
+        
+        const backTypes = [
+            "ridged with spinal blades", "humped with pulsing sacs",
+            "sprouting writhing tendrils", "armored with fused skulls",
+            "emitting faint spectral wings", "covered in weeping sores",
+            "bearing a second, smaller face", "cracked with inner fire visible",
+            "adorned with broken chains", "rippling with unnatural muscle"
+        ];
+        
+        const wings = [
+            "tattered bat-like membranes", "skeletal bird-like frames",
+            "insectile and translucent", "smoke and shadow form",
+            "crystalline shards that hum", "multiple pairs of leathery wings",
+            "no wings but levitates unnaturally", "wings of bound souls",
+            "wings that drip corrosive fluid", "ethereal wings visible only in moonlight"
+        ];
+        
+        const arms = [
+            "multiple jointed limbs", "humanoid but elongated",
+            "tentacles with suckered maws", "crystalline blades for forearms",
+            "smoke that solidifies on command", "chains ending in hooks",
+            "withered yet powerful", "covered in eyes that weep black tears",
+            "mechanical and infernal", "shifting between forms"
+        ];
+        
+        const hands = [
+            "clawed with obsidian talons", "pincered like a nightmare insect",
+            "taloned with soul-fire", "melted wax-like with hidden blades",
+            "skeletal with glowing runes", "multiple smaller hands on each arm",
+            "hooked chains for fingers", "palms that open into mouths",
+            "crystalline that shatter and reform", "barely corporeal, passing through matter"
+        ];
+        
+        const legsFeet = [
+            "reverse-jointed with hoof-like claws", "serpentine lower body",
+            "hooved with crackling energy", "taloned for scaling realities",
+            "floating above the ground", "multiple clawed legs like a spider",
+            "fused into a single monstrous limb", "ending in grasping hands",
+            "leaving trails of corruption", "phasing in and out of visibility"
+        ];
+        
+        const eyes = [
+            "multiple glowing red orbs", "a single vertical slit of fire",
+            "empty sockets weeping black smoke", "shifting colors that hypnotize",
+            "eyes on stalks that move independently", "no eyes but senses all",
+            "eyes that show the viewer's death", "crystalline eyes storing stolen memories",
+            "eyes that blink out of sync with reality"
+        ];
+        
+        const voices = [
+            "a chorus of damned souls", "grinding stone and breaking bone",
+            "a whisper that echoes in the mind", "multiple overlapping tones",
+            "silence that feels like screaming", "a child's voice twisted with malice",
+            "the sound of tearing metal", "a voice that causes physical pain"
+        ];
+        
+        const specialAttacks = [
+            "soul drain on touch", "fear aura that paralyzes",
+            "summoning lesser fiends", "reality-warping curses",
+            "acidic blood spray", "psychic scream that shatters minds",
+            "shadow teleportation strikes", "life-force corruption",
+            "memory theft", "causing spontaneous combustion",
+            "binding victims in spectral chains", "inducing madness with a glance"
+        ];
+        
+        const specialDefenses = [
+            "regeneration in darkness", "immunity to mortal weapons",
+            "damage reflection", "phasing through physical attacks",
+            "absorbing magical energy", "splitting into lesser forms when struck",
+            "curse that harms attackers", "teleporting when near death",
+            "shield of screaming souls", "immunity to fire and poison",
+            "regrowing from a single drop of blood"
+        ];
+        
+        const lairs = [
+            "a cavern of screaming walls", "a floating island of bone",
+            "a library of forbidden knowledge", "a garden of twisted flesh",
+            "a forge of damned souls", "a mirror maze of regrets",
+            "a throne room of frozen time", "a pit of endless falling",
+            "a cathedral of broken oaths", "a swamp of forgotten names"
+        ];
+        
+        const minions = [
+            "swarms of shadow imps", "bound mortal cultists",
+            "animated armor of the fallen", "spectral hounds",
+            "oozing slimes with faces", "carrion birds with human eyes",
+            "whispering shadows that detach", "puppets of skin and wire",
+            "lesser demons bound by pain", "corrupted elementals"
+        ];
+        
+        const weaknesses = [
+            "true names spoken with conviction", "sacred symbols of forgotten gods",
+            "pure sunlight (rare in its realm)", "music of genuine joy",
+            "acts of selfless sacrifice", "mirrors showing its true form",
+            "iron forged in starlight", "tears of genuine remorse",
+            "silence that breaks its voice", "the sound of a breaking chain"
+        ];
+        
+        const omens = [
+            "candles burning black", "animals falling silent",
+            "shadows moving against the light", "a sudden chill in warm places",
+            "dreams of falling shared by many", "metal tasting of blood",
+            "clocks stopping at the same hour", "reflections showing something behind you",
+            "flowers blooming in reverse", "whispers in a language no one knows"
+        ];
 
         // Generate Creature Function
         function generateCreature() {
             const randomName = names[rollDice(names.length) - 1];
-            const randomDescriptor = descriptors[rollDice(descriptors.length) - 1];
-            const name = `${randomName}, ${randomDescriptor}`;
+            const randomTitle = titles[rollDice(titles.length) - 1];
+            const name = `${randomName}, ${randomTitle}`;
             document.getElementById("name-display").textContent = name;
 
             const features = [
-                { feature: "Skin Type", description: skinTypes[rollDice(skinTypes.length) - 1] },
-                { feature: "Color", description: colors[rollDice(colors.length) - 1] },
-                { feature: "Back", description: backTypes[rollDice(backTypes.length) - 1] },
+                { feature: "Origin Plane", description: origins[rollDice(origins.length) - 1] },
+                { feature: "Hierarchy", description: hierarchies[rollDice(hierarchies.length) - 1] },
+                { feature: "Skin Texture", description: skinTypes[rollDice(skinTypes.length) - 1] },
+                { feature: "Dominant Hue", description: colors[rollDice(colors.length) - 1] },
+                { feature: "Back Formation", description: backTypes[rollDice(backTypes.length) - 1] },
                 { feature: "Wings", description: wings[rollDice(wings.length) - 1] },
                 { feature: "Arms", description: arms[rollDice(arms.length) - 1] },
                 { feature: "Hands", description: hands[rollDice(hands.length) - 1] },
                 { feature: "Legs and Feet", description: legsFeet[rollDice(legsFeet.length) - 1] },
-                { feature: "Special Attack", description: specialAttacks[rollDice(specialAttacks.length) - 1] },
-                { feature: "Special Defense", description: specialDefenses[rollDice(specialDefenses.length) - 1] }
+                { feature: "Eyes", description: eyes[rollDice(eyes.length) - 1] },
+                { feature: "Voice", description: voices[rollDice(voices.length) - 1] },
+                { feature: "Signature Attack", description: specialAttacks[rollDice(specialAttacks.length) - 1] },
+                { feature: "Primary Defense", description: specialDefenses[rollDice(specialDefenses.length) - 1] },
+                { feature: "Typical Lair", description: lairs[rollDice(lairs.length) - 1] },
+                { feature: "Minions", description: minions[rollDice(minions.length) - 1] },
+                { feature: "True Weakness", description: weaknesses[rollDice(weaknesses.length) - 1] },
+                { feature: "Omen of Arrival", description: omens[rollDice(omens.length) - 1] }
             ];
 
             const table = document.getElementById("creatureTable");
-            table.innerHTML = "<tr><th>Feature</th><th>Description</th></tr>";
+            table.innerHTML = "<tr><th>Aspect</th><th>Manifestation</th></tr>";
             features.forEach(f => {
                 const row = document.createElement("tr");
                 row.innerHTML = `<td>${f.feature}</td><td>${f.description}</td>`;
                 table.appendChild(row);
             });
 
-            const description = `This is ${name}. Its skin is ${features[0].description}, with a ${features[1].description} color. 
-            It has a ${features[2].description} back, ${features[3].description} wings, and ${features[4].description} arms. 
-            In combat, it uses ${features[7].description} and is protected by ${features[8].description}.`;
-            document.getElementById("description").textContent = description.trim();
+            // Enhanced description with more detail
+            const desc = `Behold ${name}, spawned from ${features[0].description}. 
+            This ${features[1].description} bears skin of ${features[2].description}, 
+            washed in ${features[3].description} hues. Its ${features[4].description} 
+            supports ${features[5].description}, while ${features[6].description} 
+            end in ${features[7].description}. It moves on ${features[8].description}, 
+            watching with ${features[9].description}, and speaks with ${features[10].description}. 
+            In conflict, it unleashes ${features[11].description} and withstands harm through ${features[12].description}. 
+            It dwells in ${features[13].description}, commanding ${features[14].description}. 
+            Seek its downfall through ${features[15].description}. 
+            When it draws near, witness ${features[16].description}.`;
+            
+            document.getElementById("description").innerHTML = `<p>${desc.trim()}</p>`;
+            
+            // Add a subtle animation to the description when updated
+            const descEl = document.getElementById("description");
+            descEl.style.opacity = "0";
+            descEl.style.transform = "translateY(10px)";
+            setTimeout(() => {
+                descEl.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                descEl.style.opacity = "1";
+                descEl.style.transform = "translateY(0)";
+            }, 50);
         }
     </script>
-    <!-- Static Footer -->
-  <footer style="display:flex;align-items:center;justify-content:center;padding:10px;background-color:#1e1e1e;color:#f5f5f5;font-size:14px;text-align:center;">
-      <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games</span>
-      <div style="margin-left:10px;">
-          <a href="https://patreon.com/TheEvilDM" target="_blank">
-              <img src="https://raw.githubusercontent.com/AlucardD20/DMTools/main/images/Patreon-Logo.png" alt="Support me on Patreon" style="height:24px;">
-          </a>
-      </div>
-  </footer>
 </body>
 </html>
-
