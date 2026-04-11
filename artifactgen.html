@@ -4,297 +4,578 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <title>D&D Inspired Artifact Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0f1115;
-    --bg2:#0b0d12;
-    --fg:#e8e8e8;
-    --muted:#a9b1c3;
-    --accent:#7dd3fc;
-    --accent2:#86efac;
-    --card:#171a21;
-    --chip:#222633;
-    --ok:#86efac;
-    --bad:#fda4af;
-    --warn:#fde68a;
-    --border:#2a3040;
-    --shadow: 0 10px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.02);
+    --bg-deep:    #06050f;
+    --bg-mid:     #0c0a1a;
+    --bg-card:    #0f0d1e;
+    --bg-input:   #0a0816;
+    --border:     #1e1a3a;
+    --border-glow:#3d3470;
+    --accent:     #7b5ea7;
+    --accent-l:   #a87fd4;
+    --accent-b:   #c9a0f0;
+    --blue-mid:   #2a2060;
+    --text:       #ddd5f8;
+    --muted:      #6b6090;
+    --ok:         #86efac;
+    --bad:        #fda4af;
+    --warn:       #fde68a;
+    --btn-bg:     #1a1535;
+    --btn-hover:  #251e4a;
+    --glow-anim:  rgba(120,80,210,0.15);
   }
 
-  /* App background... subtle gradient and vignette */
-  html,body{height:100%}
-  html,body{
-    margin:0; padding:0;
-    background:
-      radial-gradient(1200px 600px at 50% -10%, rgba(125,211,252,.12), transparent 60%),
-      radial-gradient(800px 400px at 100% 0%, rgba(134,239,172,.10), transparent 60%),
-      linear-gradient(180deg, var(--bg), var(--bg2));
-    color:var(--fg);
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    min-height:100vh;
+    font-family:'Crimson Text',Georgia,serif;
+    background-color:var(--bg-deep);
+    color:var(--text);
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(80,50,160,.22) 0%, transparent 65%),
+      radial-gradient(ellipse at 85% 30%, rgba(60,30,120,.12) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='30' r='0.8' fill='%23ffffff' fill-opacity='0.2'/%3E%3Ccircle cx='80' cy='10' r='0.6' fill='%23ffffff' fill-opacity='0.18'/%3E%3Ccircle cx='150' cy='50' r='1' fill='%23ffffff' fill-opacity='0.15'/%3E%3Ccircle cx='40' cy='90' r='0.5' fill='%23ffffff' fill-opacity='0.12'/%3E%3Ccircle cx='120' cy='75' r='0.7' fill='%23ffffff' fill-opacity='0.2'/%3E%3Ccircle cx='170' cy='130' r='0.9' fill='%23ffffff' fill-opacity='0.14'/%3E%3Ccircle cx='60' cy='160' r='0.6' fill='%23ffffff' fill-opacity='0.18'/%3E%3Ccircle cx='190' cy='20' r='0.5' fill='%23ffffff' fill-opacity='0.1'/%3E%3Ccircle cx='100' cy='140' r='0.8' fill='%23ffffff' fill-opacity='0.16'/%3E%3Ccircle cx='10' cy='180' r='0.7' fill='%23ffffff' fill-opacity='0.14'/%3E%3C/svg%3E");
+    position:relative;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:'';
+    position:fixed;inset:0;
+    background:radial-gradient(ellipse at center, transparent 0%, rgba(6,5,15,0.6) 100%);
+    pointer-events:none;z-index:-1;
   }
 
-  /* Header... centered title always */
+  /* Animated floating particles */
+  .particle{
+    position:fixed;border-radius:50%;
+    background:radial-gradient(circle, var(--accent-b), transparent 70%);
+    opacity:0.15;animation:float 20s infinite linear;
+    pointer-events:none;z-index:-1;
+  }
+  @keyframes float{
+    0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+    10%{opacity:0.15}
+    90%{opacity:0.15}
+    100%{transform:translateY(-100px) rotate(720deg);opacity:0}
+  }
+
+  /* Header enhancements */
   .site-header{
-    position:sticky; top:0; z-index:10;
-    display:grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items:center; gap:12px;
-    padding:16px;
-    background:linear-gradient(180deg, rgba(19,22,28,.9), rgba(19,22,28,.78));
+    position:sticky;top:0;z-index:10;
+    display:grid;grid-template-columns:1fr auto 1fr;
+    align-items:center;gap:12px;
+    padding:14px 20px;
+    background:linear-gradient(180deg,rgba(6,5,15,.96),rgba(10,8,22,.88));
     border-bottom:1px solid var(--border);
-    backdrop-filter: blur(6px);
+    backdrop-filter:blur(12px);
+    animation:headerFloat 6s ease-in-out infinite;
   }
-  .site-header .left{justify-self:start; display:flex; gap:8px; align-items:center}
+  @keyframes headerFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-2px)}
+  }
+  .site-header::after{
+    content:'';
+    position:absolute;bottom:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--accent),var(--accent-b),var(--accent),transparent);
+    opacity:.8;animation:glowPulse 4s ease-in-out infinite;
+  }
+  @keyframes glowPulse{
+    0%,100%{opacity:0.7;filter:brightness(1)}
+    50%{opacity:1;filter:brightness(1.2)}
+  }
+  .site-header .left{justify-self:start;display:flex;gap:8px;align-items:center}
   .site-header .center{justify-self:center}
-  .site-header .right{justify-self:end; display:flex; gap:8px; align-items:center}
+  .site-header .right{justify-self:end;display:flex;gap:8px;align-items:center}
+
   .site-title{
     margin:0;
-    font-size: clamp(18px, 2.2vw, 24px);
-    letter-spacing:.4px;
-    text-align:center;
-    background: linear-gradient(90deg, var(--accent), #c084fc 60%, var(--accent2));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-    text-shadow: 0 0 18px rgba(125,211,252,.18);
+    font-family:'Cinzel',serif;
+    font-size:clamp(15px,2vw,22px);
+    font-weight:700;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--accent-b);
+    text-shadow:0 0 20px rgba(160,100,240,.45), 0 0 40px rgba(120,80,210,.25);
+    animation:titleGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes titleGlow{
+    from{text-shadow:0 0 20px rgba(160,100,240,.35)}
+    to{text-shadow:0 0 30px rgba(180,120,255,.55), 0 0 60px rgba(140,90,230,.3)}
+  }
+
+  /* Button enhancements */
+  .btn{
+    font-family:'Cinzel',serif;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    padding:10px 20px;
+    border-radius:6px;
+    border:1px solid var(--border-glow);
+    background:var(--btn-bg);
+    color:var(--accent-l);
+    cursor:pointer;
+    text-decoration:none;
+    transition:all .2s cubic-bezier(0.4,0,0.2,1);
+    display:inline-flex;align-items:center;gap:8px;
+    position:relative;overflow:hidden;
+  }
+  .btn::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg, transparent, rgba(120,80,210,0.1), transparent);
+    transform:translateX(-100%);transition:transform .4s ease;
+  }
+  .btn:hover::after{transform:translateX(100%)}
+  .btn:hover{
+    background:var(--btn-hover);
+    border-color:var(--accent-l);
+    color:var(--accent-b);
+    box-shadow:0 0 18px rgba(120,80,210,.35), 0 4px 12px rgba(0,0,0,0.3);
+    transform:translateY(-1px);
+  }
+  .btn:active{transform:translateY(1px) scale(0.98)}
+  .btn.primary{
+    background:linear-gradient(160deg,#1e1545,#130f35);
+    border-color:var(--accent);
+    color:var(--accent-b);
+    box-shadow:0 0 20px rgba(120,80,210,.25);
+  }
+  .btn.primary:hover{
+    box-shadow:0 0 32px rgba(140,90,230,.45), 0 6px 20px rgba(0,0,0,0.4);
+    border-color:var(--accent-b);
+  }
+  .btn.generate-active{
+    animation:btnPulse .6s ease-out;
+  }
+  @keyframes btnPulse{
+    0%{box-shadow:0 0 0 0 rgba(140,90,230,0.4)}
+    70%{box-shadow:0 0 0 12px rgba(140,90,230,0)}
+    100%{box-shadow:0 0 0 0 rgba(140,90,230,0)}
   }
 
   /* Layout */
-  .container{max-width:1180px;margin:24px auto;padding:0 16px}
-  .controls{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-bottom:18px}
+  .container{max-width:1180px;margin:32px auto;padding:0 24px}
+  .controls{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-bottom:24px}
 
-  /* Cards */
+  /* Card enhancements with animated borders and corner accents */
   .card{
-    background: linear-gradient(180deg, rgba(28,31,39,.9), rgba(20,23,30,.95));
+    background:var(--bg-card);
     border:1px solid var(--border);
-    border-radius:16px;
-    padding:14px;
-    box-shadow: var(--shadow);
+    border-radius:10px;
+    padding:20px;
+    position:relative;
+    transition:border-color .3s,box-shadow .3s,transform .2s;
+    overflow:hidden;
   }
+  .card::before{
+    content:'';display:block;position:absolute;top:0;left:0;right:0;height:3px;
+    border-radius:10px 10px 0 0;
+    background:linear-gradient(90deg,var(--blue-mid),var(--accent-b),var(--blue-mid));
+    background-size:300% 100%;
+    animation:borderFlow 8s linear infinite;
+    pointer-events:none;opacity:0.9;
+  }
+  @keyframes borderFlow{
+    0%{background-position:0% 50%}
+    100%{background-position:300% 50%}
+  }
+  .card::after{
+    content:'';position:absolute;inset:-1px;
+    border-radius:11px;
+    padding:1px;
+    background:linear-gradient(135deg, transparent, var(--accent), transparent, var(--accent-b), transparent);
+    background-size:400% 400%;
+    animation:gradientBorder 12s ease infinite;
+    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    pointer-events:none;opacity:0.4;
+  }
+  @keyframes gradientBorder{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+  }
+  .card:hover{
+    border-color:var(--border-glow);
+    box-shadow:0 0 32px rgba(100,70,200,.22), 0 8px 24px rgba(0,0,0,0.4);
+    transform:translateY(-2px);
+  }
+  /* Decorative corner accents */
+  .card .corner{
+    position:absolute;width:24px;height:24px;border:2px solid var(--accent);
+    opacity:0.6;pointer-events:none;transition:opacity .3s;
+  }
+  .card:hover .corner{opacity:1}
+  .card .corner.tl{top:12px;left:12px;border-right:none;border-bottom:none}
+  .card .corner.tr{top:12px;right:12px;border-left:none;border-bottom:none}
+  .card .corner.bl{bottom:12px;left:12px;border-right:none;border-top:none}
+  .card .corner.br{bottom:12px;right:12px;border-left:none;border-top:none}
 
-  /* Form */
-  label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
-  select, input[type="text"], input[type="number"]{
-    width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--border);
-    background:#10131a;color:var(--fg);outline:none;
-    transition: border-color .2s, box-shadow .2s;
+  /* Form elements */
+  label{
+    font-family:'Cinzel',serif;
+    font-size:10px;letter-spacing:2.5px;
+    text-transform:uppercase;color:var(--muted);
+    display:block;margin-bottom:10px;
   }
-  select:focus, input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(125,211,252,.15)}
+  select,input[type="text"],input[type="number"]{
+    width:100%;padding:10px 14px;
+    border-radius:6px;border:1px solid var(--border-glow);
+    background:var(--bg-input);color:var(--text);
+    font-family:'Crimson Text',serif;font-size:15px;
+    outline:none;transition:border-color .25s,box-shadow .25s,transform .15s;
+  }
+  select:focus,input:focus{
+    border-color:var(--accent-l);
+    box-shadow:0 0 0 4px rgba(125,80,200,.22);
+    transform:translateY(-1px);
+  }
+  select option{background:#0f0d1e}
 
-  /* Buttons */
-  .btn{
-    padding:10px 14px;border-radius:12px;border:1px solid var(--border);
-    background:#0c0f15;color:var(--fg);cursor:pointer;transition:transform .05s, box-shadow .2s, border-color .2s;
-  }
-  .btn:hover{border-color:var(--accent)}
-  .btn:active{transform:translateY(1px)}
-  .btn.primary{
-    background: linear-gradient(180deg, #0f2a44, #0b2136);
-    border-color:#143a5a;
-    box-shadow: 0 0 24px rgba(125,211,252,.15);
-  }
-  .btn.primary:hover{border-color:var(--accent); box-shadow:0 0 28px rgba(125,211,252,.22)}
-
-  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  /* Chips */
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
   .chip{
-    background:linear-gradient(180deg, #1b1f2a, #141823);
-    border:1px solid var(--border);
-    padding:4px 10px;border-radius:999px;font-size:12px;color:#c9d3ea
+    background:rgba(120,80,200,.18);
+    border:1px solid var(--border-glow);
+    padding:4px 14px;border-radius:999px;
+    font-family:'Cinzel',serif;font-size:10px;letter-spacing:1.5px;
+    color:var(--accent-l);text-transform:uppercase;
+    transition:all .2s ease;
+    position:relative;overflow:hidden;
+  }
+  .chip:hover{
+    background:rgba(140,90,230,.28);
+    border-color:var(--accent-b);
+    color:var(--accent-b);
+    transform:translateY(-1px);
+    box-shadow:0 4px 12px rgba(100,70,200,.2);
   }
 
-  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .one-col{display:grid;grid-template-columns:1fr;gap:16px}
-  @media (max-width:980px){.controls{grid-template-columns:repeat(6,1fr)}.two-col{grid-template-columns:1fr}}
+  /* Output layout */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:900px){
+    .controls{grid-template-columns:repeat(6,1fr)}
+    .two-col{grid-template-columns:1fr}
+  }
 
-  .title{font-size:22px;margin:4px 0}
-  .muted{color:var(--muted)}
-  .good{color:var(--ok)}
-  .bad{color:var(--bad)}
-  .warn{color:var(--warn)}
-  .section h3{margin:8px 0 6px 0;font-size:16px}
+  /* Output content with entrance animations */
+  .art-name{
+    font-family:'Cinzel',serif;
+    font-size:26px;font-weight:700;
+    color:var(--accent-b);
+    margin:8px 0 6px;
+    letter-spacing:1.5px;
+    text-shadow:0 0 16px rgba(180,120,255,.3);
+    animation:fadeInUp .4s ease-out;
+  }
+  .art-sub{
+    font-family:'Cinzel',serif;
+    font-size:11px;letter-spacing:2.5px;
+    text-transform:uppercase;color:var(--muted);
+    margin-bottom:4px;animation:fadeInUp .4s ease-out .1s both;
+  }
+  .section{animation:fadeInUp .4s ease-out .15s both}
+  .section:nth-child(3){animation-delay:.2s}
+  .section:nth-child(4){animation-delay:.25s}
+  .section:nth-child(5){animation-delay:.3s}
+  @keyframes fadeInUp{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .section h3{
+    font-family:'Cinzel',serif;
+    font-size:12px;letter-spacing:2.5px;
+    text-transform:uppercase;
+    margin:18px 0 8px;color:var(--accent-l);
+    position:relative;padding-bottom:6px;
+  }
+  .section h3::after{
+    content:'';position:absolute;bottom:0;left:0;
+    width:40px;height:2px;
+    background:linear-gradient(90deg,var(--accent),transparent);
+    border-radius:2px;
+  }
+  h3.good{color:var(--ok)}
+  h3.bad{color:var(--bad)}
+  h3.warn{color:var(--warn)}
+
   .out-block{
-    padding:12px;border:1px dashed var(--border);border-radius:12px;background:#0f131b;
-    min-height:38px
+    padding:14px 16px;
+    border:1px solid var(--border-glow);
+    border-radius:8px;
+    background:linear-gradient(145deg, rgba(15,13,30,0.95), rgba(10,8,22,0.98));
+    min-height:40px;
+    font-size:16px;line-height:1.7;
+    transition:box-shadow .25s, border-color .25s;
+    animation:contentReveal .3s ease-out;
   }
-  .footer{margin-top:24px;color:var(--muted);font-size:12px;text-align:center}
-  .hr{height:1px;background:var(--border);margin:12px 0}
+  @keyframes contentReveal{
+    from{opacity:0;filter:blur(4px)}
+    to{opacity:1;filter:blur(0)}
+  }
+  .out-block:hover{
+    border-color:var(--accent-l);
+    box-shadow:0 0 20px rgba(120,80,210,.18);
+  }
+  .out-block ul{margin:0;padding-left:22px}
+  .out-block li{margin-bottom:6px;position:relative}
+  .out-block li::marker{color:var(--accent)}
+
+  .hr{
+    height:1px;background:var(--border);
+    margin:18px 0;position:relative;
+  }
+  .hr::after{
+    content:'';position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:60px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  }
+  .muted{color:var(--muted)}
+  .footer-tip{
+    margin-top:24px;color:var(--muted);
+    font-family:'Cinzel',serif;font-size:10px;
+    letter-spacing:2.5px;text-align:center;
+    text-transform:uppercase;
+    padding:12px;border-top:1px dashed var(--border);
+  }
 
   /* Footer */
   footer.site-footer{
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    padding:12px; background-color:#0f1115; color:#c8c8c8; font-size:14px; text-align:center;
+    margin-top:40px;
     border-top:1px solid var(--border);
+    padding:20px;
+    background:var(--bg-mid);
+    color:var(--muted);
+    font-family:'Crimson Text',serif;
+    font-style:italic;font-size:14px;
+    text-align:center;
+    position:relative;
   }
-  footer.site-footer img{height:24px;opacity:.9;transition:opacity .2s}
-  footer.site-footer img:hover{opacity:1}
+  footer.site-footer::before{
+    content:'';position:absolute;top:0;left:50%;
+    transform:translateX(-50%);
+    width:120px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--bg-deep)}
+  ::-webkit-scrollbar-thumb{
+    background:linear-gradient(180deg,var(--border-glow),var(--accent));
+    border-radius:4px;border:2px solid var(--bg-deep);
+  }
+  ::-webkit-scrollbar-thumb:hover{
+    background:linear-gradient(180deg,var(--accent),var(--accent-b));
+  }
+
+  /* Focus accessibility */
+  :focus-visible{
+    outline:2px solid var(--accent-l);
+    outline-offset:2px;
+    border-radius:4px;
+  }
+
+  /* Print styles */
+  @media print{
+    body{background:#fff;color:#000}
+    .btn,.controls,.site-header{display:none}
+    .card{border:1px solid #ccc;box-shadow:none}
+  }
 </style>
 </head>
 <body>
 
-  <!-- Header with centered title, Home on the left, actions on the right -->
-  <header class="site-header">
-    <div class="left">
-      <a class="btn" href="/">Home</a>
-    </div>
-    <div class="center">
-      <h1 class="site-title">D&amp;D Inspired Artifact Generator</h1>
-    </div>
-    <div class="right">
-      <button class="btn" id="copyText">Copy Text</button>
-      <button class="btn primary" id="generate">Generate Artifact</button>
-    </div>
-  </header>
+<!-- Animated background particles -->
+<script>
+  (function(){
+    for(let i=0;i<12;i++){
+      const p=document.createElement('div');
+      p.className='particle';
+      const s=2+Math.random()*6;
+      p.style.width=p.style.height=s+'px';
+      p.style.left=Math.random()*100+'vw';
+      p.style.animationDelay=(Math.random()*20)+'s';
+      p.style.animationDuration=(18+Math.random()*12)+'s';
+      document.body.appendChild(p);
+    }
+  })();
+</script>
 
-  <div class="container">
-    <div class="controls">
-      <div class="card" style="grid-column:span 3;">
-        <label for="style">Style</label>
-        <select id="style">
-          <option value="1e">AD&amp;D 1e style</option>
-          <option value="5e">5e style</option>
-          <option value="osr">OSR generic</option>
-        </select>
-      </div>
+<header class="site-header">
+  <div class="left">
+    <a class="btn" href="https://solodnd.com">Home</a>
+  </div>
+  <div class="center">
+    <h1 class="site-title">Artifact Generator</h1>
+  </div>
+  <div class="right">
+    <button class="btn" id="copyText">Copy Text</button>
+    <button class="btn primary" id="generate">Generate</button>
+  </div>
+</header>
 
-      <div class="card" style="grid-column:span 3;">
-        <label for="density">Power density</label>
-        <select id="density">
-          <option value="standard">Standard</option>
-          <option value="lean">Lean</option>
-          <option value="epic">Epic</option>
-        </select>
-      </div>
-
-      <div class="card" style="grid-column:span 3;">
-        <label for="seed">Seed (optional, for repeatable results)</label>
-        <input id="seed" type="text" placeholder="leave blank for random" />
-      </div>
-
-      <div class="card" style="grid-column:span 3;">
-        <label for="mode">Source</label>
-        <select id="mode">
-          <option value="random">Create a new artifact</option>
-          <option value="known">Use a famous artifact as a theme</option>
-        </select>
-      </div>
-
-      <div class="card" style="grid-column:span 12; display:none" id="knownWrap">
-        <label for="known">Famous artifact seed</label>
-        <select id="known">
-          <option value="Eye of Vecna">Eye of Vecna</option>
-          <option value="Hand of Vecna">Hand of Vecna</option>
-          <option value="Sword of Kas">Sword of Kas</option>
-          <option value="Axe of the Dwarvish Lords">Axe of the Dwarvish Lords</option>
-          <option value="Orbs of Dragonkind">Orbs of Dragonkind</option>
-          <option value="Rod of Seven Parts">Rod of Seven Parts</option>
-          <option value="Machine of Lum the Mad">Machine of Lum the Mad</option>
-          <option value="Mighty Servant of Leuk-O">Mighty Servant of Leuk-O</option>
-          <option value="Codex of the Infinite Planes">Codex of the Infinite Planes</option>
-          <option value="Book of Vile Darkness">Book of Vile Darkness</option>
-          <option value="Book of Exalted Deeds">Book of Exalted Deeds</option>
-          <option value="Invulnerable Coat of Arnd">Invulnerable Coat of Arnd</option>
-          <option value="Mace of Cuthbert">Mace of Cuthbert</option>
-        </select>
-        <div class="muted" style="margin-top:6px;font-size:12px;">
-          This only themes results... names are always freshly generated.
-        </div>
-      </div>
+<div class="container">
+  <div class="controls">
+    <div class="card" style="grid-column:span 3;">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <label for="style">Style</label>
+      <select id="style">
+        <option value="1e">AD and D 1e style</option>
+        <option value="5e">5e style</option>
+        <option value="osr">OSR generic</option>
+      </select>
     </div>
 
-    <div class="two-col">
-      <div class="card">
-        <div class="section">
-          <div class="chips" id="tags"></div>
-          <h2 class="title" id="title">Artifact Name</h2>
-          <div class="muted" id="subtitle">Type • Rarity • Attunement</div>
-        </div>
-        <div class="hr"></div>
-        <div class="section">
-          <h3>Appearance</h3>
-          <div class="out-block" id="appearance"></div>
-        </div>
-        <div class="section">
-          <h3>Origin & Lore</h3>
-          <div class="out-block" id="origin"></div>
-        </div>
-        <div class="section" id="destWrap">
-          <h3>Destruction</h3>
-          <div class="out-block" id="destruction"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="section" id="pow1Wrap">
-          <h3>Minor Powers</h3>
-          <div class="out-block" id="minorPowers"></div>
-        </div>
-        <div class="section" id="pow2Wrap">
-          <h3>Major Powers</h3>
-          <div class="out-block" id="majorPowers"></div>
-        </div>
-        <div class="section" id="pow3Wrap">
-          <h3 class="warn" id="primeTitle">Prime Powers</h3>
-          <div class="out-block" id="primePowers"></div>
-        </div>
-        <div class="section" id="beneficialWrap">
-          <h3 class="good">Beneficial Properties</h3>
-          <div class="out-block" id="beneficial"></div>
-        </div>
-        <div class="section" id="detrimentalWrap">
-          <h3 class="bad">Detrimental Properties</h3>
-          <div class="out-block" id="detrimental"></div>
-        </div>
-        <div class="section">
-          <h3>Quirks & Side Effects</h3>
-          <div class="out-block" id="quirks"></div>
-        </div>
-      </div>
+    <div class="card" style="grid-column:span 3;">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <label for="density">Power Density</label>
+      <select id="density">
+        <option value="standard">Standard</option>
+        <option value="lean">Lean</option>
+        <option value="epic">Epic</option>
+      </select>
     </div>
 
-    <div class="footer muted">
-      Tip... set a seed to recreate the same artifact later.
+    <div class="card" style="grid-column:span 3;">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <label for="seed">Seed (optional)</label>
+      <input id="seed" type="text" placeholder="leave blank for random" />
+    </div>
+
+    <div class="card" style="grid-column:span 3;">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <label for="mode">Source</label>
+      <select id="mode">
+        <option value="random">Create a new artifact</option>
+        <option value="known">Use a famous artifact as a theme</option>
+      </select>
+    </div>
+
+    <div class="card" style="grid-column:span 12; display:none" id="knownWrap">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <label for="known">Famous Artifact Seed</label>
+      <select id="known">
+        <option value="Eye of Vecna">Eye of Vecna</option>
+        <option value="Hand of Vecna">Hand of Vecna</option>
+        <option value="Sword of Kas">Sword of Kas</option>
+        <option value="Axe of the Dwarvish Lords">Axe of the Dwarvish Lords</option>
+        <option value="Orbs of Dragonkind">Orbs of Dragonkind</option>
+        <option value="Rod of Seven Parts">Rod of Seven Parts</option>
+        <option value="Machine of Lum the Mad">Machine of Lum the Mad</option>
+        <option value="Mighty Servant of Leuk-O">Mighty Servant of Leuk-O</option>
+        <option value="Codex of the Infinite Planes">Codex of the Infinite Planes</option>
+        <option value="Book of Vile Darkness">Book of Vile Darkness</option>
+        <option value="Book of Exalted Deeds">Book of Exalted Deeds</option>
+        <option value="Invulnerable Coat of Arnd">Invulnerable Coat of Arnd</option>
+        <option value="Mace of Cuthbert">Mace of Cuthbert</option>
+      </select>
+      <div class="muted" style="margin-top:10px;font-size:13px;font-style:italic;">
+        Names are always freshly generated. This only themes the results.
+      </div>
     </div>
   </div>
 
+  <div class="two-col">
+    <div class="card">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="section">
+        <div class="chips" id="tags"></div>
+        <h2 class="art-name" id="title">Artifact Name</h2>
+        <div class="art-sub" id="subtitle">Type . Rarity . Attunement</div>
+      </div>
+      <div class="hr"></div>
+      <div class="section">
+        <h3>Appearance</h3>
+        <div class="out-block" id="appearance"></div>
+      </div>
+      <div class="section">
+        <h3>Origin and Lore</h3>
+        <div class="out-block" id="origin"></div>
+      </div>
+      <div class="section" id="destWrap">
+        <h3>Destruction</h3>
+        <div class="out-block" id="destruction"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="section" id="pow1Wrap">
+        <h3>Minor Powers</h3>
+        <div class="out-block" id="minorPowers"></div>
+      </div>
+      <div class="section" id="pow2Wrap">
+        <h3>Major Powers</h3>
+        <div class="out-block" id="majorPowers"></div>
+      </div>
+      <div class="section" id="pow3Wrap">
+        <h3 class="warn" id="primeTitle">Prime Powers</h3>
+        <div class="out-block" id="primePowers"></div>
+      </div>
+      <div class="section" id="beneficialWrap">
+        <h3 class="good">Beneficial Properties</h3>
+        <div class="out-block" id="beneficial"></div>
+      </div>
+      <div class="section" id="detrimentalWrap">
+        <h3 class="bad">Detrimental Properties</h3>
+        <div class="out-block" id="detrimental"></div>
+      </div>
+      <div class="section">
+        <h3>Quirks and Side Effects</h3>
+        <div class="out-block" id="quirks"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-tip">Set a seed to recreate the same artifact later</div>
+</div>
+
+<footer class="site-footer">
+  Copyright 2025 to 2026 SoloDND.com . All generators inspired by a needed basis for my games
+</footer>
+
 <script>
-/* ---------- tiny PRNG so seeds work ---------- */
 function xmur3(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19}return function(){h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return (h^h>>>16)>>>0}}
-function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15, t|1);t^=t+Math.imul(t^t>>>7, t|61);return ((t^t>>>14)>>>0)/4294967296}}
+function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+let RNG=mulberry32(Math.floor(Math.random()*1e9));
+function reseed(s){if(!s||!s.trim()){RNG=mulberry32(Math.floor(Math.random()*1e9));return}RNG=mulberry32(xmur3(s)())}
+function randInt(mn,mx){return Math.floor(RNG()*(mx-mn+1))+mn}
+function pick(a){return a[Math.floor(RNG()*a.length)]}
+function pickN(a,n){const ar=[...a],o=[];while(ar.length&&o.length<n){o.push(ar.splice(randInt(0,ar.length-1),1)[0])}return o}
+function weightedPick(pairs){const sum=pairs.reduce((s,p)=>s+p.w,0);let r=RNG()*sum;for(const p of pairs){if((r-=p.w)<=0)return p.item}return pairs[pairs.length-1].item}
 
-let RNG = mulberry32(Math.floor(Math.random()*1e9));
-function reseed(seedStr){
-  if(!seedStr || !seedStr.trim()){RNG=mulberry32(Math.floor(Math.random()*1e9));return}
-  const seed = xmur3(seedStr)();
-  RNG = mulberry32(seed);
-}
-function randInt(min,max){return Math.floor(RNG()*(max-min+1))+min}
-function pick(arr){return arr[Math.floor(RNG()*arr.length)]}
-function pickN(arr,n){const a=[...arr],out=[];while(a.length && out.length<n){out.push(a.splice(randInt(0,a.length-1),1)[0])}return out}
-function weightedPick(pairs){ const sum=pairs.reduce((s,p)=>s+p.w,0); let r=RNG()*sum; for(const p of pairs){ if((r -= p.w) <= 0) return p.item } return pairs[pairs.length-1].item }
-
-/* ---------- data ---------- */
-const famousThemes = {
-  "Eye of Vecna": ["necromancy","vision","secrets","undeath"],
-  "Hand of Vecna": ["necromancy","domination","sacrifice","undeath"],
-  "Sword of Kas": ["war","betrayal","domination","blood"],
-  "Axe of the Dwarvish Lords": ["earth","craft","war","stone"],
-  "Orbs of Dragonkind": ["dragons","elemental","command","scrying"],
-  "Rod of Seven Parts": ["law","air","banishment","binding"],
-  "Machine of Lum the Mad": ["chaos","technology","mutation","wild"],
-  "Mighty Servant of Leuk-O": ["war","construct","giant","siege"],
-  "Codex of the Infinite Planes": ["planes","knowledge","portal","madness"],
-  "Book of Vile Darkness": ["evil","necromancy","corruption","knowledge"],
-  "Book of Exalted Deeds": ["good","radiance","restoration","knowledge"],
-  "Invulnerable Coat of Arnd": ["protection","faith","valor","light"],
-  "Mace of Cuthbert": ["law","truth","smite","protection"]
+const famousThemes={
+  "Eye of Vecna":["necromancy","vision","secrets","undeath"],
+  "Hand of Vecna":["necromancy","domination","sacrifice","undeath"],
+  "Sword of Kas":["war","betrayal","domination","blood"],
+  "Axe of the Dwarvish Lords":["earth","craft","war","stone"],
+  "Orbs of Dragonkind":["dragons","elemental","command","scrying"],
+  "Rod of Seven Parts":["law","air","banishment","binding"],
+  "Machine of Lum the Mad":["chaos","technology","mutation","wild"],
+  "Mighty Servant of Leuk-O":["war","construct","giant","siege"],
+  "Codex of the Infinite Planes":["planes","knowledge","portal","madness"],
+  "Book of Vile Darkness":["evil","necromancy","corruption","knowledge"],
+  "Book of Exalted Deeds":["good","radiance","restoration","knowledge"],
+  "Invulnerable Coat of Arnd":["protection","faith","valor","light"],
+  "Mace of Cuthbert":["law","truth","smite","protection"]
 };
 
-const types = [
-  "blade","mace","axe","scepter","rod","orb","amulet","ring","mask","gauntlet","cloak","grimoire","shield","armor","crown","instrument","idol","lens"
-];
-const rarities = ["artifact","artifact","artifact"]; // always artifact
+const types=["blade","mace","axe","scepter","rod","orb","amulet","ring","mask","gauntlet","cloak","grimoire","shield","armor","crown","instrument","idol","lens"];
+const rarities=["artifact","artifact","artifact"];
 
-const looks = [
+const looks=[
   "forged of night-black metal veined with dull embers",
   "bound in cracked vellum and stitched with silver wire",
   "ringed with glyphs that creep when no one watches",
@@ -310,7 +591,7 @@ const looks = [
   "rimed with salty crystals from an unreal sea"
 ];
 
-const origins = [
+const origins=[
   "raised from a battlefield cairn on the night three moons bled",
   "cast in a basilisk kiln by a guild that vanished at dawn",
   "recovered from a city that never existed, except yesterday",
@@ -324,7 +605,7 @@ const origins = [
   "unearthed in a temple where time loops like a noose"
 ];
 
-const quirks = [
+const quirks=[
   "whispers in a dead language when the wielder blinks",
   "drinks candlelight... rooms dim around it",
   "leaves prints of frost on bare skin",
@@ -337,7 +618,7 @@ const quirks = [
   "pulses once at midnight, then grows still"
 ];
 
-const drawbacks = [
+const drawbacks=[
   "craves a vow each dawn... break it and suffer ill luck",
   "brands the wielder with a subtle sigil seen by certain foes",
   "slowly bends the wielder toward ruthless order",
@@ -350,7 +631,7 @@ const drawbacks = [
   "invites a possessing whisper on nights of the new moon"
 ];
 
-const destruction = [
+const destruction=[
   "quenched in the breath of an ancient dragon who forgives a mortal foe",
   "shattered on an altar in a temple that has never known a lie",
   "buried beneath the mountain that birthed it during an eclipse",
@@ -361,311 +642,192 @@ const destruction = [
   "struck by the rightful heir wielding a weapon of equal legend"
 ];
 
-// power libraries with tags for light theming
-const library = {
+const library={
   minor:[
-    {t:["vision"], txt:"see invisible for 10 minutes, twice per day"},
-    {t:["vision","secrets"], txt:"sense illusions within 30 ft"},
-    {t:["knowledge"], txt:"read languages, three times per day"},
-    {t:["protection"], txt:"resist poison and disease"},
-    {t:["elemental","water"], txt:"breathe water for 1 hour, once per day"},
-    {t:["elemental","air"], txt:"feather fall at will"},
-    {t:["law","truth"], txt:"discern lies for 1 minute, twice per day"},
-    {t:["war"], txt:"+1 to attack rolls while drawn or worn"},
-    {t:["undeath","necromancy"], txt:"command a single lesser undead for 1 minute, once per day"},
-    {t:["dragons","scrying"], txt:"learn the direction of the nearest dragon once per long rest"},
-    {t:["craft","earth"], txt:"mend stone or metal as if newly forged"},
-    {t:["light","radiance"], txt:"shed bright light in 20 ft on command"},
+    {t:["vision"],txt:"see invisible for 10 minutes, twice per day"},
+    {t:["vision","secrets"],txt:"sense illusions within 30 ft"},
+    {t:["knowledge"],txt:"read languages, three times per day"},
+    {t:["protection"],txt:"resist poison and disease"},
+    {t:["elemental","water"],txt:"breathe water for 1 hour, once per day"},
+    {t:["elemental","air"],txt:"feather fall at will"},
+    {t:["law","truth"],txt:"discern lies for 1 minute, twice per day"},
+    {t:["war"],txt:"+1 to attack rolls while drawn or worn"},
+    {t:["undeath","necromancy"],txt:"command a single lesser undead for 1 minute, once per day"},
+    {t:["dragons","scrying"],txt:"learn the direction of the nearest dragon once per long rest"},
+    {t:["craft","earth"],txt:"mend stone or metal as if newly forged"},
+    {t:["light","radiance"],txt:"shed bright light in 20 ft on command"},
   ],
   major:[
-    {t:["war","blood"], txt:"once per day, unleash a storm of blows... extra attack for one round"},
-    {t:["protection","faith"], txt:"once per day, gain sanctuary for 1 minute"},
-    {t:["binding","law"], txt:"bind extraplanar foe for 1 minute if it fails a save"},
-    {t:["elemental","air"], txt:"fly for 10 minutes, once per day"},
-    {t:["knowledge","scrying"], txt:"scry on a known creature for 10 minutes, once per day"},
-    {t:["necromancy","undeath"], txt:"slay living touch, once per day... fails on the stout of soul"},
-    {t:["dragons","command"], txt:"once per day, calm a dragon long enough to speak terms"},
-    {t:["craft","earth"], txt:"shape stone like clay for 1 minute"},
-    {t:["truth","law"], txt:"zone of truth for 10 minutes"},
-    {t:["radiance","good"], txt:"turn away lesser undead as a seasoned cleric"}
+    {t:["war","blood"],txt:"once per day, unleash a storm of blows... extra attack for one round"},
+    {t:["protection","faith"],txt:"once per day, gain sanctuary for 1 minute"},
+    {t:["binding","law"],txt:"bind extraplanar foe for 1 minute if it fails a save"},
+    {t:["elemental","air"],txt:"fly for 10 minutes, once per day"},
+    {t:["knowledge","scrying"],txt:"scry on a known creature for 10 minutes, once per day"},
+    {t:["necromancy","undeath"],txt:"slay living touch, once per day... fails on the stout of soul"},
+    {t:["dragons","command"],txt:"once per day, calm a dragon long enough to speak terms"},
+    {t:["craft","earth"],txt:"shape stone like clay for 1 minute"},
+    {t:["truth","law"],txt:"zone of truth for 10 minutes"},
+    {t:["radiance","good"],txt:"turn away lesser undead as a seasoned cleric"}
   ],
   prime:[
-    {t:["planes","portal"], txt:"open a gate to a known plane, once per week"},
-    {t:["wish","law"], txt:"grant a twisted wish, once per month"},
-    {t:["war","construct"], txt:"summon a towering servant for 10 minutes, once per week"},
-    {t:["dragons","elemental"], txt:"call a dragon by true name to parley, once per season"},
-    {t:["knowledge","secrets"], txt:"ask three questions the world answers truthfully, once per month"},
-    {t:["banishment","air","law"], txt:"banish a fiend or slaad permanently if invoked during a storm"},
-    {t:["restoration","good"], txt:"restore life and limb, once per week"},
-    {t:["madness","wild"], txt:"rewrite a memory of a city, once per year... never clean"}
+    {t:["planes","portal"],txt:"open a gate to a known plane, once per week"},
+    {t:["wish","law"],txt:"grant a twisted wish, once per month"},
+    {t:["war","construct"],txt:"summon a towering servant for 10 minutes, once per week"},
+    {t:["dragons","elemental"],txt:"call a dragon by true name to parley, once per season"},
+    {t:["knowledge","secrets"],txt:"ask three questions the world answers truthfully, once per month"},
+    {t:["banishment","air","law"],txt:"banish a fiend or slaad permanently if invoked during a storm"},
+    {t:["restoration","good"],txt:"restore life and limb, once per week"},
+    {t:["madness","wild"],txt:"rewrite a memory of a city, once per year... never clean"}
   ],
   beneficial:[
-    {t:["war"], txt:"weapon strikes count as magical and bite deeper than steel"},
-    {t:["protection"], txt:"you are warded... tougher to harm by spells"},
-    {t:["vision"], txt:"true sight for a short span each dawn"},
-    {t:["knowledge"], txt:"gain proficiency in ancient lore while attuned"},
-    {t:["radiance"], txt:"you heal a little at sunrise"},
-    {t:["craft"], txt:"advantage on checks to forge, repair, or appraise"},
-    {t:["dragons"], txt:"you understand the speech of dragons while attuned"},
-    {t:["law","truth"], txt:"your words carry authority among the lawful"}
+    {t:["war"],txt:"weapon strikes count as magical and bite deeper than steel"},
+    {t:["protection"],txt:"you are warded... tougher to harm by spells"},
+    {t:["vision"],txt:"true sight for a short span each dawn"},
+    {t:["knowledge"],txt:"gain proficiency in ancient lore while attuned"},
+    {t:["radiance"],txt:"you heal a little at sunrise"},
+    {t:["craft"],txt:"advantage on checks to forge, repair, or appraise"},
+    {t:["dragons"],txt:"you understand the speech of dragons while attuned"},
+    {t:["law","truth"],txt:"your words carry authority among the lawful"}
   ],
   detrimental:[
-    {t:["corruption","evil"], txt:"your presence chills friendships... social tests suffer with good folk"},
-    {t:["undeath"], txt:"holy ground rejects you unless invited"},
-    {t:["wild"], txt:"random surges twist minor magic near you"},
-    {t:["blood"], txt:"the artifact bleeds if you refuse a duel"},
-    {t:["madness"], txt:"recurring visions impose disadvantage on certain checks after stress"},
-    {t:["dragons"], txt:"dragons sense you within a mile and take interest"},
-    {t:["truth"], txt:"you cannot speak a deliberate lie while attuned"},
-    {t:["law"], txt:"you must keep any bargain you make"}
+    {t:["corruption","evil"],txt:"your presence chills friendships... social tests suffer with good folk"},
+    {t:["undeath"],txt:"holy ground rejects you unless invited"},
+    {t:["wild"],txt:"random surges twist minor magic near you"},
+    {t:["blood"],txt:"the artifact bleeds if you refuse a duel"},
+    {t:["madness"],txt:"recurring visions impose disadvantage on certain checks after stress"},
+    {t:["dragons"],txt:"dragons sense you within a mile and take interest"},
+    {t:["truth"],txt:"you cannot speak a deliberate lie while attuned"},
+    {t:["law"],txt:"you must keep any bargain you make"}
   ]
 };
 
-const nameBits = {
+const nameBits={
   prefixes:["Black","Iron","Sainted","Grim","Star","Ashen","Sky","Dread","True","Gilded","Rune","Velvet","Glass","Storm","Veil","Wyrm","Eclipse","Crown"],
   cores:["Oath","Secret","Judgment","Hunger","Promise","Law","Whisper","Echo","Fang","Heart","Mask","Anvil","Gaze","Shard","Thorn","Bell","Cipher","Mantle"],
   suffixes:["of Night","of the Seven","of Old Kings","of the Infinite","of Quiet Truths","of Fallen Stars","of Stone","of Ash","of the Dragon","of the Saint","of the Betrayer","of the Depths"]
 };
 
-/* ---------- helper: themed selection ---------- */
-function themedPick(list, themeTags, n){
-  if(!themeTags || !themeTags.length) return pickN(list.map(x=>x.txt), n);
-  const pairs = list.map(x=>{
-    const overlap = x.t.filter(t=>themeTags.includes(t)).length;
-    return { item:x.txt, w: 1 + overlap*3 };
-  });
-  const out = [];
-  while(out.length < n && pairs.length){
-    const choice = weightedPick(pairs);
-    out.push(choice);
-    const idx = pairs.findIndex(p=>p.item===choice);
-    pairs.splice(idx,1);
-  }
+function themedPick(list,themeTags,n){
+  if(!themeTags||!themeTags.length)return pickN(list.map(x=>x.txt),n);
+  const pairs=list.map(x=>{const overlap=x.t.filter(t=>themeTags.includes(t)).length;return{item:x.txt,w:1+overlap*3}});
+  const out=[];
+  while(out.length<n&&pairs.length){const c=weightedPick(pairs);out.push(c);const idx=pairs.findIndex(p=>p.item===c);pairs.splice(idx,1)}
   return out;
 }
 
-/* ---------- generator ---------- */
-function titleCase(s){return s.replace(/\b\w/g, c=>c.toUpperCase())}
+function titleCase(s){return s.replace(/\b\w/g,c=>c.toUpperCase())}
 function makeName(){
-  const p = pick(nameBits.prefixes), c = pick(nameBits.cores), s = pick(nameBits.suffixes);
-  if(RNG()<0.5){
-    const t = pick(types);
-    return `${p} ${titleCase(t)} ${s}`;
-  }
+  const p=pick(nameBits.prefixes),c=pick(nameBits.cores),s=pick(nameBits.suffixes);
+  if(RNG()<0.5){const t=pick(types);return `${p} ${titleCase(t)} ${s}`}
   return `${p} ${c} ${s}`;
 }
 
-function countByDensity(style, density){
-  const base = {
-    "1e": { minor:[2,4], major:[1,3], prime:[1,2], beneficial:[0,0], detrimental:[1,3] },
-    "5e": { minor:[0,0], major:[0,0], prime:[0,0], beneficial:[2,3], detrimental:[2,3] },
-    "osr": { minor:[1,3], major:[1,2], prime:[0,1], beneficial:[0,0], detrimental:[1,2] }
+function countByDensity(style,density){
+  const base={
+    "1e":{minor:[2,4],major:[1,3],prime:[1,2],beneficial:[0,0],detrimental:[1,3]},
+    "5e":{minor:[0,0],major:[0,0],prime:[0,0],beneficial:[2,3],detrimental:[2,3]},
+    "osr":{minor:[1,3],major:[1,2],prime:[0,1],beneficial:[0,0],detrimental:[1,2]}
   }[style];
-
-  const bump = density==="lean" ? -1 : density==="epic" ? +1 : 0;
-
-  function adj(range){
-    let lo = range[0] + bump;
-    let hi = range[1] + bump;
-    lo = Math.max(0, lo);
-    hi = Math.max(0, hi);
-    if (lo > hi) { const t = lo; lo = hi; hi = t; }
-    if (hi === 0 && lo === 0) return 0;
-    return randInt(lo, hi);
-  }
-
-  return {
-    minor: (base.minor[0]===0 && base.minor[1]===0) ? 0 : adj(base.minor),
-    major: (base.major[0]===0 && base.major[1]===0) ? 0 : adj(base.major),
-    prime: (base.prime[0]===0 && base.prime[1]===0) ? 0 : adj(base.prime),
-    beneficial: (base.beneficial[0]===0 && base.beneficial[1]===0) ? 0 : adj(base.beneficial),
-    detrimental: (base.detrimental[0]===0 && base.detrimental[1]===0) ? 0 : adj(base.detrimental),
+  const bump=density==="lean"?-1:density==="epic"?+1:0;
+  function adj(r){let lo=r[0]+bump,hi=r[1]+bump;lo=Math.max(0,lo);hi=Math.max(0,hi);if(lo>hi){const t=lo;lo=hi;hi=t}if(hi===0&&lo===0)return 0;return randInt(lo,hi)}
+  return{
+    minor:(base.minor[0]===0&&base.minor[1]===0)?0:adj(base.minor),
+    major:(base.major[0]===0&&base.major[1]===0)?0:adj(base.major),
+    prime:(base.prime[0]===0&&base.prime[1]===0)?0:adj(base.prime),
+    beneficial:(base.beneficial[0]===0&&base.beneficial[1]===0)?0:adj(base.beneficial),
+    detrimental:(base.detrimental[0]===0&&base.detrimental[1]===0)?0:adj(base.detrimental),
   };
 }
 
-function tagsFromTheme(themeName){
-  if(!themeName) return [];
-  return famousThemes[themeName]||[];
-}
-
-function randomType(){return pick(types)}
-function randomRarity(){return pick(rarities)}
-
-function buildArtifact({style, density, themeName}){
-  const themeTags = tagsFromTheme(themeName);
-  const name = makeName();
-  const type = randomType();
-  const rarity = randomRarity();
-  const attune = style==="5e" ? (RNG()<0.85 ? "requires attunement" : "no attunement") : "varies by table";
-
-  const counts = countByDensity(style, density);
-
-  const minors = counts.minor ? themedPick(library.minor, themeTags, counts.minor):[];
-  const majors = counts.major ? themedPick(library.major, themeTags, counts.major):[];
-  const primes = counts.prime ? themedPick(library.prime, themeTags, counts.prime):[];
-
-  const bens = counts.beneficial ? themedPick(library.beneficial, themeTags, counts.beneficial):[];
-  const dets = counts.detrimental ? themedPick(library.detrimental, themeTags, counts.detrimental):[];
-
-  const qCount = randInt(1,3);
-  const qs = pickN(quirks, qCount);
-
-  const look = pick(looks);
-  const ori = pick(origins);
-  const dest = pick(destruction);
-
-  const chips = [...new Set([rarity, type, ...themeTags])];
-
-  return {
-    name, type, style, rarity, attunement: attune,
-    appearance: look,
-    origin: ori,
-    themeTags,
-    minorPowers: minors,
-    majorPowers: majors,
-    primePowers: primes,
-    beneficial: bens,
-    detrimental: dets,
-    quirks: qs,
-    destruction: dest
+function buildArtifact({style,density,themeName}){
+  const themeTags=themeName?famousThemes[themeName]||[]:[];
+  const name=makeName(),type=pick(types),rarity=pick(rarities);
+  const attune=style==="5e"?(RNG()<0.85?"requires attunement":"no attunement"):"varies by table";
+  const counts=countByDensity(style,density);
+  return{
+    name,type,style,rarity,attunement:attune,
+    appearance:pick(looks),origin:pick(origins),themeTags,
+    minorPowers:counts.minor?themedPick(library.minor,themeTags,counts.minor):[],
+    majorPowers:counts.major?themedPick(library.major,themeTags,counts.major):[],
+    primePowers:counts.prime?themedPick(library.prime,themeTags,counts.prime):[],
+    beneficial:counts.beneficial?themedPick(library.beneficial,themeTags,counts.beneficial):[],
+    detrimental:counts.detrimental?themedPick(library.detrimental,themeTags,counts.detrimental):[],
+    quirks:pickN(quirks,randInt(1,3)),
+    destruction:pick(destruction)
   };
 }
 
-/* ---------- DOM hookup ---------- */
-const el = (id)=>document.getElementById(id);
-const styleSel = el("style");
-const densitySel = el("density");
-const seedInp = el("seed");
-const modeSel = el("mode");
-const knownWrap = el("knownWrap");
-const knownSel = el("known");
+const el=id=>document.getElementById(id);
+const styleSel=el("style"),densitySel=el("density"),seedInp=el("seed"),modeSel=el("mode");
+const knownWrap=el("knownWrap"),knownSel=el("known");
+const tags=el("tags"),titleOut=el("title"),subtitle=el("subtitle");
+const appearance=el("appearance"),origin=el("origin"),destructionOut=el("destruction");
+const minorWrap=el("pow1Wrap"),majorWrap=el("pow2Wrap"),primeWrap=el("pow3Wrap"),primeTitle=el("primeTitle");
+const minorPowers=el("minorPowers"),majorPowers=el("majorPowers"),primePowers=el("primePowers");
+const beneficialWrap=el("beneficialWrap"),detrimentalWrap=el("detrimentalWrap");
+const beneficial=el("beneficial"),detrimental=el("detrimental"),quirksOut=el("quirks");
+const generateBtn=el("generate");
 
-const tags = el("tags");
-const titleOut = el("title");
-const subtitle = el("subtitle");
-const appearance = el("appearance");
-const origin = el("origin");
-const destructionOut = el("destruction");
-
-const minorWrap = el("pow1Wrap");
-const majorWrap = el("pow2Wrap");
-const primeWrap = el("pow3Wrap");
-const primeTitle = el("primeTitle");
-const minorPowers = el("minorPowers");
-const majorPowers = el("majorPowers");
-const primePowers = el("primePowers");
-
-const beneficialWrap = el("beneficialWrap");
-const detrimentalWrap = el("detrimentalWrap");
-const beneficial = el("beneficial");
-const detrimental = el("detrimental");
-
-const destWrap = el("destWrap");
-const quirksOut = el("quirks");
-
-function setList(elm, items){
-  if(!items || items.length===0){elm.innerHTML = "<span class='muted'>none listed</span>"; return}
-  const ul = document.createElement("ul");
-  ul.style.margin="0"; ul.style.paddingLeft="18px";
-  items.forEach(t=>{
-    const li=document.createElement("li"); li.textContent=t; ul.appendChild(li);
-  });
-  elm.innerHTML = "";
-  elm.appendChild(ul);
+function setList(elm,items){
+  if(!items||!items.length){elm.innerHTML="<span style='color:var(--muted);font-style:italic'>none listed</span>";return}
+  const ul=document.createElement("ul");ul.style.margin="0";ul.style.paddingLeft="22px";
+  items.forEach(t=>{const li=document.createElement("li");li.textContent=t;ul.appendChild(li)});
+  elm.innerHTML="";elm.appendChild(ul);
 }
-
-function setChips(elm, items){
-  elm.innerHTML = "";
-  items.forEach(t=>{
-    const span = document.createElement("span");
-    span.className="chip";
-    span.textContent = t;
-    elm.appendChild(span);
-  });
+function setChips(elm,items){
+  elm.innerHTML="";
+  items.forEach(t=>{const s=document.createElement("span");s.className="chip";s.textContent=t;elm.appendChild(s)});
 }
 
 function render(a){
-  setChips(tags, a.themeTags.length? a.themeTags : ["unbound","mysterious"]);
-  titleOut.textContent = a.name;
-  subtitle.textContent = `${titleCase(a.type)} • ${a.rarity} • ${a.attunement}`;
-  appearance.textContent = a.appearance;
-  origin.textContent = a.origin;
-  destructionOut.textContent = a.destruction;
-
+  setChips(tags,a.themeTags.length?a.themeTags:["unbound","mysterious"]);
+  titleOut.textContent=a.name;
+  subtitle.textContent=`${titleCase(a.type)} . ${a.rarity} . ${a.attunement}`;
+  appearance.textContent=a.appearance;
+  origin.textContent=a.origin;
+  destructionOut.textContent=a.destruction;
   if(a.style==="1e"||a.style==="osr"){
-    minorWrap.style.display="block";
-    majorWrap.style.display="block";
-    primeWrap.style.display="block";
-    primeTitle.textContent = a.style==="1e" ? "Prime Powers" : "Greater Powers";
-
-    beneficialWrap.style.display="none";
-    detrimentalWrap.style.display="block";
-  } else {
-    minorWrap.style.display="none";
-    majorWrap.style.display="none";
-    primeWrap.style.display="none";
-
-    beneficialWrap.style.display="block";
-    detrimentalWrap.style.display="block";
+    minorWrap.style.display="block";majorWrap.style.display="block";primeWrap.style.display="block";
+    primeTitle.textContent=a.style==="1e"?"Prime Powers":"Greater Powers";
+    beneficialWrap.style.display="none";detrimentalWrap.style.display="block";
+  }else{
+    minorWrap.style.display="none";majorWrap.style.display="none";primeWrap.style.display="none";
+    beneficialWrap.style.display="block";detrimentalWrap.style.display="block";
   }
-
-  destWrap.style.display="block";
-
-  setList(minorPowers, a.minorPowers);
-  setList(majorPowers, a.majorPowers);
-  setList(primePowers, a.primePowers);
-  setList(beneficial, a.beneficial);
-  setList(detrimental, a.detrimental);
-  setList(quirksOut, a.quirks);
+  setList(minorPowers,a.minorPowers);setList(majorPowers,a.majorPowers);setList(primePowers,a.primePowers);
+  setList(beneficial,a.beneficial);setList(detrimental,a.detrimental);setList(quirksOut,a.quirks);
+  
+  // Trigger entrance animation reset
+  document.querySelectorAll('.out-block, .art-name, .art-sub, .section').forEach(el=>{
+    el.style.animation='none';
+    setTimeout(()=>{el.style.animation=''},10);
+  });
 }
 
-function currentParams(){
-  return {
-    style: styleSel.value,
-    density: densitySel.value,
-    themeName: modeSel.value==="known" ? knownSel.value : null
-  };
-}
-
-// UI listeners
-modeSel.addEventListener("change", ()=>{
-  knownWrap.style.display = modeSel.value==="known" ? "block" : "none";
-});
-
-el("generate").addEventListener("click", ()=>{
+modeSel.addEventListener("change",()=>{knownWrap.style.display=modeSel.value==="known"?"block":"none"});
+generateBtn.addEventListener("click",()=>{
+  // Visual feedback on generate
+  generateBtn.classList.add('generate-active');
+  setTimeout(()=>generateBtn.classList.remove('generate-active'),600);
+  
   reseed(seedInp.value||"");
-  const a = buildArtifact(currentParams());
-  render(a);
+  render(buildArtifact({style:styleSel.value,density:densitySel.value,themeName:modeSel.value==="known"?knownSel.value:null}));
 });
-
-el("copyText").addEventListener("click", ()=>{
-  const txt = [
-    `${el("title").textContent}`,
-    `${el("subtitle").textContent}`,
-    "",
-    `Appearance: ${appearance.textContent}`,
-    `Origin: ${origin.textContent}`,
-    (beneficialWrap.style.display!=="none" ? `Beneficial: ${beneficial.textContent}` : null),
-    (minorWrap.style.display!=="none" ? `Minor Powers: ${minorPowers.textContent}` : null),
-    (majorWrap.style.display!=="none" ? `Major Powers: ${majorPowers.textContent}` : null),
-    (primeWrap.style.display!=="none" ? `${primeTitle.textContent}: ${primePowers.textContent}` : null),
-    `Detrimental: ${detrimental.textContent}`,
-    `Quirks: ${quirksOut.textContent}`,
+el("copyText").addEventListener("click",()=>{
+  const txt=[
+    el("title").textContent,el("subtitle").textContent,"",
+    `Appearance: ${appearance.textContent}`,`Origin: ${origin.textContent}`,
+    beneficialWrap.style.display!=="none"?`Beneficial: ${beneficial.textContent}`:null,
+    minorWrap.style.display!=="none"?`Minor Powers: ${minorPowers.textContent}`:null,
+    majorWrap.style.display!=="none"?`Major Powers: ${majorPowers.textContent}`:null,
+    primeWrap.style.display!=="none"?`${primeTitle.textContent}: ${primePowers.textContent}`:null,
+    `Detrimental: ${detrimental.textContent}`,`Quirks: ${quirksOut.textContent}`,
     `Destruction: ${destructionOut.textContent}`
   ].filter(Boolean).join("\n");
-  navigator.clipboard.writeText(txt).then(()=>alert("Copied artifact text")).catch(()=>alert("Copy failed"));
+  navigator.clipboard.writeText(txt).then(()=>alert("Copied!")).catch(()=>alert("Copy failed"));
 });
 
-// first render
-render(buildArtifact({style:"1e", density:"standard", themeName:null}));
+render(buildArtifact({style:"1e",density:"standard",themeName:null}));
 </script>
-
-<!-- Static Footer -->
-<footer class="site-footer">
-  <span>© 2025 SoloDND.com | All generators inspired by a needed basis for my games</span>
-  <a href="https://patreon.com/TheEvilDM" target="_blank" rel="noopener">
-    <img src="images/Patreon-Logo.png" alt="Support me on Patreon">
-  </a>
-</footer>
 </body>
 </html>
