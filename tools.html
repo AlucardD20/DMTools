@@ -4,117 +4,227 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solo DND Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
-        /* General Reset */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-deep:      #06050f;
+            --bg-mid:       #0c0a1a;
+            --bg-card:      #0f0d1e;
+            --border:       #1e1a3a;
+            --border-glow:  #3d3470;
+            --accent:       #7b5ea7;
+            --accent-light: #a87fd4;
+            --accent-bright:#c9a0f0;
+            --text-bright:  #ddd5f8;
+            --text-muted:   #6b6090;
+            --text-link:    #a87fd4;
+            --blue-mid:     #2a2060;
+        }
+
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e; /* Dark background */
-            color: #ffffff; /* White text */
+            min-height: 100%;
+            font-family: 'Crimson Text', Georgia, serif;
+            background-color: var(--bg-deep);
+            color: var(--text-bright);
+            background-image:
+                radial-gradient(ellipse at 50% 0%, rgba(80,50,160,0.22) 0%, transparent 65%),
+                radial-gradient(ellipse at 80% 40%, rgba(60,30,120,0.10) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='30' r='0.8' fill='%23ffffff' fill-opacity='0.25'/%3E%3Ccircle cx='80' cy='10' r='0.6' fill='%23ffffff' fill-opacity='0.2'/%3E%3Ccircle cx='150' cy='50' r='1' fill='%23ffffff' fill-opacity='0.18'/%3E%3Ccircle cx='40' cy='90' r='0.5' fill='%23ffffff' fill-opacity='0.15'/%3E%3Ccircle cx='120' cy='75' r='0.7' fill='%23ffffff' fill-opacity='0.22'/%3E%3Ccircle cx='170' cy='130' r='0.9' fill='%23ffffff' fill-opacity='0.17'/%3E%3Ccircle cx='60' cy='160' r='0.6' fill='%23ffffff' fill-opacity='0.2'/%3E%3Ccircle cx='190' cy='20' r='0.5' fill='%23ffffff' fill-opacity='0.13'/%3E%3Ccircle cx='100' cy='140' r='0.8' fill='%23ffffff' fill-opacity='0.18'/%3E%3Ccircle cx='10' cy='180' r='0.7' fill='%23ffffff' fill-opacity='0.16'/%3E%3C/svg%3E");
         }
 
-        /* Flex Container */
-        .frame-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        /* Header */
         .header {
-            background-color: #121212;
-            color: #f5f5f5;
+            background: linear-gradient(180deg, #04030d 0%, #080618 60%, var(--bg-deep) 100%);
+            border-bottom: 1px solid var(--border);
             text-align: center;
-            padding: 10px 0;
-            height: 100px;
+            position: relative;
+            overflow: hidden;
         }
-
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--accent-bright), var(--accent), transparent);
+        }
         .header img {
-            max-height: 100%;
+            max-height: 120px;
             width: auto;
+            display: block;
+            margin: 0 auto;
         }
 
-        /* Content Area */
+        .nav-strip {
+            background: var(--bg-mid);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            padding: 0 20px;
+            overflow-x: auto;
+        }
+        .nav-strip a {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 12px 22px;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+            white-space: nowrap;
+        }
+        .nav-strip a:hover {
+            color: var(--accent-bright);
+            border-bottom-color: var(--accent-light);
+        }
+
         .content {
-            flex: 1;
-            overflow-y: auto;
-            background-color: #2e2e2e; /* Slightly lighter background */
-            padding: 20px;
+            padding: 36px 24px 48px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
-        /* Links and Navigation */
+        .section-heading { text-align: center; margin-bottom: 30px; }
+        .rune-line {
+            display: flex; align-items: center; gap: 12px;
+            justify-content: center; margin-bottom: 8px;
+        }
+        .rune-line .bar { flex: 1; max-width: 180px; height: 1px; background: linear-gradient(90deg, transparent, var(--border-glow)); }
+        .rune-line .bar.r { background: linear-gradient(90deg, var(--border-glow), transparent); }
+        .rune-line .gem { color: var(--accent-light); font-size: 13px; }
+        .section-heading p {
+            font-family: 'Cinzel', serif; font-size: 10px;
+            letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase;
+        }
+
         .links-container {
-            display: flex; /* Use flexbox for horizontal alignment */
-            flex-wrap: wrap; /* Allows columns to wrap to the next row if needed */
-            justify-content: space-around; /* Space out columns evenly */
-            gap: 20px; /* Adds space between columns */
-            margin: 20px 0;
+            display: flex; flex-wrap: wrap; gap: 22px; justify-content: center;
         }
 
         .column {
-            flex: 1 1 calc(25% - 20px); /* Each column takes up 25% of the container, minus spacing */
-            max-width: 25%; /* Prevent columns from growing too wide */
-            min-width: 200px; /* Ensure columns don’t shrink too small */
-            text-align: center;
-            background-color: #2e2e2e;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            flex: 1 1 calc(25% - 22px);
+            max-width: 320px; min-width: 220px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px; overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            animation: fadeUp 0.45s ease both;
         }
+        .column:nth-child(1) { animation-delay: 0.05s; }
+        .column:nth-child(2) { animation-delay: 0.15s; }
+        .column:nth-child(3) { animation-delay: 0.25s; }
+        .column:hover {
+            border-color: var(--border-glow);
+            box-shadow: 0 0 28px rgba(100,70,200,0.18);
+        }
+        .column::before {
+            content: ''; display: block; height: 3px;
+            background: linear-gradient(90deg, var(--blue-mid), var(--accent-bright), var(--blue-mid));
+        }
+
+        .column-header {
+            padding: 16px 18px 13px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(0,0,0,0.3);
+        }
+        .column-icon { font-size: 22px; line-height: 1; }
         .column h2 {
-            color: #f5f5f5;
-            font-size: 1.2em;
-            margin-bottom: 10px;
+            font-family: 'Cinzel', serif; font-size: 13px; font-weight: 600;
+            color: var(--accent-bright); letter-spacing: 2px; text-transform: uppercase;
         }
+
+        .column-links { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 5px; }
 
         .column a {
-            display: block;
-            margin: 8px 0;
-            padding: 8px 12px;
-            font-size: 14px;
-            color: #ffffff;
-            background-color: #007BFF;
-            border-radius: 5px;
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 12px;
+            font-family: 'Crimson Text', serif; font-size: 16px;
+            color: var(--text-link);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid transparent; border-radius: 4px;
             text-decoration: none;
+            transition: all 0.18s ease;
         }
-
+        .column a::before {
+            content: '✦'; font-size: 7px; color: var(--border-glow);
+            flex-shrink: 0; transition: color 0.18s;
+        }
         .column a:hover {
-            background-color: #0056b3;
+            background: rgba(120,80,210,0.12);
+            border-color: var(--border-glow);
+            color: var(--accent-bright);
+            transform: translateX(3px);
+        }
+        .column a:hover::before { color: var(--accent-light); }
+
+        footer {
+            background: var(--bg-mid);
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: 'Crimson Text', serif; font-style: italic; font-size: 14px;
+            text-align: center; padding: 18px 20px;
+        }
+        footer::before {
+            content: '✦  ✦  ✦'; display: block;
+            color: var(--accent); font-style: normal;
+            font-size: 12px; letter-spacing: 10px; margin-bottom: 7px;
         }
 
-        /* Footer */
-        .footer {
-            background-color: #121212;
-            color: #f5f5f5;
-            text-align: center;
-            padding: 10px 0;
-            height: 50px;
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 3px; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <div class="frame-container">
-        <!-- Static Header -->
-        <div class="header">
-            <img src="images/soloquests1.jpg" alt="Solo Quest's Campaign Tools">
+
+    <div class="header">
+        <img src="images/soloquests1.jpg" alt="Solo Quest's Campaign Tools">
+    </div>
+
+    <nav class="nav-strip">
+        <a href="#">Solo Tools</a>
+        <a href="#">D&amp;D Tools</a>
+        <a href="#">Tiny d6</a>
+    </nav>
+
+    <div class="content">
+        <div class="section-heading">
+            <div class="rune-line">
+                <span class="bar"></span>
+                <span class="gem">✦</span>
+                <span class="gem">◆</span>
+                <span class="gem">✦</span>
+                <span class="bar r"></span>
+            </div>
+            <p>Choose your path, adventurer</p>
         </div>
 
-        <!-- Dynamic Content Area -->
-        <div class="content" id="content">
-            <div class="links-container">
-                <!-- Column 1: Solo Tools -->
-                <div class="column">
+        <div class="links-container">
+
+            <div class="column">
+                <div class="column-header">
+                    <span class="column-icon">🔮</span>
                     <h2>Solo Tools</h2>
-                    <hr>
+                </div>
+                <div class="column-links">
                     <a href="Oracle.html">Solo Oracle</a>
                 </div>
+            </div>
 
-                <!-- Column 2: D&D Tools -->
-                <div class="column">
-                    <h2>D&D Tools</h2>
-                    <hr>
+            <div class="column">
+                <div class="column-header">
+                    <span class="column-icon">🐉</span>
+                    <h2>D&amp;D Tools</h2>
+                </div>
+                <div class="column-links">
                     <a href="Book.html">Random Book Generator</a>
                     <a href="Curses.html">Random Curse Picker</a>
                     <a href="Dungeon.html">Dungeon Room Stocking Generator</a>
@@ -124,31 +234,30 @@
                     <a href="randompotion.html">Random Potion Generator</a>
                     <a href="Penances.html">Cleric Penances Generator</a>
                     <a href="scrolls.html">Random Scroll Generator</a>
-                     <a href="ring.html">Random Ring Generator</a>
+                    <a href="ring.html">Random Ring Generator</a>
                     <a href="tavern/tavern.html">Tavern Generator</a>
                 </div>
+            </div>
 
-                <!-- Column 3: Miscellaneous -->
-                <div class="column">
+            <div class="column">
+                <div class="column-header">
+                    <span class="column-icon">🎲</span>
                     <h2>Tiny d6 Tools</h2>
-                    <hr>
+                </div>
+                <div class="column-links">
                     <a href="cthulhu/tinycthulhugen.html">Tiny Cthulhu Character Generator</a>
                     <a href="tinydead/tinylivingdead.html">Tiny Living Dead Character Generator</a>
-                     <a href="tinydead/tinyhouserules.html">Tiny Living Dead House Rules</a>
+                    <a href="tinydead/tinyhouserules.html">Tiny Living Dead House Rules</a>
                     <a href="tinydead/tldfaction.html">Tiny Living Dead Factions Generator</a>
                 </div>
             </div>
-        </div>
 
-        <!-- Static Footer -->
-        <footer style="display:flex;align-items:center;justify-content:center;padding:10px;background-color:#1e1e1e;color:#f5f5f5;font-size:14px;text-align:center;">
-            <span>©2025 - 2026 SoloDND.com | All generators inspired by a needed basis for my games</span>
-            </div>
-        </footer>
+        </div>
     </div>
+
+    <footer>
+        <span>©2025 – 2026 SoloDND.com &nbsp;|&nbsp; All generators inspired by a needed basis for my games</span>
+    </footer>
+
 </body>
 </html>
-
-
-
-
