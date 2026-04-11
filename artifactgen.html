@@ -7,24 +7,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg-deep:    #06050f;
-    --bg-mid:     #0c0a1a;
-    --bg-card:    #0f0d1e;
-    --bg-input:   #0a0816;
-    --border:     #1e1a3a;
-    --border-glow:#3d3470;
-    --accent:     #7b5ea7;
-    --accent-l:   #a87fd4;
-    --accent-b:   #c9a0f0;
-    --blue-mid:   #2a2060;
-    --text:       #ddd5f8;
-    --muted:      #6b6090;
-    --ok:         #86efac;
-    --bad:        #fda4af;
-    --warn:       #fde68a;
-    --btn-bg:     #1a1535;
-    --btn-hover:  #251e4a;
-    --glow-anim:  rgba(120,80,210,0.15);
+    /* Mature arcane palette - no purple */
+    --bg-deep:    #0a0e14;
+    --bg-mid:     #111827;
+    --bg-card:    #151e2e;
+    --bg-input:   #0f1624;
+    --border:     #2a3a52;
+    --border-glow:#3d5a80;
+    --accent:     #8b9a6b;      /* aged olive */
+    --accent-l:   #a8b885;      /* light olive */
+    --accent-b:   #c5d1a8;      /* pale olive */
+    --gold:       #b89a5c;      /* aged gold */
+    --gold-dim:   #8a7345;
+    --copper:     #a67c52;      /* oxidized copper */
+    --blue-deep:  #1e2a3a;
+    --text:       #e6eef8;
+    --muted:      #7a8aa3;
+    --ok:         #7dd3a0;
+    --bad:        #f08a8a;
+    --warn:       #e6c98e;
+    --btn-bg:     #1a2435;
+    --btn-hover:  #24324a;
   }
 
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -35,57 +38,43 @@
     background-color:var(--bg-deep);
     color:var(--text);
     background-image:
-      radial-gradient(ellipse at 50% 0%, rgba(80,50,160,.22) 0%, transparent 65%),
-      radial-gradient(ellipse at 85% 30%, rgba(60,30,120,.12) 0%, transparent 50%),
-      url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='30' r='0.8' fill='%23ffffff' fill-opacity='0.2'/%3E%3Ccircle cx='80' cy='10' r='0.6' fill='%23ffffff' fill-opacity='0.18'/%3E%3Ccircle cx='150' cy='50' r='1' fill='%23ffffff' fill-opacity='0.15'/%3E%3Ccircle cx='40' cy='90' r='0.5' fill='%23ffffff' fill-opacity='0.12'/%3E%3Ccircle cx='120' cy='75' r='0.7' fill='%23ffffff' fill-opacity='0.2'/%3E%3Ccircle cx='170' cy='130' r='0.9' fill='%23ffffff' fill-opacity='0.14'/%3E%3Ccircle cx='60' cy='160' r='0.6' fill='%23ffffff' fill-opacity='0.18'/%3E%3Ccircle cx='190' cy='20' r='0.5' fill='%23ffffff' fill-opacity='0.1'/%3E%3Ccircle cx='100' cy='140' r='0.8' fill='%23ffffff' fill-opacity='0.16'/%3E%3Ccircle cx='10' cy='180' r='0.7' fill='%23ffffff' fill-opacity='0.14'/%3E%3C/svg%3E");
+      radial-gradient(ellipse at 50% 0%, rgba(30,50,80,.25) 0%, transparent 65%),
+      radial-gradient(ellipse at 85% 30%, rgba(20,35,55,.18) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='30' r='0.8' fill='%23ffffff' fill-opacity='0.12'/%3E%3Ccircle cx='80' cy='10' r='0.6' fill='%23ffffff' fill-opacity='0.1'/%3E%3Ccircle cx='150' cy='50' r='1' fill='%23ffffff' fill-opacity='0.08'/%3E%3Ccircle cx='40' cy='90' r='0.5' fill='%23ffffff' fill-opacity='0.09'/%3E%3Ccircle cx='120' cy='75' r='0.7' fill='%23ffffff' fill-opacity='0.11'/%3E%3Ccircle cx='170' cy='130' r='0.9' fill='%23ffffff' fill-opacity='0.07'/%3E%3Ccircle cx='60' cy='160' r='0.6' fill='%23ffffff' fill-opacity='0.1'/%3E%3Ccircle cx='190' cy='20' r='0.5' fill='%23ffffff' fill-opacity='0.06'/%3E%3Ccircle cx='100' cy='140' r='0.8' fill='%23ffffff' fill-opacity='0.09'/%3E%3Ccircle cx='10' cy='180' r='0.7' fill='%23ffffff' fill-opacity='0.08'/%3E%3C/svg%3E");
     position:relative;
     overflow-x:hidden;
   }
   body::before{
     content:'';
     position:fixed;inset:0;
-    background:radial-gradient(ellipse at center, transparent 0%, rgba(6,5,15,0.6) 100%);
+    background:radial-gradient(ellipse at center, transparent 0%, rgba(10,14,20,0.7) 100%);
     pointer-events:none;z-index:-1;
   }
 
-  /* Animated floating particles */
-  .particle{
-    position:fixed;border-radius:50%;
-    background:radial-gradient(circle, var(--accent-b), transparent 70%);
-    opacity:0.15;animation:float 20s infinite linear;
-    pointer-events:none;z-index:-1;
-  }
-  @keyframes float{
-    0%{transform:translateY(100vh) rotate(0deg);opacity:0}
-    10%{opacity:0.15}
-    90%{opacity:0.15}
-    100%{transform:translateY(-100px) rotate(720deg);opacity:0}
+  /* WebGL canvas for particles - behind content */
+  #particle-canvas{
+    position:fixed;inset:0;
+    width:100%;height:100%;
+    pointer-events:none;
+    z-index:-1;
+    opacity:0.7;
   }
 
-  /* Header enhancements */
+  /* Header */
   .site-header{
     position:sticky;top:0;z-index:10;
     display:grid;grid-template-columns:1fr auto 1fr;
     align-items:center;gap:12px;
     padding:14px 20px;
-    background:linear-gradient(180deg,rgba(6,5,15,.96),rgba(10,8,22,.88));
+    background:linear-gradient(180deg,rgba(10,14,20,.96),rgba(17,24,39,.92));
     border-bottom:1px solid var(--border);
     backdrop-filter:blur(12px);
-    animation:headerFloat 6s ease-in-out infinite;
-  }
-  @keyframes headerFloat{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-2px)}
   }
   .site-header::after{
     content:'';
     position:absolute;bottom:0;left:0;right:0;height:2px;
-    background:linear-gradient(90deg,transparent,var(--accent),var(--accent-b),var(--accent),transparent);
-    opacity:.8;animation:glowPulse 4s ease-in-out infinite;
-  }
-  @keyframes glowPulse{
-    0%,100%{opacity:0.7;filter:brightness(1)}
-    50%{opacity:1;filter:brightness(1.2)}
+    background:linear-gradient(90deg,transparent,var(--gold),var(--accent),var(--gold),transparent);
+    opacity:.6;
   }
   .site-header .left{justify-self:start;display:flex;gap:8px;align-items:center}
   .site-header .center{justify-self:center}
@@ -99,15 +88,10 @@
     letter-spacing:3px;
     text-transform:uppercase;
     color:var(--accent-b);
-    text-shadow:0 0 20px rgba(160,100,240,.45), 0 0 40px rgba(120,80,210,.25);
-    animation:titleGlow 3s ease-in-out infinite alternate;
-  }
-  @keyframes titleGlow{
-    from{text-shadow:0 0 20px rgba(160,100,240,.35)}
-    to{text-shadow:0 0 30px rgba(180,120,255,.55), 0 0 60px rgba(140,90,230,.3)}
+    text-shadow:0 0 18px rgba(139,154,107,.3);
   }
 
-  /* Button enhancements */
+  /* Buttons */
   .btn{
     font-family:'Cinzel',serif;
     font-size:11px;
@@ -124,44 +108,31 @@
     display:inline-flex;align-items:center;gap:8px;
     position:relative;overflow:hidden;
   }
-  .btn::after{
-    content:'';position:absolute;inset:0;
-    background:linear-gradient(135deg, transparent, rgba(120,80,210,0.1), transparent);
-    transform:translateX(-100%);transition:transform .4s ease;
-  }
-  .btn:hover::after{transform:translateX(100%)}
   .btn:hover{
     background:var(--btn-hover);
     border-color:var(--accent-l);
     color:var(--accent-b);
-    box-shadow:0 0 18px rgba(120,80,210,.35), 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow:0 0 16px rgba(139,154,107,.25), 0 4px 12px rgba(0,0,0,0.3);
     transform:translateY(-1px);
   }
   .btn:active{transform:translateY(1px) scale(0.98)}
   .btn.primary{
-    background:linear-gradient(160deg,#1e1545,#130f35);
-    border-color:var(--accent);
-    color:var(--accent-b);
-    box-shadow:0 0 20px rgba(120,80,210,.25);
+    background:linear-gradient(160deg,#1e2a3a,#151e2e);
+    border-color:var(--gold);
+    color:var(--gold);
+    box-shadow:0 0 18px rgba(184,154,92,.2);
   }
   .btn.primary:hover{
-    box-shadow:0 0 32px rgba(140,90,230,.45), 0 6px 20px rgba(0,0,0,0.4);
+    box-shadow:0 0 28px rgba(184,154,92,.35), 0 6px 20px rgba(0,0,0,0.4);
     border-color:var(--accent-b);
-  }
-  .btn.generate-active{
-    animation:btnPulse .6s ease-out;
-  }
-  @keyframes btnPulse{
-    0%{box-shadow:0 0 0 0 rgba(140,90,230,0.4)}
-    70%{box-shadow:0 0 0 12px rgba(140,90,230,0)}
-    100%{box-shadow:0 0 0 0 rgba(140,90,230,0)}
+    color:var(--accent-b);
   }
 
   /* Layout */
   .container{max-width:1180px;margin:32px auto;padding:0 24px}
   .controls{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-bottom:24px}
 
-  /* Card enhancements with animated borders and corner accents */
+  /* Cards */
   .card{
     background:var(--bg-card);
     border:1px solid var(--border);
@@ -174,45 +145,22 @@
   .card::before{
     content:'';display:block;position:absolute;top:0;left:0;right:0;height:3px;
     border-radius:10px 10px 0 0;
-    background:linear-gradient(90deg,var(--blue-mid),var(--accent-b),var(--blue-mid));
-    background-size:300% 100%;
-    animation:borderFlow 8s linear infinite;
-    pointer-events:none;opacity:0.9;
-  }
-  @keyframes borderFlow{
-    0%{background-position:0% 50%}
-    100%{background-position:300% 50%}
-  }
-  .card::after{
-    content:'';position:absolute;inset:-1px;
-    border-radius:11px;
-    padding:1px;
-    background:linear-gradient(135deg, transparent, var(--accent), transparent, var(--accent-b), transparent);
-    background-size:400% 400%;
-    animation:gradientBorder 12s ease infinite;
-    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite:xor;mask-composite:exclude;
-    pointer-events:none;opacity:0.4;
-  }
-  @keyframes gradientBorder{
-    0%,100%{background-position:0% 50%}
-    50%{background-position:100% 50%}
+    background:linear-gradient(90deg,var(--blue-deep),var(--gold),var(--blue-deep));
+    pointer-events:none;opacity:0.8;
   }
   .card:hover{
     border-color:var(--border-glow);
-    box-shadow:0 0 32px rgba(100,70,200,.22), 0 8px 24px rgba(0,0,0,0.4);
+    box-shadow:0 0 28px rgba(60,90,130,.2), 0 8px 24px rgba(0,0,0,0.4);
     transform:translateY(-2px);
   }
-  /* Decorative corner accents */
   .card .corner{
-    position:absolute;width:24px;height:24px;border:2px solid var(--accent);
-    opacity:0.6;pointer-events:none;transition:opacity .3s;
+    position:absolute;width:20px;height:20px;border:1px solid var(--gold-dim);
+    opacity:0.5;pointer-events:none;
   }
-  .card:hover .corner{opacity:1}
-  .card .corner.tl{top:12px;left:12px;border-right:none;border-bottom:none}
-  .card .corner.tr{top:12px;right:12px;border-left:none;border-bottom:none}
-  .card .corner.bl{bottom:12px;left:12px;border-right:none;border-top:none}
-  .card .corner.br{bottom:12px;right:12px;border-left:none;border-top:none}
+  .card .corner.tl{top:14px;left:14px;border-right:none;border-bottom:none}
+  .card .corner.tr{top:14px;right:14px;border-left:none;border-bottom:none}
+  .card .corner.bl{bottom:14px;left:14px;border-right:none;border-top:none}
+  .card .corner.br{bottom:14px;right:14px;border-left:none;border-top:none}
 
   /* Form elements */
   label{
@@ -226,32 +174,28 @@
     border-radius:6px;border:1px solid var(--border-glow);
     background:var(--bg-input);color:var(--text);
     font-family:'Crimson Text',serif;font-size:15px;
-    outline:none;transition:border-color .25s,box-shadow .25s,transform .15s;
+    outline:none;transition:border-color .25s,box-shadow .25s;
   }
   select:focus,input:focus{
     border-color:var(--accent-l);
-    box-shadow:0 0 0 4px rgba(125,80,200,.22);
-    transform:translateY(-1px);
+    box-shadow:0 0 0 4px rgba(139,154,107,.18);
   }
-  select option{background:#0f0d1e}
+  select option{background:#0f1624}
 
   /* Chips */
   .chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
   .chip{
-    background:rgba(120,80,200,.18);
+    background:rgba(139,154,107,.15);
     border:1px solid var(--border-glow);
     padding:4px 14px;border-radius:999px;
     font-family:'Cinzel',serif;font-size:10px;letter-spacing:1.5px;
     color:var(--accent-l);text-transform:uppercase;
     transition:all .2s ease;
-    position:relative;overflow:hidden;
   }
   .chip:hover{
-    background:rgba(140,90,230,.28);
+    background:rgba(139,154,107,.28);
     border-color:var(--accent-b);
     color:var(--accent-b);
-    transform:translateY(-1px);
-    box-shadow:0 4px 12px rgba(100,70,200,.2);
   }
 
   /* Output layout */
@@ -261,29 +205,19 @@
     .two-col{grid-template-columns:1fr}
   }
 
-  /* Output content with entrance animations */
+  /* Output content */
   .art-name{
     font-family:'Cinzel',serif;
     font-size:26px;font-weight:700;
     color:var(--accent-b);
     margin:8px 0 6px;
     letter-spacing:1.5px;
-    text-shadow:0 0 16px rgba(180,120,255,.3);
-    animation:fadeInUp .4s ease-out;
   }
   .art-sub{
     font-family:'Cinzel',serif;
     font-size:11px;letter-spacing:2.5px;
     text-transform:uppercase;color:var(--muted);
-    margin-bottom:4px;animation:fadeInUp .4s ease-out .1s both;
-  }
-  .section{animation:fadeInUp .4s ease-out .15s both}
-  .section:nth-child(3){animation-delay:.2s}
-  .section:nth-child(4){animation-delay:.25s}
-  .section:nth-child(5){animation-delay:.3s}
-  @keyframes fadeInUp{
-    from{opacity:0;transform:translateY(12px)}
-    to{opacity:1;transform:translateY(0)}
+    margin-bottom:4px;
   }
   .section h3{
     font-family:'Cinzel',serif;
@@ -295,7 +229,7 @@
   .section h3::after{
     content:'';position:absolute;bottom:0;left:0;
     width:40px;height:2px;
-    background:linear-gradient(90deg,var(--accent),transparent);
+    background:linear-gradient(90deg,var(--gold),transparent);
     border-radius:2px;
   }
   h3.good{color:var(--ok)}
@@ -306,23 +240,18 @@
     padding:14px 16px;
     border:1px solid var(--border-glow);
     border-radius:8px;
-    background:linear-gradient(145deg, rgba(15,13,30,0.95), rgba(10,8,22,0.98));
+    background:linear-gradient(145deg, rgba(21,30,46,0.98), rgba(15,22,36,0.99));
     min-height:40px;
     font-size:16px;line-height:1.7;
     transition:box-shadow .25s, border-color .25s;
-    animation:contentReveal .3s ease-out;
-  }
-  @keyframes contentReveal{
-    from{opacity:0;filter:blur(4px)}
-    to{opacity:1;filter:blur(0)}
   }
   .out-block:hover{
     border-color:var(--accent-l);
-    box-shadow:0 0 20px rgba(120,80,210,.18);
+    box-shadow:0 0 18px rgba(139,154,107,.15);
   }
   .out-block ul{margin:0;padding-left:22px}
-  .out-block li{margin-bottom:6px;position:relative}
-  .out-block li::marker{color:var(--accent)}
+  .out-block li{margin-bottom:6px}
+  .out-block li::marker{color:var(--gold)}
 
   .hr{
     height:1px;background:var(--border);
@@ -332,7 +261,7 @@
     content:'';position:absolute;top:50%;left:50%;
     transform:translate(-50%,-50%);
     width:60px;height:1px;
-    background:linear-gradient(90deg,transparent,var(--accent),transparent);
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
   }
   .muted{color:var(--muted)}
   .footer-tip{
@@ -353,36 +282,49 @@
     font-family:'Crimson Text',serif;
     font-style:italic;font-size:14px;
     text-align:center;
-    position:relative;
-  }
-  footer.site-footer::before{
-    content:'';position:absolute;top:0;left:50%;
-    transform:translateX(-50%);
-    width:120px;height:1px;
-    background:linear-gradient(90deg,transparent,var(--accent),transparent);
   }
 
   /* Scrollbar */
   ::-webkit-scrollbar{width:8px}
   ::-webkit-scrollbar-track{background:var(--bg-deep)}
   ::-webkit-scrollbar-thumb{
-    background:linear-gradient(180deg,var(--border-glow),var(--accent));
+    background:linear-gradient(180deg,var(--border-glow),var(--gold));
     border-radius:4px;border:2px solid var(--bg-deep);
   }
-  ::-webkit-scrollbar-thumb:hover{
-    background:linear-gradient(180deg,var(--accent),var(--accent-b));
-  }
 
-  /* Focus accessibility */
-  :focus-visible{
-    outline:2px solid var(--accent-l);
-    outline-offset:2px;
-    border-radius:4px;
+  /* WebGL toggle */
+  .webgl-toggle{
+    display:flex;align-items:center;gap:8px;
+    font-family:'Cinzel',serif;font-size:10px;
+    letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--muted);cursor:pointer;
+    padding:6px 10px;border-radius:4px;
+    transition:background .2s;
   }
+  .webgl-toggle:hover{background:rgba(139,154,107,.1)}
+  .toggle-switch{
+    width:36px;height:20px;border-radius:10px;
+    background:var(--border);position:relative;
+    transition:background .2s;
+  }
+  .toggle-switch::after{
+    content:'';position:absolute;top:2px;left:2px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--accent);transition:left .2s;
+  }
+  .toggle-switch.active{background:var(--gold-dim)}
+  .toggle-switch.active::after{left:18px;background:var(--bg-deep)}
 
-  /* Print styles */
+  /* Performance notice */
+  .perf-notice{
+    font-size:11px;color:var(--warn);
+    margin-top:6px;font-style:italic;
+    display:none;
+  }
+  .perf-notice.show{display:block}
+
   @media print{
-    body{background:#fff;color:#000}
+    #particle-canvas{display:none}
     .btn,.controls,.site-header{display:none}
     .card{border:1px solid #ccc;box-shadow:none}
   }
@@ -390,21 +332,7 @@
 </head>
 <body>
 
-<!-- Animated background particles -->
-<script>
-  (function(){
-    for(let i=0;i<12;i++){
-      const p=document.createElement('div');
-      p.className='particle';
-      const s=2+Math.random()*6;
-      p.style.width=p.style.height=s+'px';
-      p.style.left=Math.random()*100+'vw';
-      p.style.animationDelay=(Math.random()*20)+'s';
-      p.style.animationDuration=(18+Math.random()*12)+'s';
-      document.body.appendChild(p);
-    }
-  })();
-</script>
+<canvas id="particle-canvas"></canvas>
 
 <header class="site-header">
   <div class="left">
@@ -416,6 +344,10 @@
   <div class="right">
     <button class="btn" id="copyText">Copy Text</button>
     <button class="btn primary" id="generate">Generate</button>
+    <label class="webgl-toggle" id="webglToggle" title="Toggle advanced particle effects">
+      <span>Advanced FX</span>
+      <span class="toggle-switch" id="fxSwitch"></span>
+    </label>
   </div>
 </header>
 
@@ -540,13 +472,261 @@
   </div>
 
   <div class="footer-tip">Set a seed to recreate the same artifact later</div>
+  <div class="perf-notice" id="perfNotice">Advanced effects disabled for performance</div>
 </div>
 
 <footer class="site-footer">
   Copyright 2025 to 2026 SoloDND.com . All generators inspired by a needed basis for my games
 </footer>
 
+<!-- Three.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
 <script>
+// ===== WebGL Particle System (high-end only) =====
+class ParticleSystem {
+  constructor(canvas, enabled = true) {
+    this.canvas = canvas;
+    this.enabled = enabled && this.isCapable();
+    this.scene = null;
+    this.camera = null;
+    this.renderer = null;
+    this.particles = null;
+    this.clock = new THREE.Clock();
+    this.mouse = new THREE.Vector2();
+    this.targetMouse = new THREE.Vector2();
+    
+    if (this.enabled) {
+      this.init();
+      this.animate();
+      this.bindEvents();
+    }
+  }
+  
+  isCapable() {
+    // Basic capability check: WebGL support + reasonable performance guess
+    try {
+      const gl = document.createElement('canvas').getContext('webgl');
+      if (!gl) return false;
+      // Simple heuristic: disable on mobile to preserve battery
+      if (/Mobi|Android/i.test(navigator.userAgent)) return false;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  
+  init() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    this.renderer = new THREE.WebGLRenderer({ 
+      canvas: this.canvas, 
+      alpha: true, 
+      antialias: false 
+    });
+    this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(60, width / height, 1, 1000);
+    this.camera.position.z = 100;
+    
+    // Create particles - subtle arcane motes in gold/olive/copper tones
+    const particleCount = 80;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    const sizes = new Float32Array(particleCount);
+    const speeds = new Float32Array(particleCount);
+    
+    const colorPalette = [
+      new THREE.Color(0xb89a5c), // gold
+      new THREE.Color(0x8b9a6b), // olive
+      new THREE.Color(0xa67c52), // copper
+      new THREE.Color(0x7a8aa3)  // muted blue
+    ];
+    
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 200;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 50 - 25;
+      
+      const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+      colors[i * 3] = color.r;
+      colors[i * 3 + 1] = color.g;
+      colors[i * 3 + 2] = color.b;
+      
+      sizes[i] = Math.random() * 1.2 + 0.3;
+      speeds[i] = Math.random() * 0.02 + 0.005;
+    }
+    
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    geometry.setAttribute('speed', new THREE.BufferAttribute(speeds, 1));
+    
+    // Custom shader material for soft glowing particles
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        pointTexture: { value: this.createParticleTexture() },
+        time: { value: 0 }
+      },
+      vertexShader: `
+        attribute float size;
+        attribute float speed;
+        attribute vec3 color;
+        varying vec3 vColor;
+        varying float vAlpha;
+        uniform float time;
+        void main() {
+          vColor = color;
+          vec3 pos = position;
+          pos.y += sin(time * speed * 10.0 + position.x) * 0.3;
+          pos.x += cos(time * speed * 7.0 + position.z) * 0.2;
+          vAlpha = 0.4 + 0.3 * sin(time * speed * 5.0);
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          gl_PointSize = size * (300.0 / -mvPosition.z);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D pointTexture;
+        varying vec3 vColor;
+        varying float vAlpha;
+        void main() {
+          gl_FragColor = vec4(vColor, vAlpha);
+          gl_FragColor = gl_FragColor * texture2D(pointTexture, gl_PointCoord);
+          if (gl_FragColor.a < 0.1) discard;
+        }
+      `,
+      blending: THREE.AdditiveBlending,
+      depthTest: false,
+      transparent: true
+    });
+    
+    this.particles = new THREE.Points(geometry, material);
+    this.scene.add(this.particles);
+    
+    window.addEventListener('resize', () => this.onResize());
+  }
+  
+  createParticleTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 32; canvas.height = 32;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createRadialGradient(16,16,0,16,16,16);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.4, 'rgba(255,255,255,0.6)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,32,32);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    return texture;
+  }
+  
+  bindEvents() {
+    document.addEventListener('mousemove', (e) => {
+      this.targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      this.targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+    
+    // Burst effect on generate button
+    const genBtn = document.getElementById('generate');
+    if (genBtn) {
+      genBtn.addEventListener('click', (e) => {
+        this.triggerBurst(e.clientX, e.clientY);
+      });
+    }
+  }
+  
+  triggerBurst(clientX, clientY) {
+    if (!this.particles) return;
+    const rect = this.canvas.getBoundingClientRect();
+    const x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -((clientY - rect.top) / rect.height) * 2 + 1;
+    
+    const positions = this.particles.geometry.attributes.position.array;
+    const colors = this.particles.geometry.attributes.color.array;
+    
+    // Nudge nearby particles outward
+    for (let i = 0; i < positions.length; i += 3) {
+      const dx = positions[i] / 100 - x;
+      const dy = positions[i+1] / 100 - y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 0.8) {
+        const force = (0.8 - dist) * 15;
+        positions[i] += dx * force;
+        positions[i+1] += dy * force;
+        // Temporarily brighten
+        colors[i] = Math.min(1, colors[i] + 0.3);
+        colors[i+1] = Math.min(1, colors[i+1] + 0.3);
+        colors[i+2] = Math.min(1, colors[i+2] + 0.3);
+      }
+    }
+    this.particles.geometry.attributes.position.needsUpdate = true;
+    this.particles.geometry.attributes.color.needsUpdate = true;
+  }
+  
+  onResize() {
+    if (!this.renderer) return;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    this.renderer.setSize(width, height);
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+  }
+  
+  animate() {
+    if (!this.enabled || !this.renderer) return;
+    requestAnimationFrame(() => this.animate());
+    
+    const delta = this.clock.getDelta();
+    const time = this.clock.getElapsedTime();
+    
+    // Smooth mouse follow
+    this.mouse.x += (this.targetMouse.x - this.mouse.x) * 0.05;
+    this.mouse.y += (this.targetMouse.y - this.mouse.y) * 0.05;
+    this.camera.position.x = this.mouse.x * 5;
+    this.camera.position.y = this.mouse.y * 5;
+    this.camera.lookAt(0, 0, -50);
+    
+    // Animate particles
+    const positions = this.particles.geometry.attributes.position.array;
+    const speeds = this.particles.geometry.attributes.speed.array;
+    
+    for (let i = 0; i < positions.length; i += 3) {
+      positions[i+1] += speeds[i/3] * 0.5; // gentle upward drift
+      if (positions[i+1] > 100) positions[i+1] = -100;
+    }
+    this.particles.geometry.attributes.position.needsUpdate = true;
+    
+    // Update shader time uniform
+    this.particles.material.uniforms.time.value = time;
+    
+    this.renderer.render(this.scene, this.camera);
+  }
+  
+  toggle(enabled) {
+    this.enabled = enabled;
+    if (enabled && !this.renderer) {
+      this.init();
+      this.animate();
+      this.bindEvents();
+    }
+  }
+  
+  dispose() {
+    if (this.renderer) {
+      this.renderer.dispose();
+      this.particles.geometry.dispose();
+      this.particles.material.dispose();
+    }
+  }
+}
+
+// ===== Main Application Logic =====
 function xmur3(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19}return function(){h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return (h^h>>>16)>>>0}}
 function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
 let RNG=mulberry32(Math.floor(Math.random()*1e9));
@@ -767,6 +947,29 @@ const minorPowers=el("minorPowers"),majorPowers=el("majorPowers"),primePowers=el
 const beneficialWrap=el("beneficialWrap"),detrimentalWrap=el("detrimentalWrap");
 const beneficial=el("beneficial"),detrimental=el("detrimental"),quirksOut=el("quirks");
 const generateBtn=el("generate");
+const webglToggle=el("webglToggle"),fxSwitch=el("fxSwitch"),perfNotice=el("perfNotice");
+const canvas=el("particle-canvas");
+
+// Initialize WebGL particles with capability detection
+const particles = new ParticleSystem(canvas, true);
+if (!particles.enabled) {
+  perfNotice.classList.add('show');
+  fxSwitch.classList.remove('active');
+} else {
+  fxSwitch.classList.add('active');
+}
+
+// Toggle handler
+webglToggle.addEventListener('click', () => {
+  const enabled = !fxSwitch.classList.contains('active');
+  fxSwitch.classList.toggle('active', enabled);
+  particles.toggle(enabled);
+  if (!enabled && particles.enabled) {
+    perfNotice.classList.add('show');
+  } else if (enabled) {
+    perfNotice.classList.remove('show');
+  }
+});
 
 function setList(elm,items){
   if(!items||!items.length){elm.innerHTML="<span style='color:var(--muted);font-style:italic'>none listed</span>";return}
@@ -796,20 +999,10 @@ function render(a){
   }
   setList(minorPowers,a.minorPowers);setList(majorPowers,a.majorPowers);setList(primePowers,a.primePowers);
   setList(beneficial,a.beneficial);setList(detrimental,a.detrimental);setList(quirksOut,a.quirks);
-  
-  // Trigger entrance animation reset
-  document.querySelectorAll('.out-block, .art-name, .art-sub, .section').forEach(el=>{
-    el.style.animation='none';
-    setTimeout(()=>{el.style.animation=''},10);
-  });
 }
 
 modeSel.addEventListener("change",()=>{knownWrap.style.display=modeSel.value==="known"?"block":"none"});
 generateBtn.addEventListener("click",()=>{
-  // Visual feedback on generate
-  generateBtn.classList.add('generate-active');
-  setTimeout(()=>generateBtn.classList.remove('generate-active'),600);
-  
   reseed(seedInp.value||"");
   render(buildArtifact({style:styleSel.value,density:densitySel.value,themeName:modeSel.value==="known"?knownSel.value:null}));
 });
