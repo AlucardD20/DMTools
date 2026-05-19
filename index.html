@@ -34,7 +34,7 @@
 
     body {
       margin: 0;
-      background: 
+      background:
         linear-gradient(to bottom, #0d0d0d 0%, #141414 45%, #101010 100%),
         url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
       color: #f5f5f5;
@@ -454,8 +454,6 @@
       border-radius: 4px;
     }
 
-
-
     /* RSS feed controls */
     .feed-toolbar {
       margin: 18px 0 4px 0;
@@ -542,7 +540,7 @@
 
 <body>
   <a href="#content" class="skip-link">Skip to content</a>
-  
+
   <header>
     <img src="images/soloquests1.jpg" alt="Solo Quests Banner">
   </header>
@@ -584,27 +582,29 @@
                style="width:180px; border-radius:4px; display:block; margin:0 auto;">
         </a>
       </div>
-<div class="support-box">
-  <a href="https://www.buymeacoffee.com/lufinali" target="_blank">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-         alt="Buy Me A Coffee"
-         style="height:60px;width:217px;border-radius:4px;display:block;margin:0 auto;">
-  </a><br>
- <a href='https://ko-fi.com/G2G51X0T0L' target='_blank'><img height='50' style='border:0px;height:50px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-</div>
+
+      <div class="support-box">
+        <a href="https://www.buymeacoffee.com/lufinali" target="_blank">
+          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+               alt="Buy Me A Coffee"
+               style="height:60px;width:217px;border-radius:4px;display:block;margin:0 auto;">
+        </a><br>
+        <a href="https://ko-fi.com/G2G51X0T0L" target="_blank"><img height="50" style="border:0px;height:50px;" src="https://storage.ko-fi.com/cdn/kofi6.png?v=6" border="0" alt="Buy Me a Coffee at ko-fi.com" /></a>
+      </div>
+
       <aside>
         <h3>Links</h3>
-        <a href="index.html">Home</a>
+        <a href="index.html" id="homeLink">Home</a>
         <a href="https://soloquests.substack.com">Substack Site</a>
         <a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank">YouTube Channel</a>
         <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
         <a href="https://soloquests.itch.io/" target="_blank">Itch.io</a>
 
         <h3>Solo Plays (Filters)</h3>
-       <a href="#" class="show-filter" data-label="Punisher Takes on Gotham (Season 1)" data-keywords="punisher takes on gotham,punisher,gotham">Punisher Takes on Gotham (Season 1)</a>
-<a href="#" class="show-filter" data-label="Ronin: Shin's Vow of Revenge" data-keywords="ronin,shin's vow,shin">Ronin: Shin's Vow of Revenge</a>
-<a href="#" class="show-filter" data-label="Star Wars Solo Adventures of Dex (Season 1)" data-keywords="star wars,dex renford,dex">Star Wars Solo Adventures of Dex (Season 1)</a>
-<a href="#" class="show-filter" data-label="Old West Solo" data-keywords="old west,western,cowboy,lawman,scores">Old West Solo</a>
+        <a href="#" class="show-filter" data-label="Punisher Takes on Gotham (Season 1)" data-keywords="punisher takes on gotham,punisher,gotham">Punisher Takes on Gotham (Season 1)</a>
+        <a href="#" class="show-filter" data-label="Ronin: Shin's Vow of Revenge" data-keywords="ronin,shin's vow,shin">Ronin: Shin's Vow of Revenge</a>
+        <a href="#" class="show-filter" data-label="Star Wars Solo Adventures of Dex (Season 1)" data-keywords="star wars,dex renford,dex">Star Wars Solo Adventures of Dex (Season 1)</a>
+        <a href="#" class="show-filter" data-label="Old West Solo" data-keywords="old west,western,cowboy,lawman,scores">Old West Solo</a>
       </aside>
 
       <div class="about-box">
@@ -632,7 +632,7 @@
         <div class="stats-title">SITE STATS</div>
         <div class="row"><span>Total Views</span><strong id="viewCount">—</strong></div>
       </div>
-</div>
+    </div>
   </main>
 
   <footer>
@@ -661,6 +661,7 @@
       const feedBadge = document.getElementById('feedBadge');
       const sortSelect = document.getElementById('sortSelect');
       const errorBox = document.getElementById('errorBox');
+      const homeLink = document.getElementById('homeLink');
 
       let allEpisodes = [];
       let visibleEpisodes = [];
@@ -738,6 +739,8 @@
         if (t.includes('gotham')) tags.push('Gotham');
         if (t.includes('ronin') || t.includes('shin')) tags.push('Ronin');
         if (t.includes('star wars') || t.includes('dex')) tags.push('Star Wars');
+        if (t.includes('old west') || t.includes('western') || t.includes('cowboy') || t.includes('lawman')) tags.push('Old West');
+        if (t.includes('scores')) tags.push('SCORES');
         if (t.includes('basic fantasy') || t.includes('land of the crown')) tags.push('Basic Fantasy');
         if (t.includes('mythic')) tags.push('Mythic');
         if (t.includes('solo')) tags.push('Solo RPG');
@@ -964,15 +967,26 @@
         }
       }
 
-      function applyFilter(matchFn, label) {
+      function applyKeywordFilter(keywords, label) {
         searchBox.value = '';
-        visibleEpisodes = allEpisodes.filter(ep => matchFn((ep.title + ' ' + ep.description).toLowerCase()));
+
+        const terms = keywords
+          .split(',')
+          .map(k => k.toLowerCase().trim())
+          .filter(Boolean);
+
+        visibleEpisodes = allEpisodes.filter(ep => {
+          const text = (ep.title + ' ' + ep.description + ' ' + ep.tags.join(' ')).toLowerCase();
+          return terms.some(term => text.includes(term));
+        });
+
         viewingLabel.style.display = 'block';
         viewingLabel.textContent = 'Now Viewing: ' + label;
         renderList(true);
       }
 
       function clearFilter() {
+        searchBox.value = '';
         viewingLabel.style.display = 'none';
         visibleEpisodes = [...allEpisodes];
         renderList(true);
@@ -996,7 +1010,23 @@
         renderList(false);
       });
 
-      document.getElementById('filterPunisher').addEventListener
+      document.querySelectorAll('.show-filter').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const keywords = link.getAttribute('data-keywords') || '';
+          const label = link.getAttribute('data-label') || safeText(link.textContent);
+          applyKeywordFilter(keywords, label);
+        });
+      });
+
+      if (homeLink) {
+        homeLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          clearFilter();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
       async function init() {
         try {
           allEpisodes = await loadFeed();
