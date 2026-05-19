@@ -595,16 +595,16 @@
       <aside>
         <h3>Links</h3>
         <a href="index.html">Home</a>
-        <a href="archive.html">Archive</a>
+        <a href="https://soloquests.substack.com">Substack Site</a>
         <a href="https://www.youtube.com/channel/UCogRHiwLcwzmcXnVGWRJZpQ" target="_blank">YouTube Channel</a>
         <a href="https://open.spotify.com/show/0kv5Bl3PQu5PqZTDk7f6yJ" target="_blank">Spotify Channel</a>
         <a href="https://soloquests.itch.io/" target="_blank">Itch.io</a>
 
         <h3>Solo Plays (Filters)</h3>
-        <a href="#" id="filterPunisher">Punisher Takes on Gotham (Season 1)</a>
-        <a href="#" id="filterRonin">Ronin: Shin's Vow of Revenge</a>
-        <a href="#" id="filterStarWars">Star Wars Solo Adventures of Dex (Season 1)</a>
-        <a href="#" id="filterCrown">Basic Fantasy 4e Land of the Crown (Season 1)</a>
+       <a href="#" class="show-filter" data-label="Punisher Takes on Gotham (Season 1)" data-keywords="punisher takes on gotham,punisher,gotham">Punisher Takes on Gotham (Season 1)</a>
+<a href="#" class="show-filter" data-label="Ronin: Shin's Vow of Revenge" data-keywords="ronin,shin's vow,shin">Ronin: Shin's Vow of Revenge</a>
+<a href="#" class="show-filter" data-label="Star Wars Solo Adventures of Dex (Season 1)" data-keywords="star wars,dex renford,dex">Star Wars Solo Adventures of Dex (Season 1)</a>
+<a href="#" class="show-filter" data-label="Old West Solo" data-keywords="old west,western,cowboy,lawman,scores">Old West Solo</a>
       </aside>
 
       <div class="about-box">
@@ -996,32 +996,7 @@
         renderList(false);
       });
 
-      document.getElementById('filterPunisher').addEventListener('click', e => {
-        e.preventDefault();
-        applyFilter(t => t.includes('punisher takes on gotham') || t.includes('punisher') || t.includes('gotham'), 'Punisher Takes on Gotham');
-      });
-
-      document.getElementById('filterRonin').addEventListener('click', e => {
-        e.preventDefault();
-        applyFilter(t => t.includes('ronin') || t.includes("shin's vow") || t.includes('shin'), "Ronin: Shin's Vow of Revenge");
-      });
-
-      document.getElementById('filterStarWars').addEventListener('click', e => {
-        e.preventDefault();
-        applyFilter(t => t.includes('star wars') || t.includes('dex renford') || t.includes('dex'), 'Star Wars Solo Adventures');
-      });
-
-      document.getElementById('filterCrown').addEventListener('click', e => {
-        e.preventDefault();
-        applyFilter(t => t.includes('land of the crown') || t.includes('basic fantasy'), 'Basic Fantasy 4e Land of the Crown');
-      });
-
-      document.querySelector('aside a[href="index.html"]').addEventListener('click', e => {
-        e.preventDefault();
-        clearFilter();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-
+      document.getElementById('filterPunisher').addEventListener
       async function init() {
         try {
           allEpisodes = await loadFeed();
