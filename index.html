@@ -643,8 +643,14 @@
   <script>
     (function() {
       const RSS_URL = 'https://api.substack.com/feed/podcast/9037488.rss';
-      const FALLBACK_URL = 'https://r.jina.ai/https://api.substack.com/feed/podcast/9037488.rss';
       const POSTS_PER_PAGE = 10;
+
+      const FEED_SOURCES = [
+        RSS_URL,
+        'https://api.allorigins.win/raw?url=' + encodeURIComponent(RSS_URL),
+        'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(RSS_URL),
+        'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(RSS_URL)
+      ];
 
       const featuredPost = document.getElementById('featuredPost');
       const postContainer = document.getElementById('postContainer');
@@ -668,6 +674,22 @@
         const div = document.createElement('div');
         div.innerHTML = html || '';
         return safeText(div.textContent || div.innerText || '');
+      }
+
+      function cleanFeedText(text) {
+        let t = (text || '').replace(/^\uFEFF/, '').trim();
+        const firstXml = t.indexOf('<');
+        const firstJson = t.indexOf('{');
+
+        if (firstJson !== -1 && (firstXml === -1 || firstJson < firstXml)) {
+          return t.slice(firstJson);
+        }
+
+        if (firstXml > 0) {
+          t = t.slice(firstXml);
+        }
+
+        return t.trim();
       }
 
       function getText(el, tagName) {
@@ -727,22 +749,38 @@
 
       async function fetchText(url) {
         const res = await fetch(url, { method: 'GET', mode: 'cors', cache: 'no-store' });
-        if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+        if (!res.ok) throw new Error('Fetch failed: ' + res.status + ' from ' + url);
         return await res.text();
       }
 
-      async function loadFeed() {
-        let xmlText = '';
-        try {
-          xmlText = await fetchText(RSS_URL);
-        } catch (e1) {
-          xmlText = await fetchText(FALLBACK_URL);
-        }
+      function mapJsonFeed(json) {
+        const items = Array.isArray(json.items) ? json.items : [];
+        return items.map(item => {
+          const title = safeText(item.title);
+          const link = safeText(item.link || item.guid || '');
+          const pub = safeText(item.pubDate || item.published || item.published_at || '');
+          const pubDate = pub ? new Date(pub) : null;
+          const bestDesc = stripHtml(item.content || item.description || item.content_html || item.summary || '');
+          const audioUrl = safeText(item.enclosure && item.enclosure.link ? item.enclosure.link : '');
 
+          return {
+            title,
+            link,
+            date: pubDate,
+            dateText: pubDate ? formatDate(pubDate) : '',
+            description: bestDesc,
+            duration: '',
+            audioUrl,
+            tags: makeTags(title)
+          };
+        }).filter(ep => ep.title);
+      }
+
+      function mapXmlFeed(xmlText) {
         const parser = new DOMParser();
         const xml = parser.parseFromString(xmlText, 'text/xml');
         if (xml.getElementsByTagName('parsererror').length) {
-          throw new Error('RSS parse failed. The feed did not return valid XML.');
+          throw new Error('RSS parse failed. The feed source did not return valid XML.');
         }
 
         const items = Array.from(xml.getElementsByTagName('item'));
@@ -768,6 +806,36 @@
             tags: makeTags(title)
           };
         }).filter(ep => ep.title);
+      }
+
+      async function loadFeed() {
+        let lastError = null;
+
+        for (const source of FEED_SOURCES) {
+          try {
+            const raw = await fetchText(source);
+            const cleaned = cleanFeedText(raw);
+
+            if (cleaned.startsWith('{')) {
+              const json = JSON.parse(cleaned);
+              const episodes = mapJsonFeed(json);
+              if (episodes.length) return episodes;
+              throw new Error('JSON feed source had no items.');
+            }
+
+            if (cleaned.startsWith('<')) {
+              const episodes = mapXmlFeed(cleaned);
+              if (episodes.length) return episodes;
+              throw new Error('RSS feed source had no items.');
+            }
+
+            throw new Error('Feed source returned non RSS content.');
+          } catch (err) {
+            lastError = err;
+          }
+        }
+
+        throw new Error(lastError && lastError.message ? lastError.message : 'The RSS feed could not be loaded.');
       }
 
       function sortEpisodes(list) {
