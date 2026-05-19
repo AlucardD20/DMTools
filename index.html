@@ -602,9 +602,9 @@
 
         <h3>Solo Plays (Filters)</h3>
         <a href="#" class="show-filter" data-label="Punisher Takes on Gotham (Season 1)" data-keywords="punisher takes on gotham,punisher,gotham">Punisher Takes on Gotham (Season 1)</a>
-        <a href="#" class="show-filter" data-label="Ronin: Shin's Vow of Revenge" data-keywords="ronin,shin's vow,shin">Ronin: Shin's Vow of Revenge</a>
-        <a href="#" class="show-filter" data-label="Star Wars Solo Adventures of Dex (Season 1)" data-keywords="star wars,dex renford,dex">Star Wars Solo Adventures of Dex (Season 1)</a>
-        <a href="#" class="show-filter" data-label="Old West Solo" data-keywords="old west,western,cowboy,lawman,scores">Old West Solo</a>
+        <a href="#" class="show-filter" data-label="Ronin: Shin's Vow of Revenge" data-keywords="ronin,shin,shins vow,vow of revenge,samurai">Ronin: Shin's Vow of Revenge</a>
+        <a href="#" class="show-filter" data-label="Star Wars Solo Adventures of Dex (Season 1)" data-keywords="star wars,dex,dex renford,jedi,imperial,inquisitor">Star Wars Solo Adventures of Dex (Season 1)</a>
+        <a href="#" class="show-filter" data-label="Old West Solo" data-keywords="old west,western,cowboy,lawman,sheriff,marshal,scores">Old West Solo</a>
       </aside>
 
       <div class="about-box">
@@ -1010,11 +1010,43 @@
         renderList(false);
       });
 
+      function normalizeText(s) {
+        return safeText(s)
+          .toLowerCase()
+          .replace(/[’‘]/g, "'")
+          .replace(/[^a-z0-9]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      function applyKeywordFilter(keywords, label) {
+        searchBox.value = '';
+
+        const terms = keywords
+          .split(',')
+          .map(k => normalizeText(k))
+          .filter(Boolean);
+
+        visibleEpisodes = allEpisodes.filter(ep => {
+          const text = normalizeText(
+            ep.title + ' ' + ep.description + ' ' + ep.tags.join(' ')
+          );
+
+          return terms.some(term => text.includes(term));
+        });
+
+        viewingLabel.style.display = 'block';
+        viewingLabel.textContent = 'Now Viewing: ' + label;
+        renderList(true);
+      }
+
       document.querySelectorAll('.show-filter').forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
+
           const keywords = link.getAttribute('data-keywords') || '';
           const label = link.getAttribute('data-label') || safeText(link.textContent);
+
           applyKeywordFilter(keywords, label);
         });
       });
