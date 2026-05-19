@@ -454,6 +454,67 @@
       border-radius: 4px;
     }
 
+
+
+    /* RSS feed controls */
+    .feed-toolbar {
+      margin: 18px 0 4px 0;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 10px 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+    }
+
+    .feed-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      border: 1px solid #333;
+      border-radius: 999px;
+      color: #bbb;
+      background-color: #111;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .feed-select {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background-color: #111;
+      color: #e1c699;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .error-box {
+      margin-top: 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(187,51,51,0.7);
+      background: rgba(187,51,51,0.12);
+      color: #f5f5f5;
+      padding: 12px;
+      display: none;
+    }
+
+    .loading-note {
+      background: linear-gradient(to bottom, #1c1c1c 0%, #181818 100%);
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      margin-top: 25px;
+      padding: 24px;
+      color: #ccc;
+      text-align: center;
+    }
+
     @media (max-width: 900px) {
       main {
         flex-direction: column;
@@ -488,379 +549,30 @@
 
   <main>
     <section id="content">
-      <!-- Featured Post -->
-      <div class="featured-post">
-        <span class="featured-label">Latest</span>
-        <h2><a href="posts/2026-04-10.html">Solo Star Wars RPG, Hunting Jedi with an Imperial Inquisitor - E1</a></h2>
-        <span class="post-date">April 10th, 2026</span>
-        <p>Starting a new series, using the ACE! System. Follow an Imperial Inquisitor hunting Jedi across the galaxy in this solo playthrough.</p>
-        <a class="read-more featured-read" href="posts/2026-04-10.html">Read the Adventure →</a>
-      </div>
+      <!-- Featured Post, filled from RSS -->
+      <div class="featured-post" id="featuredPost" style="display:none;"></div>
 
       <div id="searchWrapper">
-        <input type="text" id="searchBox" placeholder="Search posts...">
+        <input type="text" id="searchBox" placeholder="Search episodes...">
       </div>
 
-      <div id="viewingLabel">Now Viewing: Punisher Takes on Gotham (Season 1)</div>
-
-      <div id="postContainer">
-        <article>
-          <div class="post-tags">
-            <span class="tag">Star Wars</span>
-            <span class="tag">ACE! System</span>
-          </div>
-          <h2><a href="posts/2026-04-10.html">Solo Star Wars RPG, Hunting Jedi with an Imperial Inquisitor - E1</a></h2>
-          <span class="post-date">April 10th, 2026</span>
-          <p>Starting a new series, using the ACE! System....</p>
-          <a class="read-more" href="posts/2026-04-10.html">Read More →</a>
-        </article>
-        <article>
-          <div class="post-tags">
-            <span class="tag">Solo RPG</span>
-            <span class="tag">Tips</span>
-          </div>
-          <h2><a href="posts/2026-08-04.html">A Simple Solo Roleplaying Loop That Works..</a></h2>
-          <span class="post-date">April 8th, 2026</span>
-          <p>Talking about the method I use for solo roleplaying</p>
-          <a class="read-more" href="posts/2026-08-04.html">Read More →</a>
-        </article>
-         <article>
-          <div class="post-tags">
-            <span class="tag">Update</span>
-            <span class="tag">Channel News</span>
-          </div>
-          <h2><a href="posts/2026-03-31.html">Solo RPG Channel Update, New Games, New Tools, and What's Next</a></h2>
-          <span class="post-date">March 31st, 2026</span>
-          <p>Talking about hitting 450 subscribers and where Solo Quests Party of One may be heading next</p>
-          <a class="read-more" href="posts/2026-03-23.html">Read More →</a>
-        </article>
-        <article>
-          <div class="post-tags">
-            <span class="tag">TMNT</span>
-            <span class="tag">One Shot</span>
-          </div>
-          <h2><a href="posts/2026-03-32.html">Wolverine vs Goatman | TMNT Solo Actual Play | One Shot</a></h2>
-          <span class="post-date">March 23rd, 2026</span>
-          <p>In this episode, Vark, a wolverine trained by a ninja master, sets out from his village with a clear mission: track down a Human Empire facility </p>
-          <a class="read-more" href="posts/2026-03-23.html">Read More →</a>
-        </article>
-        <article>
-          <div class="post-tags">
-            <span class="tag">TMNT</span>
-            <span class="tag">HexCrawl</span>
-          </div>
-          <h2><a href="posts/2026-03-18.html">TMNT Solo HexCrawl Exploration</a></h2>
-          <span class="post-date">March 18th, 2026</span>
-          <p>Been working on a Solo Post Apocalyptic wilderness HexCrawl procedures, and I am finally putting it to play today in this little test.</p>
-          <a class="read-more" href="posts/2026-03-18.html">Read More →</a>
-        </article>
-        <article>
-          <div class="post-tags">
-            <span class="tag">Update</span>
-            <span class="tag">Land of the Crown</span>
-          </div>
-          <h2><a href="posts/2025-12-11-december-2025-updates.html">December 2025 Updates, Long Read?</a></h2>
-          <span class="post-date">December 11, 2025</span>
-          <p>A long-form channel update about Land of the Crown plans, being sick and slammed with work, video style choices, possible Traveller and Western solos, a D8 Anywhere showcase, and a bit of real life and tacos.</p>
-          <a class="read-more" href="posts/2025-12-11-december-2025-updates.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-12-09-punisher-s2e2.html">Punisher Takes On Gotham (Solo FASERIP) - S2, E2 - Micro is in trouble?</a></h2>
-          <span class="post-date">December 9, 2025</span>
-          <p>Frank wakes in an empty motel room, calls Microchip, and gets a strange coded message that makes it clear Micro is in serious trouble.</p>
-          <a class="read-more" href="posts/2025-11-22-punisher-s2e2.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-11-21-punisher-s2e1.html">Punisher Takes On Gotham (Solo FASERIP) - S2, E1 Waking up in a warehouse?</a></h2>
-          <span class="post-date">November 21, 2025</span>
-          <p>Season two opens with Frank coming to in an abandoned warehouse, wounded and boxed in, and trying to fight or sneak his way out.</p>
-          <a class="read-more" href="posts/2025-11-21-punisher-s2e1.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Star Wars</span>
-            <span class="tag">Dex Renford</span>
-          </div>
-          <h2><a href="posts/2025-11-17-dex-renford-droid-hunt.html">Star Wars Solo | Dex Renford | Droid Hunt on Naboo</a></h2>
-          <span class="post-date">November 17, 2025</span>
-          <p>Dex and Dr. Riala Merch hide behind a Naboo port building while a commando droid and B1 squads sweep the docks. He maps a route with a dice-drop layout and a yes or no d6, trying to reach the medical facility alive.</p>
-          <a class="read-more" href="posts/2025-11-17-dex-renford-droid-hunt.html">Read More →</a>
-        </article>
-        
-        <article>
-          <div class="post-tags">
-            <span class="tag">Star Wars</span>
-            <span class="tag">Dex Renford</span>
-          </div>
-          <h2><a href="posts/2025-11-05-dex-renford-naboo.html">Star Wars Solo | Dex Renford | The Naboo Run</a></h2>
-          <span class="post-date">November 5, 2025</span>
-          <p>Dex and Dr. Merch finally land on Naboo, but safety doesn't last long. A quick dive into fast solo Star Wars play, with tense rolls and a sprint toward the research center.</p>
-          <a class="read-more" href="posts/2025-11-05-dex-renford-naboo.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Star Wars</span>
-            <span class="tag">Dex Renford</span>
-          </div>
-          <h2><a href="posts/2025-11-04-dex-renford.html">Star Wars Solo | Dex Renford and the Jabiim Run</a></h2>
-          <span class="post-date">November 4, 2025</span>
-          <p>On the rain-soaked world of Jabiim, Dex Renford runs a daring escort mission for a hunted scientist, fast solo play with a dice-drop town map, d6 oracle, and no prep. Just action, timing, and guts.</p>
-          <a class="read-more" href="posts/2025-11-04-dex-renford.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Basic Fantasy</span>
-            <span class="tag">Land of the Crown</span>
-          </div>
-          <h2><a href="posts/2025-10-30-land-of-the-crown.html">Basic Fantasy 4e Solo | Land of the Crown | Introductions</a></h2>
-          <span class="post-date">October 30, 2025</span>
-          <p>Starting a Basic Fantasy 4e solo campaign. Follow a Nightward in service to the Crown across the <em>Land of the Crown</em>, a kingdom map filled with cursed relics, old ruins, and the first mission that sets the tone for the hunt.</p>
-          <a class="read-more" href="posts/2025-10-30-land-of-the-crown.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Mythic</span>
-            <span class="tag">Tools</span>
-          </div>
-          <h2><a href="posts/2025-10-29-onepage-mythic.html">The One Page Mythic Emulator Explained</a></h2>
-          <span class="post-date">October 30, 2025</span>
-          <p>A walkthrough of the One Page Mythic Emulator, clean yes or no oracle, no chaos factor, random events on doubles, and practical tweaks for different genres.</p>
-          <a class="read-more" href="posts/2025-10-29-onepage-mythic.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Mythic</span>
-            <span class="tag">Challenge</span>
-          </div>
-          <h2><a href="posts/2025-10-28-mythic-noprep.html">Mythic Emulator No Prep Challenge</a></h2>
-          <span class="post-date">October 28, 2025</span>
-          <p>I take on the Mythic Emulator No Prep Challenge using the One Page Emulator, proving that all you really need is a few dice rolls, a spark of imagination, and a character concept.</p>
-          <a class="read-more" href="posts/2025-10-28-mythic-noprep.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Milestone</span>
-            <span class="tag">Thank You</span>
-          </div>
-          <h2><a href="posts/2025-10-27-3000views.html">3,000 Views Milestone</a></h2>
-          <span class="post-date">October 27, 2025</span>
-          <p>Thank you for helping the Solo Quests channel reach 3,000 views with 268 subscribers. Your comments, likes, and watch time keep this thing moving.</p>
-          <a class="read-more" href="posts/2025-10-27-3000views.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Ronin</span>
-            <span class="tag">Series</span>
-          </div>
-          <h2><a href="posts/2025-10-26-ronin-008.html">SoloRPG Ronin | Story: Shin's Vow of Revenge | 008 – Final Villain?</a></h2>
-          <span class="post-date">October 26, 2025</span>
-          <p>Shin meets the final villain. After time at the inn and a quick repair of his weapons, he returns to the road and faces the question that has chased him from the start.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-10-26-ronin-008.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Ronin</span>
-            <span class="tag">Series</span>
-          </div>
-          <h2><a href="posts/2025-10-21-ronin-007.html">SoloRPG Ronin | Story: Shin's Vow of Revenge | 007 – Villain #2!</a></h2>
-          <span class="post-date">October 21, 2025</span>
-          <p>In this episode, we continue the story. After recovering at the local inn and getting his weapons fixed up, Shin heads back on the road...</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-10-21-ronin-007.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-10-15.html">Punisher Takes on Gotham – Season 1, Episode 8</a></h2>
-          <span class="post-date">October 15, 2025</span>
-          <p>Frank wakes to trouble at the safehouse, then follows a midnight summons to Gotham's Legacy Bridge. A polite warning turns into steel and blood on a wet catwalk. Choices narrow. Blades circle. One way out remains.</p>
-          <a class="read-more" href="posts/2025-10-15.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-10-03.html">Punisher Takes on Gotham – Season 1, Episode 7</a></h2>
-          <span class="post-date">October 3, 2025</span>
-          <p>A hard choice lands on the table. I talk about letting consequences breathe and why I sometimes accept failure to get better story.</p>
-          <a class="read-more" href="posts/2025-10-03.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Review</span>
-            <span class="tag">GMA</span>
-          </div>
-          <h2><a href="posts/2025-09-19.html">The GameMaster's Apprentice 2e: Base Deck Review!</a></h2>
-          <span class="post-date">September 19, 2025</span>
-          <p>Need a creative boost behind the GM screen? I review the GMA 2e base deck, show how it works, and explain why it earns a spot in my prep kit.</p>
-          <a class="read-more" href="posts/2025-09-19.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-09-17.html">Punisher Takes on Gotham – Season 1, Episode 6</a></h2>
-          <span class="post-date">September 17, 2025</span>
-          <p>Ambush, recovery, escalation. I show how I pace injuries and gear checks without stalling momentum in solo play.</p>
-          <a class="read-more" href="posts/2025-09-17.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-09-11.html">Punisher Takes on Gotham – Season 1, Episode 5</a></h2>
-          <span class="post-date">September 11, 2025</span>
-          <p>Frank digs into the network behind the club. I use simple clues, heat clocks, and a rolling suspicion track to pressure every scene.</p>
-          <a class="read-more" href="posts/2025-09-11.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-08-11.html">Punisher Takes on Gotham – Season 1, Episode 4</a></h2>
-          <span class="post-date">August 11, 2025</span>
-          <p>Heat rises in Gotham. I adjust oracles, tighten consequences, and let a single clue shift the next target.</p>
-          <a class="read-more" href="posts/2025-08-11.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-07-17.html">Punisher Takes on Gotham – Season 1, Episode 3</a></h2>
-          <span class="post-date">July 17, 2025</span>
-          <p>A rooftop shadow forces a risky choice. I show how I interpret mixed results and keep Frank moving without telegraphing outcomes.</p>
-          <a class="read-more" href="posts/2025-07-17.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Ronin</span>
-            <span class="tag">Series</span>
-          </div>
-          <h2><a href="posts/2025-07-15-ronin-006.html">SoloRPG Ronin | Story: Shin's Vow of Revenge | 006</a></h2>
-          <span class="post-date">July 15, 2025</span>
-          <p>Burn in hell, the message reads. Shin finally crosses paths with Sara, the hired killer determined to snuff out his vengeance before it can begin.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-15-ronin-006.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Ronin</span>
-            <span class="tag">Series</span>
-          </div>
-          <h2><a href="posts/2025-07-14-ronin-005.html">SoloRPG Ronin | Story: Shin's Vow of Revenge | 005</a></h2>
-          <span class="post-date">July 14, 2025</span>
-          <p>Reputation leads to brawls. Shin's name is whispered in every tavern, until a gang decides it is worth testing his blade. Brawls break out and tensions explode.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-14-ronin-005.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Ronin</span>
-            <span class="tag">Series</span>
-          </div>
-          <h2><a href="posts/2025-07-13-ronin-004.html">SoloRPG Ronin | Story: Shin's Vow of Revenge | 004</a></h2>
-          <span class="post-date">July 13, 2025</span>
-          <p>An old friend returns with dangerous news. Shin reunites with a figure from his past, uncovers a tragic roadside tale, and faces choices that will test his resolve.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-13-ronin-004.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Ronin</span>
-            <span class="tag">Series</span>
-          </div>
-          <h2><a href="posts/2025-07-12-ronin-003.html">SoloRPG Ronin | Story: Shin's Vow of Revenge | 003</a></h2>
-          <span class="post-date">July 12, 2025</span>
-          <p>A musician becomes an ally. This episode throws us into the Musicians Quest, forges a new friendship, and introduces NPCs who will shape Shin's destiny.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-12-ronin-003.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Ronin</span>
-            <span class="tag">Series</span>
-          </div>
-          <h2><a href="posts/2025-07-11-ronin-002.html">SoloRPG Ronin | Story: Shin's Vow of Revenge | 002</a></h2>
-          <span class="post-date">July 11, 2025</span>
-          <p>Shin's hidden past comes to light. I share the dramatic backstory I have crafted for Shin, rescue a clumsy ally from certain doom, and watch their fates intertwine.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-11-ronin-002.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Ronin</span>
-            <span class="tag">Series</span>
-          </div>
-          <h2><a href="posts/2025-07-10-ronin-001.html">SoloRPG Ronin | Story: Shin's Vow of Revenge | 001</a></h2>
-          <span class="post-date">July 10, 2025</span>
-          <p>Shin's path of vengeance begins. In this first installment you will see me build Shin from the ground up, learn the core Ronin rules, and trigger the first sparks of revenge.</p>
-          <p style="display:none" class="series-label">Ronin: Shin's Vow of Revenge</p>
-          <a class="read-more" href="posts/2025-07-10-ronin-001.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-07-10.html">Punisher Takes on Gotham – Season 1, Episode 2</a></h2>
-          <span class="post-date">July 10, 2025</span>
-          <p>Stakeouts and bad intel test my patience. I lean on reaction rolls, quick clocks, and tight scene goals to keep the pace sharp.</p>
-          <a class="read-more" href="posts/2025-07-10.html">Read More →</a>
-        </article>
-
-        <article>
-          <div class="post-tags">
-            <span class="tag">Punisher</span>
-            <span class="tag">FASERIP</span>
-          </div>
-          <h2><a href="posts/2025-07-08.html">Punisher Takes on Gotham – Season 1, Episode 1</a></h2>
-          <span class="post-date">July 8, 2025</span>
-          <p>Frank arrives in Gotham and the city pushes back. I walk through the setup, the ground rules I use for solo play, and the first decisions that shape his path.</p>
-          <a class="read-more" href="posts/2025-07-08.html">Read More →</a>
-        </article>
+      <div class="feed-toolbar">
+        <span class="feed-badge" id="countBadge">0 episodes</span>
+        <span class="feed-badge" id="feedBadge">Loading feed</span>
+        <select class="feed-select" id="sortSelect" aria-label="Sort order">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
       </div>
 
-      <div id="loadMore">Older Posts</div>
+      <div id="viewingLabel">Now Viewing</div>
+      <div class="error-box" id="errorBox"></div>
+
+      <div id="postContainer" aria-live="polite">
+        <div class="loading-note">Loading Solo Quests episodes from the feed...</div>
+      </div>
+
+      <div id="loadMore">Older Episodes</div>
     </section>
 
     <div class="rail">
@@ -927,71 +639,340 @@
     <span>© 2025-2026 SoloDND.com | All generators inspired by a needed basis for my games | This is a WIP Site, Please Pardon some mistakes.</span>
   </footer>
 
-  <!-- Main page behavior -->
+  <!-- Main page behavior, RSS powered -->
   <script>
-    const posts = document.querySelectorAll('#postContainer article');
-    const loadMore = document.getElementById('loadMore');
-    const postsPerPage = 10;
-    let currentCount = postsPerPage;
+    (function() {
+      const RSS_URL = 'https://api.substack.com/feed/podcast/9037488.rss';
+      const FALLBACK_URL = 'https://r.jina.ai/https://api.substack.com/feed/podcast/9037488.rss';
+      const POSTS_PER_PAGE = 10;
 
-    function showPosts(count) {
-      posts.forEach((post, i) => {
-        post.style.display = i < count ? 'block' : 'none';
+      const featuredPost = document.getElementById('featuredPost');
+      const postContainer = document.getElementById('postContainer');
+      const loadMore = document.getElementById('loadMore');
+      const searchBox = document.getElementById('searchBox');
+      const viewingLabel = document.getElementById('viewingLabel');
+      const countBadge = document.getElementById('countBadge');
+      const feedBadge = document.getElementById('feedBadge');
+      const sortSelect = document.getElementById('sortSelect');
+      const errorBox = document.getElementById('errorBox');
+
+      let allEpisodes = [];
+      let visibleEpisodes = [];
+      let currentCount = POSTS_PER_PAGE;
+
+      function safeText(s) {
+        return (s || '').replace(/\s+/g, ' ').trim();
+      }
+
+      function stripHtml(html) {
+        const div = document.createElement('div');
+        div.innerHTML = html || '';
+        return safeText(div.textContent || div.innerText || '');
+      }
+
+      function getText(el, tagName) {
+        const n = el.getElementsByTagName(tagName)[0];
+        return safeText(n && n.textContent);
+      }
+
+      function getContentEncoded(item) {
+        const nodes = item.getElementsByTagName('content:encoded');
+        if (nodes && nodes.length) return nodes[0].textContent || '';
+        return '';
+      }
+
+      function getDuration(item) {
+        const nodes = item.getElementsByTagName('itunes:duration');
+        if (nodes && nodes.length) return safeText(nodes[0].textContent);
+        return '';
+      }
+
+      function getEnclosureUrl(item) {
+        const enc = item.getElementsByTagName('enclosure')[0];
+        if (!enc) return '';
+        return safeText(enc.getAttribute('url') || '');
+      }
+
+      function formatDate(d) {
+        try {
+          return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+        } catch (e) {
+          return '';
+        }
+      }
+
+      function shortBlurb(text) {
+        const t = safeText(text);
+        if (!t) return 'No description found in the feed.';
+        if (t.length <= 220) return t;
+        return t.slice(0, 220) + '...';
+      }
+
+      function makeTags(title) {
+        const t = title.toLowerCase();
+        const tags = [];
+
+        if (t.includes('punisher')) tags.push('Punisher');
+        if (t.includes('gotham')) tags.push('Gotham');
+        if (t.includes('ronin') || t.includes('shin')) tags.push('Ronin');
+        if (t.includes('star wars') || t.includes('dex')) tags.push('Star Wars');
+        if (t.includes('basic fantasy') || t.includes('land of the crown')) tags.push('Basic Fantasy');
+        if (t.includes('mythic')) tags.push('Mythic');
+        if (t.includes('solo')) tags.push('Solo RPG');
+        if (t.includes('update')) tags.push('Update');
+
+        if (!tags.length) tags.push('Episode');
+        return tags.slice(0, 3);
+      }
+
+      async function fetchText(url) {
+        const res = await fetch(url, { method: 'GET', mode: 'cors', cache: 'no-store' });
+        if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+        return await res.text();
+      }
+
+      async function loadFeed() {
+        let xmlText = '';
+        try {
+          xmlText = await fetchText(RSS_URL);
+        } catch (e1) {
+          xmlText = await fetchText(FALLBACK_URL);
+        }
+
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(xmlText, 'text/xml');
+        if (xml.getElementsByTagName('parsererror').length) {
+          throw new Error('RSS parse failed. The feed did not return valid XML.');
+        }
+
+        const items = Array.from(xml.getElementsByTagName('item'));
+        return items.map(item => {
+          const title = getText(item, 'title');
+          const link = getText(item, 'link');
+          const pub = getText(item, 'pubDate');
+          const pubDate = pub ? new Date(pub) : null;
+          const desc = getText(item, 'description');
+          const enc = getContentEncoded(item);
+          const bestDesc = stripHtml(enc || desc);
+          const duration = getDuration(item);
+          const audioUrl = getEnclosureUrl(item);
+
+          return {
+            title,
+            link,
+            date: pubDate,
+            dateText: pubDate ? formatDate(pubDate) : '',
+            description: bestDesc,
+            duration,
+            audioUrl,
+            tags: makeTags(title)
+          };
+        }).filter(ep => ep.title);
+      }
+
+      function sortEpisodes(list) {
+        const sorted = [...list];
+        sorted.sort((a, b) => {
+          const ad = a.date ? a.date.getTime() : 0;
+          const bd = b.date ? b.date.getTime() : 0;
+          return sortSelect.value === 'oldest' ? ad - bd : bd - ad;
+        });
+        return sorted;
+      }
+
+      function renderFeatured(ep) {
+        if (!ep) {
+          featuredPost.style.display = 'none';
+          return;
+        }
+
+        featuredPost.style.display = 'block';
+        featuredPost.innerHTML = '';
+
+        const label = document.createElement('span');
+        label.className = 'featured-label';
+        label.textContent = 'Latest';
+
+        const h2 = document.createElement('h2');
+        const titleLink = document.createElement('a');
+        titleLink.href = ep.link || ep.audioUrl || '#';
+        titleLink.target = '_blank';
+        titleLink.rel = 'noopener';
+        titleLink.textContent = ep.title;
+        h2.appendChild(titleLink);
+
+        const date = document.createElement('span');
+        date.className = 'post-date';
+        date.textContent = ep.dateText;
+
+        const p = document.createElement('p');
+        p.textContent = shortBlurb(ep.description);
+
+        const a = document.createElement('a');
+        a.className = 'read-more featured-read';
+        a.href = ep.link || ep.audioUrl || '#';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = 'Listen Now';
+
+        featuredPost.appendChild(label);
+        featuredPost.appendChild(h2);
+        featuredPost.appendChild(date);
+        featuredPost.appendChild(p);
+        featuredPost.appendChild(a);
+      }
+
+      function renderEpisode(ep) {
+        const article = document.createElement('article');
+
+        const tagBox = document.createElement('div');
+        tagBox.className = 'post-tags';
+        ep.tags.forEach(tag => {
+          const span = document.createElement('span');
+          span.className = 'tag';
+          span.textContent = tag;
+          tagBox.appendChild(span);
+        });
+
+        const h2 = document.createElement('h2');
+        const titleLink = document.createElement('a');
+        titleLink.href = ep.link || ep.audioUrl || '#';
+        titleLink.target = '_blank';
+        titleLink.rel = 'noopener';
+        titleLink.textContent = ep.title;
+        h2.appendChild(titleLink);
+
+        const meta = document.createElement('span');
+        meta.className = 'post-date';
+        const metaParts = [];
+        if (ep.dateText) metaParts.push(ep.dateText);
+        if (ep.duration) metaParts.push(ep.duration);
+        meta.textContent = metaParts.join(' , ');
+
+        const p = document.createElement('p');
+        p.textContent = shortBlurb(ep.description);
+
+        const read = document.createElement('a');
+        read.className = 'read-more';
+        read.href = ep.link || ep.audioUrl || '#';
+        read.target = '_blank';
+        read.rel = 'noopener';
+        read.textContent = 'Listen →';
+
+        article.appendChild(tagBox);
+        article.appendChild(h2);
+        article.appendChild(meta);
+        article.appendChild(p);
+        article.appendChild(read);
+
+        if (ep.audioUrl && ep.link) {
+          const audio = document.createElement('a');
+          audio.className = 'read-more';
+          audio.href = ep.audioUrl;
+          audio.target = '_blank';
+          audio.rel = 'noopener';
+          audio.textContent = 'Audio File →';
+          audio.style.marginLeft = '8px';
+          article.appendChild(audio);
+        }
+
+        return article;
+      }
+
+      function renderList(resetCount) {
+        if (resetCount) currentCount = POSTS_PER_PAGE;
+
+        const sorted = sortEpisodes(visibleEpisodes);
+        const slice = sorted.slice(0, currentCount);
+
+        postContainer.innerHTML = '';
+        slice.forEach(ep => postContainer.appendChild(renderEpisode(ep)));
+
+        countBadge.textContent = visibleEpisodes.length + ' episodes';
+        loadMore.style.display = currentCount < visibleEpisodes.length ? 'block' : 'none';
+
+        if (!visibleEpisodes.length) {
+          postContainer.innerHTML = '<div class="loading-note">No matching episodes found.</div>';
+        }
+      }
+
+      function applyFilter(matchFn, label) {
+        searchBox.value = '';
+        visibleEpisodes = allEpisodes.filter(ep => matchFn((ep.title + ' ' + ep.description).toLowerCase()));
+        viewingLabel.style.display = 'block';
+        viewingLabel.textContent = 'Now Viewing: ' + label;
+        renderList(true);
+      }
+
+      function clearFilter() {
+        viewingLabel.style.display = 'none';
+        visibleEpisodes = [...allEpisodes];
+        renderList(true);
+      }
+
+      searchBox.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        viewingLabel.style.display = 'none';
+        visibleEpisodes = query
+          ? allEpisodes.filter(ep => (ep.title + ' ' + ep.description + ' ' + ep.tags.join(' ')).toLowerCase().includes(query))
+          : [...allEpisodes];
+        renderList(true);
       });
-    }
 
-    showPosts(currentCount);
-
-    loadMore.addEventListener('click', () => {
-      currentCount += postsPerPage;
-      showPosts(currentCount);
-      if (currentCount >= posts.length) loadMore.style.display = 'none';
-    });
-
-    const searchBox = document.getElementById('searchBox');
-    const viewingLabel = document.getElementById('viewingLabel');
-
-    searchBox.addEventListener('input', function() {
-      const query = this.value.toLowerCase();
-      posts.forEach(post => {
-        const text = post.textContent.toLowerCase();
-        post.style.display = text.includes(query) ? 'block' : 'none';
+      sortSelect.addEventListener('change', function() {
+        renderList(true);
       });
-      loadMore.style.display = query ? 'none' : (currentCount < posts.length ? 'block' : 'none');
-      viewingLabel.style.display = 'none';
-    });
 
-    // Filters
-    function applyFilter(matchFn, label) {
-      searchBox.value = '';
-      posts.forEach(post => {
-        const text = post.textContent.toLowerCase();
-        post.style.display = matchFn(text) ? 'block' : 'none';
+      loadMore.addEventListener('click', function() {
+        currentCount += POSTS_PER_PAGE;
+        renderList(false);
       });
-      loadMore.style.display = 'none';
-      viewingLabel.style.display = 'block';
-      viewingLabel.textContent = 'Now Viewing: ' + label;
-    }
 
-    document.getElementById('filterPunisher').addEventListener('click', e => {
-      e.preventDefault();
-      applyFilter(t => t.includes('punisher takes on gotham'), 'Punisher Takes on Gotham (Season 1)');
-    });
+      document.getElementById('filterPunisher').addEventListener('click', e => {
+        e.preventDefault();
+        applyFilter(t => t.includes('punisher takes on gotham') || t.includes('punisher') || t.includes('gotham'), 'Punisher Takes on Gotham');
+      });
 
-    document.getElementById('filterRonin').addEventListener('click', e => {
-      e.preventDefault();
-      applyFilter(t => t.includes("ronin: shin's vow of revenge"), "Ronin: Shin's Vow of Revenge");
-    });
+      document.getElementById('filterRonin').addEventListener('click', e => {
+        e.preventDefault();
+        applyFilter(t => t.includes('ronin') || t.includes("shin's vow") || t.includes('shin'), "Ronin: Shin's Vow of Revenge");
+      });
 
-    document.getElementById('filterStarWars').addEventListener('click', e => {
-      e.preventDefault();
-      applyFilter(t => t.includes('star wars solo') || t.includes('dex renford'), 'Star Wars Solo Adventures of Dex (Season 1)');
-    });
+      document.getElementById('filterStarWars').addEventListener('click', e => {
+        e.preventDefault();
+        applyFilter(t => t.includes('star wars') || t.includes('dex renford') || t.includes('dex'), 'Star Wars Solo Adventures');
+      });
 
-    document.getElementById('filterCrown').addEventListener('click', e => {
-      e.preventDefault();
-      applyFilter(t => t.includes('land of the crown') || t.includes('basic fantasy 4e'), 'Basic Fantasy 4e Land of the Crown (Season 1)');
-    });
+      document.getElementById('filterCrown').addEventListener('click', e => {
+        e.preventDefault();
+        applyFilter(t => t.includes('land of the crown') || t.includes('basic fantasy'), 'Basic Fantasy 4e Land of the Crown');
+      });
+
+      document.querySelector('aside a[href="index.html"]').addEventListener('click', e => {
+        e.preventDefault();
+        clearFilter();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      async function init() {
+        try {
+          allEpisodes = await loadFeed();
+          allEpisodes = sortEpisodes(allEpisodes);
+          visibleEpisodes = [...allEpisodes];
+          feedBadge.textContent = 'Feed loaded';
+          renderFeatured(allEpisodes[0]);
+          renderList(true);
+        } catch (err) {
+          feedBadge.textContent = 'Feed error';
+          loadMore.style.display = 'none';
+          errorBox.style.display = 'block';
+          errorBox.textContent = err && err.message ? err.message : 'Unknown feed error.';
+          postContainer.innerHTML = '<div class="loading-note">The RSS feed could not be loaded.</div>';
+        }
+      }
+
+      init();
+    })();
   </script>
 
   <!-- Total views counter only -->
